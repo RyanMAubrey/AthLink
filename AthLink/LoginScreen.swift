@@ -27,50 +27,56 @@ struct LoginScreen: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 100, height: 100)
                 
-                VStack(alignment: .leading) {
-                    
-                    Text("First Name")
-                        .font(.headline)
-                        .padding(.top, 10)
-                        .padding(.horizontal, 20)
-                    TextField("Enter text", text: $firstName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
-                    
-                    Text("Last Name")
-                        .font(.headline)
-                        .padding(.horizontal, 20)
-                    TextField("Enter text", text: $lastName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
-                    
-                    Text("Whos Using?")
-                        .font(.headline)
-                        .padding(.horizontal, 20)
-                    TextField("Enter text", text: $whosUsing)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
-                    
-                    Text("Postal Code")
-                        .font(.headline)
-                        .padding(.horizontal, 20)
-                    TextField("Enter text", text: $postalCode)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
-                    
-                    Text("email")
-                        .font(.headline)
-                        .padding(.horizontal, 20)
-                    TextField("Enter text", text: $userEmail)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
-                    
-                    Text("Password")
-                        .font(.headline)
-                        .padding(.horizontal, 20)
-                    SecureField("Enter text", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 20)
+                VStack {
+                    VStack (alignment: .leading) {
+                        Text("First Name")
+                            .font(.headline)
+                            .padding(.top, 10)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $firstName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
+                        Text("Last Name")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $lastName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
+                        Text("Whos Using?")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $whosUsing)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
+                        Text("Postal Code")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $postalCode)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
+                        Text("Email")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $userEmail)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
+                        Text("Password")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        SecureField("Enter text", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 5)
+                    .padding(.top, 11)
                     
                     Spacer()
                     
@@ -84,14 +90,16 @@ struct LoginScreen: View {
                             .background(Color.black)
                             .cornerRadius(20)
                             .padding(.horizontal, 100)
-                            .padding(.bottom, 20)
+                            //.padding(.bottom, 60)
                     }
+                    
                 }
                 
                 Text("By clicking ‘Sign Up’ or using Athlink, you are agreeing to our")
                     .font(.system(size: 10))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
+                    .padding(.top, 10)
                 
                 
                 HStack(spacing: 4) {
@@ -112,6 +120,16 @@ struct LoginScreen: View {
                 .font(.system(size: 10))
                 .padding(.horizontal, 40)
                 .padding(.bottom, 20)
+            
+                VStack {
+                    NavigationLink(destination: ExistingLoginView()) {
+                        Text("Log In")
+                        //.padding(.top,)
+                            .foregroundColor(.black)
+                            .padding(.top, 20)
+                    }
+                    //.padding(.top, 50)
+                }
             }
             
             

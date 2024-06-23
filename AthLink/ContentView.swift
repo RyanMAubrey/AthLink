@@ -2,21 +2,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello World")
+        Text("AthLink")
             .font(.largeTitle)
             .fontWeight(.bold)
             .padding()
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
-        Text("Test")
+
         
     }
 }
