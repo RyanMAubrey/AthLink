@@ -1,0 +1,615 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		94B6A5A42C28CCE500CC2405 /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B6A5A32C28CCE500CC2405 /* home.swift */; };
+		FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */; };
+		FF063DB62C12DFA300EF79FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB52C12DFA300EF79FB /* ContentView.swift */; };
+		FF063DB82C12DFA300EF79FB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB72C12DFA300EF79FB /* Item.swift */; };
+		FF063DBA2C12DFA800EF79FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF063DB92C12DFA800EF79FB /* Assets.xcassets */; };
+		FF063DBD2C12DFA800EF79FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF063DBC2C12DFA800EF79FB /* Preview Assets.xcassets */; };
+		FF063DC72C12DFA900EF79FB /* AthLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DC62C12DFA900EF79FB /* AthLinkTests.swift */; };
+		FF063DD12C12DFAA00EF79FB /* AthLinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DD02C12DFAA00EF79FB /* AthLinkUITests.swift */; };
+		FF063DD32C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DD22C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift */; };
+		FF063DE02C13EA1700EF79FB /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DDF2C13EA1700EF79FB /* Logo.swift */; };
+		FF063DE42C13ECD000EF79FB /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DE32C13ECD000EF79FB /* LoginScreen.swift */; };
+		FF6ACFFF2C20C3E100E37053 /* ExistingLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6ACFFE2C20C3E100E37053 /* ExistingLoginView.swift */; };
+		FF92E4D82C1F5D6A00476045 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF92E4D72C1F5D6A00476045 /* PrivacyPolicyView.swift */; };
+		FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD532A72C1F71C600EE0185 /* TermsOfServiceView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FF063DC32C12DFA900EF79FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF063DA82C12DFA300EF79FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF063DAF2C12DFA300EF79FB;
+			remoteInfo = AthLink;
+		};
+		FF063DCD2C12DFAA00EF79FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF063DA82C12DFA300EF79FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF063DAF2C12DFA300EF79FB;
+			remoteInfo = AthLink;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		94B6A5A32C28CCE500CC2405 /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
+		FF063DB02C12DFA300EF79FB /* AthLink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AthLink.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkApp.swift; sourceTree = "<group>"; };
+		FF063DB52C12DFA300EF79FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FF063DB72C12DFA300EF79FB /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		FF063DB92C12DFA800EF79FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF063DBC2C12DFA800EF79FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FF063DC22C12DFA900EF79FB /* AthLinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AthLinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF063DC62C12DFA900EF79FB /* AthLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkTests.swift; sourceTree = "<group>"; };
+		FF063DCC2C12DFAA00EF79FB /* AthLinkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AthLinkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF063DD02C12DFAA00EF79FB /* AthLinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkUITests.swift; sourceTree = "<group>"; };
+		FF063DD22C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FF063DDF2C13EA1700EF79FB /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
+		FF063DE32C13ECD000EF79FB /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		FF6ACFFE2C20C3E100E37053 /* ExistingLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingLoginView.swift; sourceTree = "<group>"; };
+		FF92E4D72C1F5D6A00476045 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		FFD532A72C1F71C600EE0185 /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FF063DAD2C12DFA300EF79FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DBF2C12DFA900EF79FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DC92C12DFAA00EF79FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FF063DA72C12DFA300EF79FB = {
+			isa = PBXGroup;
+			children = (
+				FF063DB22C12DFA300EF79FB /* AthLink */,
+				FF063DC52C12DFA900EF79FB /* AthLinkTests */,
+				FF063DCF2C12DFAA00EF79FB /* AthLinkUITests */,
+				FF063DB12C12DFA300EF79FB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FF063DB12C12DFA300EF79FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FF063DB02C12DFA300EF79FB /* AthLink.app */,
+				FF063DC22C12DFA900EF79FB /* AthLinkTests.xctest */,
+				FF063DCC2C12DFAA00EF79FB /* AthLinkUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FF063DB22C12DFA300EF79FB /* AthLink */ = {
+			isa = PBXGroup;
+			children = (
+				FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */,
+				FF063DB52C12DFA300EF79FB /* ContentView.swift */,
+				FF063DDF2C13EA1700EF79FB /* Logo.swift */,
+				FF063DE32C13ECD000EF79FB /* LoginScreen.swift */,
+				FF6ACFFE2C20C3E100E37053 /* ExistingLoginView.swift */,
+				FF92E4D72C1F5D6A00476045 /* PrivacyPolicyView.swift */,
+				FFD532A72C1F71C600EE0185 /* TermsOfServiceView.swift */,
+				FF063DB72C12DFA300EF79FB /* Item.swift */,
+				FF063DB92C12DFA800EF79FB /* Assets.xcassets */,
+				FF063DBB2C12DFA800EF79FB /* Preview Content */,
+				94B6A5A32C28CCE500CC2405 /* home.swift */,
+			);
+			path = AthLink;
+			sourceTree = "<group>";
+		};
+		FF063DBB2C12DFA800EF79FB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				FF063DBC2C12DFA800EF79FB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FF063DC52C12DFA900EF79FB /* AthLinkTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF063DC62C12DFA900EF79FB /* AthLinkTests.swift */,
+			);
+			path = AthLinkTests;
+			sourceTree = "<group>";
+		};
+		FF063DCF2C12DFAA00EF79FB /* AthLinkUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FF063DD02C12DFAA00EF79FB /* AthLinkUITests.swift */,
+				FF063DD22C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift */,
+			);
+			path = AthLinkUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FF063DAF2C12DFA300EF79FB /* AthLink */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF063DD62C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLink" */;
+			buildPhases = (
+				FF063DAC2C12DFA300EF79FB /* Sources */,
+				FF063DAD2C12DFA300EF79FB /* Frameworks */,
+				FF063DAE2C12DFA300EF79FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AthLink;
+			productName = AthLink;
+			productReference = FF063DB02C12DFA300EF79FB /* AthLink.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FF063DC12C12DFA900EF79FB /* AthLinkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF063DD92C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLinkTests" */;
+			buildPhases = (
+				FF063DBE2C12DFA900EF79FB /* Sources */,
+				FF063DBF2C12DFA900EF79FB /* Frameworks */,
+				FF063DC02C12DFA900EF79FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF063DC42C12DFA900EF79FB /* PBXTargetDependency */,
+			);
+			name = AthLinkTests;
+			productName = AthLinkTests;
+			productReference = FF063DC22C12DFA900EF79FB /* AthLinkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FF063DCB2C12DFAA00EF79FB /* AthLinkUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF063DDC2C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLinkUITests" */;
+			buildPhases = (
+				FF063DC82C12DFAA00EF79FB /* Sources */,
+				FF063DC92C12DFAA00EF79FB /* Frameworks */,
+				FF063DCA2C12DFAA00EF79FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF063DCE2C12DFAA00EF79FB /* PBXTargetDependency */,
+			);
+			name = AthLinkUITests;
+			productName = AthLinkUITests;
+			productReference = FF063DCC2C12DFAA00EF79FB /* AthLinkUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FF063DA82C12DFA300EF79FB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					FF063DAF2C12DFA300EF79FB = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					FF063DC12C12DFA900EF79FB = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = FF063DAF2C12DFA300EF79FB;
+					};
+					FF063DCB2C12DFAA00EF79FB = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = FF063DAF2C12DFA300EF79FB;
+					};
+				};
+			};
+			buildConfigurationList = FF063DAB2C12DFA300EF79FB /* Build configuration list for PBXProject "AthLink" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FF063DA72C12DFA300EF79FB;
+			productRefGroup = FF063DB12C12DFA300EF79FB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FF063DAF2C12DFA300EF79FB /* AthLink */,
+				FF063DC12C12DFA900EF79FB /* AthLinkTests */,
+				FF063DCB2C12DFAA00EF79FB /* AthLinkUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FF063DAE2C12DFA300EF79FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF063DBD2C12DFA800EF79FB /* Preview Assets.xcassets in Resources */,
+				FF063DBA2C12DFA800EF79FB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DC02C12DFA900EF79FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DCA2C12DFAA00EF79FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FF063DAC2C12DFA300EF79FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF063DB62C12DFA300EF79FB /* ContentView.swift in Sources */,
+				FF6ACFFF2C20C3E100E37053 /* ExistingLoginView.swift in Sources */,
+				FF92E4D82C1F5D6A00476045 /* PrivacyPolicyView.swift in Sources */,
+				FF063DB82C12DFA300EF79FB /* Item.swift in Sources */,
+				FF063DE02C13EA1700EF79FB /* Logo.swift in Sources */,
+				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
+				94B6A5A42C28CCE500CC2405 /* home.swift in Sources */,
+				FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */,
+				FF063DE42C13ECD000EF79FB /* LoginScreen.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DBE2C12DFA900EF79FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF063DC72C12DFA900EF79FB /* AthLinkTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF063DC82C12DFAA00EF79FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF063DD32C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift in Sources */,
+				FF063DD12C12DFAA00EF79FB /* AthLinkUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FF063DC42C12DFA900EF79FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF063DAF2C12DFA300EF79FB /* AthLink */;
+			targetProxy = FF063DC32C12DFA900EF79FB /* PBXContainerItemProxy */;
+		};
+		FF063DCE2C12DFAA00EF79FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF063DAF2C12DFA300EF79FB /* AthLink */;
+			targetProxy = FF063DCD2C12DFAA00EF79FB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FF063DD42C12DFAA00EF79FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FF063DD52C12DFAA00EF79FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FF063DD72C12DFAA00EF79FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLink;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FF063DD82C12DFAA00EF79FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLink;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FF063DDA2C12DFAA00EF79FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLinkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AthLink.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AthLink";
+			};
+			name = Debug;
+		};
+		FF063DDB2C12DFAA00EF79FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLinkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AthLink.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AthLink";
+			};
+			name = Release;
+		};
+		FF063DDD2C12DFAA00EF79FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLinkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AthLink;
+			};
+			name = Debug;
+		};
+		FF063DDE2C12DFAA00EF79FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AthLinkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AthLink;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FF063DAB2C12DFA300EF79FB /* Build configuration list for PBXProject "AthLink" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF063DD42C12DFAA00EF79FB /* Debug */,
+				FF063DD52C12DFAA00EF79FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF063DD62C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLink" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF063DD72C12DFAA00EF79FB /* Debug */,
+				FF063DD82C12DFAA00EF79FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF063DD92C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLinkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF063DDA2C12DFAA00EF79FB /* Debug */,
+				FF063DDB2C12DFAA00EF79FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF063DDC2C12DFAA00EF79FB /* Build configuration list for PBXNativeTarget "AthLinkUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF063DDD2C12DFAA00EF79FB /* Debug */,
+				FF063DDE2C12DFAA00EF79FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FF063DA82C12DFA300EF79FB /* Project object */;
+}
