@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct home: View {
-    
-    @State var searchText: String = ""
-    @State var isEditing: Bool = false
+    @StateObject var fsearch = Cond()
     
     var body: some View {
         NavigationStack {
@@ -20,62 +18,26 @@ struct home: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
                 .padding(8)
-
+            
             ScrollView(.vertical) {
                 VStack {
-                    // SearchBar
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color(.systemGray3))
-                        TextField("Get started with any sport", text: $searchText)
-                            .foregroundStyle(Color.primary)
-                        if isEditing {
-                            Button(action: {
-                                self.searchText = ""
-                                self.isEditing = false
-                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                            }) {
-                                Image(systemName: "xmark")
+                    NavigationLink(destination: Search().environmentObject(fsearch)) {
+                        ZStack {
+                            HStack(alignment: .center) {
+                                Image(systemName: "magnifyingglass")
                                     .foregroundStyle(Color(.systemGray3))
-                                }
+                                Text("Get started with any sport")   .foregroundStyle(Color(.systemGray3))}
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(8)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10.0)
                         }
                     }
-                    .padding(8)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10.0)
-                    .onTapGesture {
-                        self.isEditing = true
-                    }
-                    
-                    Text("Suggestions")
-                    // Suggestions
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(0..<10) { index in
-                                Button(action: {
-                                    
-                                }) {
-                                    Image(systemName: "xmark")
-                                        .foregroundStyle(Color(.systemGray3))
-                                        .padding(8)
-                                    Text("Item \(index)")
-                                                                        .font(.caption)
-                                                                        .foregroundStyle(Color.black)
-                                                                        .padding(8)
-                                    }
-                           }
-                            .background(Color.gray)
-                        }
-
-                    }
-                    .padding(8)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10.0)
                     // line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
                         .padding(8)
-                
+                    
                     Text("Getting Started")
                     // started
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -99,7 +61,7 @@ struct home: View {
                             }
                             .background(Color(.systemGray2))
                             .cornerRadius(10)
-
+                            
                             
                             //money
                             Button(action: {
@@ -160,7 +122,7 @@ struct home: View {
                             }
                             .background(Color(.systemGray2))
                             .cornerRadius(10)
-
+                            
                         }
                     }
                     .padding(8)
@@ -208,7 +170,10 @@ struct home: View {
                 }
             }
             .padding(8)
+            .navigationDestination(isPresented: $fsearch.fSearch) {
+                FSearch().environmentObject(fsearch)
             }
+        }
     }
 }
 
