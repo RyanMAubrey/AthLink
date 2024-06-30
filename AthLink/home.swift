@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct home: View {
+    
     @StateObject var fsearch = Cond()
+    @State var path = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             // AthLink Logo
             Image("athlinklogo")
                 .resizable()
@@ -21,11 +23,12 @@ struct home: View {
             
             ScrollView(.vertical) {
                 VStack {
-                    NavigationLink(destination: Search().environmentObject(fsearch)) {
-                        ZStack {
+                    Button(action: {
+                        path.append("Search")
+                    }) {                     ZStack {
                             HStack(alignment: .center) {
                                 Image(systemName: "magnifyingglass")
-                                    .foregroundStyle(Color(.systemGray3))
+                             .foregroundStyle(Color(.systemGray3))
                                 Text("Get started with any sport")   .foregroundStyle(Color(.systemGray3))}
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(8)
@@ -170,8 +173,21 @@ struct home: View {
                 }
             }
             .padding(8)
-            .navigationDestination(isPresented: $fsearch.fSearch) {
-                FSearch().environmentObject(fsearch)
+            .navigationDestination(for: String.self) { destination in
+                if destination == "Search" {                      Search(path: $path).environmentObject(fsearch)                } else if destination == "FSearch" {             FSearch().environmentObject(fsearch)
+                    }
+            }
+            .onChange(of: fsearch.fSearch) { newValue in
+                if !newValue {
+                    path.removeLast()
+                    path.append("Search")
+                }
+            }
+            .onAppear() {
+                fsearch.validZ = false
+                fsearch.zip = ""
+                fsearch.sportVal = 0
+                fsearch.fSearch = false
             }
         }
     }

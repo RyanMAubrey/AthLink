@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		949FC82C2C30C5E600C5FF71 /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = 949FC82B2C30C5E600C5FF71 /* HalfASheet */; };
 		94FC7FB62C29360B006EF266 /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB52C29360B006EF266 /* home.swift */; };
 		94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB72C2A41AC006EF266 /* Search.swift */; };
 		94FC7FBA2C2A73BE006EF266 /* FSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB92C2A73BE006EF266 /* FSearch.swift */; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				949FC82C2C30C5E600C5FF71 /* HalfASheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +93,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		949FC82A2C30C5D300C5FF71 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FF063DA72C12DFA300EF79FB = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +107,7 @@
 				FF063DC52C12DFA900EF79FB /* AthLinkTests */,
 				FF063DCF2C12DFAA00EF79FB /* AthLinkUITests */,
 				FF063DB12C12DFA300EF79FB /* Products */,
+				949FC82A2C30C5D300C5FF71 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -171,8 +181,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				949FC82E2C30C6C900C5FF71 /* PBXTargetDependency */,
 			);
 			name = AthLink;
+			packageProductDependencies = (
+				949FC82B2C30C5E600C5FF71 /* HalfASheet */,
+			);
 			productName = AthLink;
 			productReference = FF063DB02C12DFA300EF79FB /* AthLink.app */;
 			productType = "com.apple.product-type.application";
@@ -245,6 +259,9 @@
 				Base,
 			);
 			mainGroup = FF063DA72C12DFA300EF79FB;
+			packageReferences = (
+				949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */,
+			);
 			productRefGroup = FF063DB12C12DFA300EF79FB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -322,6 +339,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		949FC82E2C30C6C900C5FF71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 949FC82D2C30C6C900C5FF71 /* HalfASheet */;
+		};
 		FF063DC42C12DFA900EF79FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FF063DAF2C12DFA300EF79FB /* AthLink */;
@@ -464,6 +485,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -492,6 +515,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -622,6 +647,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/franklynw/HalfASheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		949FC82B2C30C5E600C5FF71 /* HalfASheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */;
+			productName = HalfASheet;
+		};
+		949FC82D2C30C6C900C5FF71 /* HalfASheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */;
+			productName = HalfASheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FF063DA82C12DFA300EF79FB /* Project object */;
 }
