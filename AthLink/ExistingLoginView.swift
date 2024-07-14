@@ -12,7 +12,7 @@ struct ExistingLoginView: View {
     @State private var userEmail: String = ""
     @State private var password: String = ""
     @State private var showAlert: Bool = false
-    @State private var navigateToContentView: Bool = false
+    @State private var navigateTohome: Bool = false
    
     let validEmail = "Admin"
     let validPassword = "test"
@@ -54,7 +54,7 @@ struct ExistingLoginView: View {
                     
                     Button(action: {
                         if validateLogin(email: userEmail, password: password) {
-                            navigateToContentView = true
+                            navigateTohome = true
                         } else {
                             showAlert = true
                         }
@@ -74,7 +74,7 @@ struct ExistingLoginView: View {
                     Spacer()
                 }
                 .background(
-                    NavigationLink(destination: ContentView(), isActive: $navigateToContentView, label: { EmptyView() }
+                    NavigationLink(destination: home(), isActive: $navigateTohome, label: { EmptyView() }
                     )
                 )
             }

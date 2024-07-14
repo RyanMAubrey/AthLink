@@ -169,13 +169,123 @@ struct home: View {
                     // line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
-                        .padding(8)
+                        .padding(10)
+                    
+                    Rectangle().frame(maxWidth: .infinity)
+                        .frame(height: 1)
+                        .padding(.top, 60)
+                        .padding(.bottom, -5)
+
+                    
+                    //Spacer()
+                    
+                    // bottom bar
+                    HStack (spacing: 20) {
+                        // home
+                        Button(action: {
+                            path.append("home")
+                        }) {
+                            VStack (spacing: -10){
+                                Image(systemName: "house.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 50)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding(.top, 8)
+                                Text("Home")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding([.bottom, .horizontal], 8)
+                            }
+                        }
+                        // Search
+                        Button(action: {
+                            path.append("Search")
+                        }) {
+                            VStack (spacing: -10){
+                                Image(systemName: "magnifyingglass")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 50)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding(.top, 8)
+                                Text("Search")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding([.bottom, .horizontal], 8)
+                            }
+                        }
+                        // Messages
+                        Button(action: {
+                            path.append("Messages")
+                        }) {
+                            VStack (spacing: -10){
+                                Image(systemName: "bell")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 50)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding(.top, 8)
+                                Text("Messages")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding([.bottom, .horizontal], 8)
+                            }
+                        }
+                        //Sessions
+                        Button(action: {
+                            path.append("Sessions")
+                        }) {
+                            VStack (spacing: -10){
+                                Image(systemName: "doc.text")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 50)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding(.top, 8)
+                                Text("Sessions")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding([.bottom, .horizontal], 8)
+                            }
+                        }
+                        // Account
+                        Button(action: {
+                            path.append("Account")
+                        }) {
+                            VStack (spacing: -10){
+                                Image(systemName: "person")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 50)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding(.top, 8)
+                                Text("Account")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    //.padding([.bottom, .horizontal], 8)
+                            }
+                        }
+                    }
+                    //Spacer()
                 }
             }
             .padding(8)
             .navigationDestination(for: String.self) { destination in
-                if destination == "Search" {                      Search(path: $path).environmentObject(fsearch)                } else if destination == "FSearch" {             FSearch().environmentObject(fsearch)
-                    }
+                if destination == "Search" {
+                    Search(path: $path).environmentObject(fsearch)
+                } else if destination == "FSearch" {
+                    FSearch().environmentObject(fsearch)
+                } else if destination == "home" {
+                    home()
+                } else if destination == "Messages" {
+                    Messages()
+                } else if destination == "Sessions" {
+                    Sessions()
+                } else if destination == "Account" {
+                    Account()
+                }
+                
             }
             .onChange(of: fsearch.fSearch) { newValue in
                 if !newValue {

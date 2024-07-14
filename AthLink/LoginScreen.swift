@@ -10,7 +10,8 @@ import SwiftUI
 struct LoginScreen: View {
     @State private var firstName: String = ""
     @State private var lastName: String = ""
-    @State private var whosUsing: String = ""
+    @State private var whosUsing: String = "Athlete"
+    @State private var whosUsingOptions = ["Athlete", "Parent"]
     @State private var postalCode: String = ""
     @State private var userEmail: String = ""
     @State private var password: String = ""
@@ -29,6 +30,20 @@ struct LoginScreen: View {
                 
                 VStack {
                     VStack (alignment: .leading) {
+                        
+                        Text("Who's Using?")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, -10)
+                        Picker("Select user", selection: $whosUsing) {
+                            ForEach(whosUsingOptions, id: \.self) { whosUsingOptions in
+                                Text(whosUsingOptions).tag(whosUsingOptions)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, -15)
+                        
                         Text("First Name")
                             .font(.headline)
                             .padding(.top, 10)
@@ -41,13 +56,6 @@ struct LoginScreen: View {
                             .font(.headline)
                             .padding(.horizontal, 20)
                         TextField("Enter text", text: $lastName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal, 20)
-                        
-                        Text("Whos Using?")
-                            .font(.headline)
-                            .padding(.horizontal, 20)
-                        TextField("Enter text", text: $whosUsing)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(.horizontal, 20)
                         
