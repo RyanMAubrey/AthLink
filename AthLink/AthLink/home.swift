@@ -4,6 +4,10 @@
 //
 //  Created by RyanAubrey on 6/23/24.
 //
+// go into each box and make them look like figma, faq is good
+// add scrollview and add satisfaction guarantee 
+// put navagation bar on all views
+// shringk safety enlarge the buttons
 
 import SwiftUI
 
@@ -42,106 +46,97 @@ struct home: View {
                         .padding(8)
                     
                     Text("Getting Started")
-                    // started
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            // satisfaction
-                            Button(action: {
-                                
-                            }) {
-                                VStack {
-                                    Image(systemName: "rosette")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .foregroundStyle(Color.black)
-                                        .padding(.top, 8)
-                                    Text("Satisfaction Gurantee")
-                                        .font(.caption)
-                                        .foregroundStyle(Color.black)
-                                        .padding([.bottom, .horizontal], 8)
-                                }
-                            }
-                            .background(Color(.systemGray2))
-                            .cornerRadius(10)
-                            
-                            
-                            //money
-                            Button(action: {
-                                
-                            }) {
-                                VStack {
-                                    Image(systemName: "dollarsign.circle")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .foregroundStyle(Color.black)
-                                        .padding(.top, 8)
-                                    Text("Receive $80")
-                                        .font(.caption)
-                                        .foregroundStyle(Color.black)
-                                        .padding([.bottom, .horizontal], 8)
-                                }
-                            }
-                            .background(Color(.systemGray2))
-                            .cornerRadius(10)
-                            
-                            //question
-                            Button(action: {
-                                
-                            }) {
-                                VStack {
-                                    Image(systemName: "questionmark.circle")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .foregroundStyle(Color.black)
-                                        .padding(.top, 8)
-                                    Text("Frequently Asked Questions")
-                                        .font(.caption)
-                                        .foregroundStyle(Color.black)
-                                        .padding([.bottom, .horizontal], 8)
-                                }
-                            }
-                            .background(Color(.systemGray2))
-                            .cornerRadius(10)
-                            
-                            //support
-                            Button(action: {
-                                
-                            }) {
-                                VStack {
-                                    Image(systemName: "person.2.fill")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .foregroundStyle(Color.black)
-                                        .padding(.top, 8)
-                                    Text("Customer Support")
-                                        .font(.caption)
-                                        .foregroundStyle(Color.black)
-                                        .padding([.bottom, .horizontal], 8)
-                                }
-                            }
-                            .background(Color(.systemGray2))
-                            .cornerRadius(10)
-                            
-                        }
-                    }
-                    .padding(8)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10.0)
-                    // line
+                         .font(.headline)
+                         //.padding(.bottom, 2)
+                    
+                     // Getting Started Buttons
+                     HStack(spacing: 16) {
+                         // Receive $80
+                         Button(action: {path.append("Receive")}) {
+                             VStack {
+                                 Image(systemName: "dollarsign.circle")
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(width: 50, height: 50)
+                                     .foregroundStyle(Color.black)
+                                     .padding(.top, 8)
+                                 Text("Receive $80")
+                                     .font(.caption)
+                                     .foregroundStyle(Color.black)
+                                     .padding([.bottom, .horizontal], 8)
+                             }
+                         }
+                         .frame(width: 110, height: 110)
+                         .background(Color(.systemGray4))
+                         .cornerRadius(25)
+
+                         // Frequently Asked Questions
+                         Button(action: {path.append("Question")}) {
+                             VStack {
+                                 Image(systemName: "questionmark.circle")
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(width: 50, height: 50)
+                                     .foregroundStyle(Color.black)
+                                     .padding(.top, 8)
+                                 Text("FAQ")
+                                     .font(.caption)
+                                     .foregroundStyle(Color.black)
+                                     .padding([.bottom, .horizontal], 8)
+                             }
+                         }
+                         .frame(width: 110, height: 110)
+                         .background(Color(.systemGray4))
+                         .cornerRadius(25)
+
+                         // Customer Support
+                         Button(action: {path.append("Support")}) {
+                             VStack {
+                                 Image(systemName: "phone.circle")
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(width: 50, height: 50)
+                                     .foregroundStyle(Color.black)
+                                     .padding(.top, 8)
+                                 Text("Support")
+                                     .font(.caption)
+                                     .foregroundStyle(Color.black)
+                                     .padding([.bottom, .horizontal], 8)
+                             }
+                         }
+                         .frame(width: 110, height: 110)
+                         .background(Color(.systemGray4))
+                         .cornerRadius(25)
+                     }
+//                    // Satisfaction Guarantee
+//                    Button(action: { path.append("Satisfaction") }) {
+//                        VStack {
+//                            Image(systemName: "star.circle")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 50, height: 50)
+//                                .foregroundStyle(Color.black)
+//                                .padding(.top, 8)
+//                            Text("Satisfaction")
+//                                .font(.caption)
+//                                .foregroundStyle(Color.black)
+//                                .padding([.bottom, .horizontal], 8)
+//                        }
+//                    }
+                    
+                     .padding(8)
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
                         .padding(8)
+                        .foregroundColor(Color.gray)
+                    
                     //Safety
                     VStack {
                         Image(systemName: "shield")
                             .resizable()
                             .foregroundStyle(Color/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 50)
+                            .frame(width: 30, height: 30)
                             .padding(.top, 8)
                         Text( "Safety \n OffenderWatch screening \n on every coach.")
                             .padding(.bottom, 8)
@@ -151,6 +146,8 @@ struct home: View {
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
                         .padding(8)
+                        .foregroundColor(Color.gray)
+                    
                     //coach
                     Button(action: {
                     }) {
@@ -284,6 +281,14 @@ struct home: View {
                     Sessions()
                 } else if destination == "Account" {
                     Account()
+                } else if destination == "Support" {
+                    Support()
+                } else if destination == "Receive" {
+                    Receive()
+                } else if destination == "Question" {
+                    Question()
+                } else if destination == "Satisfaction" {
+                    Satisfaction(path: $path)
                 }
                 
             }
