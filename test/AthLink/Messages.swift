@@ -16,6 +16,11 @@ struct Coach: Identifiable {
 }
 
 struct Messages: View {
+    @State private var path = NavigationPath()
+    @StateObject var fsearch = Cond()
+    @State private var navigateTohome: Bool = false
+    @State private var navigateTosess: Bool = false
+    @State private var navigateToaccount: Bool = false
     @State private var searchText = ""
 
     let interestedCoaches: [Coach] = [
@@ -28,7 +33,7 @@ struct Messages: View {
     ]
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path:$path) {
             VStack {
                 Text("Messages")
                     .font(.largeTitle)
@@ -59,7 +64,6 @@ struct Messages: View {
                     }
                     .listStyle(PlainListStyle())
                 }
-                Spacer()
             }
             .padding(.top, -10)
         }
@@ -186,15 +190,6 @@ struct ChatView: View {
         .navigationTitle(coach.name)
         .navigationBarTitleDisplayMode(.inline)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
 
