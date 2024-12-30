@@ -14,9 +14,13 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct AccountView: View {
+    @EnvironmentObject var rootView: RootViewObj
+    @State private var navigateTohome: Bool = false
+    @State private var navigateTojob: Bool = false
+    @State private var navigateTomess: Bool = false
+    @State private var navigateTosess: Bool = false
+    
     @State private var username = "First Last"
     @State private var password = "1234"
     @State private var email = "coach123@gmail.com"
@@ -28,23 +32,32 @@ struct AccountView: View {
     @State private var lastName = "Last name"
     @State private var phone = "000-000-0000"
     @State private var user = "Athlete"
-    @State private var card = "Visa"
+    @State private var card = "Chase"
     @State private var cardEnding = "0000"
     @State private var notifications = true
     @State private var coachMessaging = true
     @State private var whosUsingOptions = ["Athlete", "Parent"]
+    @State private var showingLogAlert = false
     @State private var showingDeleteAlert = false
     @State private var selectedAvailability: [String: [String]] = [:]
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(alignment: .leading) {
+        if navigateTohome {
+            CoachHome()
+                .environmentObject(rootView)
+        } else if navigateTojob {
+            
+        } else if navigateTomess {
+            
+        } else if navigateTosess {
+
+        } else {
+            VStack(alignment: .center) {
+                ScrollView(.vertical) {
                     // Profile Header
                     Text("Account")
                         .font(.largeTitle)
                         .padding()
-
                     VStack(alignment: .leading) {
                         // Profile Pic and Name
                         HStack {
@@ -121,44 +134,42 @@ struct AccountView: View {
                                     .cornerRadius(5)
                             }
                             .padding(.bottom, 10)
-
-//                            HStack {
-//                                Text("User:")
-//                                    .font(.headline)
-//                                Spacer()
-//                                Picker("Select user", selection: $user) {
-//                                    ForEach(whosUsingOptions, id: \.self) { option in
-//                                        Text(option).tag(option)
-//                                    }
-//                                }
-//                                .padding(5)
-//                                .background(Color.white)
-//                                .cornerRadius(5)
-//                            }
-//                            .padding(.bottom, 10)
-
                             HStack {
-                                Text("Payment:")
-                                    .font(.headline)
-                                Spacer()
-                                TextField("Card", text: $card)
-                                    .multilineTextAlignment(.trailing)
-                                Text("Ending in \(cardEnding)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+                                VStack (alignment: .leading){
+                                    Text("Payment:")
+                                        .font(.headline)
+                                    HStack (alignment: .center){
+                                        Text("Direct Deposit")
+                                            .frame(width: 70, height: 50)
+                                            .lineLimit(2)
+                                        Image(systemName: "building.columns")
+                                            .resizable()
+                                            .frame(width:35, height: 35)
+                                            .scaledToFit()
+                                            .padding(.trailing, 5)
+                                        Button(action: {
+                                            //TODO add button functionality
+                                        }) {
+                                            Image(systemName: "plus")
+                                        }
+                                        Spacer()
+                                        TextField("Card", text: $card)
+                                            .multilineTextAlignment(.trailing)
+                                        Text("Ending in (...\(cardEnding))")
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
                             }
                             .padding(.bottom, 20)
                         }
 
-                        
-                        
                         Text("Availability:")
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.top, 10)
 
                         AvailabilityGrid(selectedA: $selectedAvailability)
-                        
                         
                         Button(action: {
                             // input preview profile
@@ -204,54 +215,137 @@ struct AccountView: View {
                     .cornerRadius(10)
                     .padding([.leading, .trailing], 20)
 
-
-                    // Turn messages off, Save Changes, Delete Account
+                    // logout, Delete Account, terms
                     VStack(alignment: .center) {
-                        VStack(alignment: .leading) {
-
-            
-                        }
-                        
+                        // Logout Button
                         Button(action: {
-                            // sign out
+                            showingLogAlert = true
                         }) {
-                            Text("Sign Out")
+                            Text("Log Out")
                                 .font(.headline)
                                 .foregroundColor(.red)
-                                .padding()
                                 .frame(maxWidth: .infinity)
+                                .padding([.top,.bottom], 10)
                         }
-                        
+                        .alert(isPresented: $showingLogAlert) {
+                            Alert(
+                                title: Text("Are you sure you want to log out of your account?"),
+                                primaryButton: .destructive(Text("Yes, I am sure")) {
+                                    rootView.rootView = .Login
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                        // delete account
                         Button(action: {
                             showingDeleteAlert = true
                         }) {
                             Text("Delete my Account")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-                                .padding()
                                 .frame(maxWidth: .infinity)
+                                .padding(.bottom)
                         }
                         .alert(isPresented: $showingDeleteAlert) {
                             Alert(
                                 title: Text("Are you sure you want to delete your account?"),
                                 message: Text("This action cannot be undone."),
                                 primaryButton: .destructive(Text("Yes I am sure")) {
-                                    // delete account from database
+                                    rootView.rootView = .Login
                                 },
                                 secondaryButton: .cancel()
                             )
                         }
+                        Text("@2024-2024 AthLink Inc. All Rights Reserved")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .padding(.leading)
                     }
-                    .padding(.horizontal)
-                    .padding(.bottom, 20)
-
-                    Text("@2024-2024 AthLink Inc. All Rights Reserved")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                        .padding(.top)
+                }
+                // line
+                Rectangle().frame(maxWidth: .infinity)
+                    .frame(height: 1)
+                    .padding(.bottom, 10)
+                // bottom bar
+                HStack (spacing: 20) {
+                    // home
+                    Button(action: {
+                        navigateTohome = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "house.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Home")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    // jobs
+                    Button(action: {
+                        navigateTojob = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "briefcase.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Jobs")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    // Messages
+                    Button(action: {
+                        navigateTomess = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "bell")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Messages")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    //Sessions
+                    Button(action: {
+                        navigateTosess = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "doc.text")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Sessions")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    // Account
+                    Button(action: {
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "person")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.black)
+                                .bold()
+                            Text("Account")
+                                .font(.caption)
+                                .foregroundStyle(Color.black)
+                                .bold()
+                        }
+                    }
                 }
             }
-            .padding(.top, 20)
         }
     }
 }
@@ -314,6 +408,6 @@ struct AvailabilityGrid: View {
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
         AccountView()
+            .environmentObject(RootViewObj())
     }
 }
-

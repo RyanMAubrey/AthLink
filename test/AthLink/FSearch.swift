@@ -9,7 +9,8 @@ import SwiftUI
 import HalfASheet
 
 struct FSearch: View {
-    @EnvironmentObject var fsearch : Cond
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
     @State var sett : Bool = false
     @State var zEditing : Bool = false
     @State var nEditing : Bool = false
@@ -22,9 +23,8 @@ struct FSearch: View {
     @State var ca : Float = 20
     @State private var cisEditing = false
     @State var cg : Int = 0
-    
     var loc: String {
-        fsearch.validZ ? "location.fill" : "location"
+        fSearch.validZ ? "location.fill" : "location"
     }
     
     var body: some View {
@@ -44,7 +44,7 @@ struct FSearch: View {
                 }
                 HStack {
                     // SportDropDown
-                    Picker(selection: $fsearch.sportVal, label: Text("Select a Sport")) {
+                    Picker(selection: $fSearch.sportVal, label: Text("Select a Sport")) {
                         Text("Select a Sport").tag(0)
                         Text("Football").tag(1).foregroundColor(.black)
                         Text("Basketball").tag(2).foregroundColor(.black)
@@ -54,14 +54,14 @@ struct FSearch: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10.0)
                     .frame(maxWidth: .infinity)
-                    .onChange(of: fsearch.sportVal) {
-                        fsearch.fSearch = false
+                    .onChange(of: fSearch.sportVal) {
+                        fSearch.fSearch = false
                     }
                     // ZipSearchBar
                     HStack {
                         Image(systemName: loc)
                             .foregroundColor(.black)
-                        TextField(zMessage, text: $fsearch.zip)
+                        TextField(zMessage, text: $fSearch.zip)
                             .foregroundColor(Color.primary)
                         // check if valid zip
                             .onSubmit {
@@ -69,10 +69,10 @@ struct FSearch: View {
                             }
                         if zEditing {
                             Button(action: {
-                                self.fsearch.zip = ""
+                                self.fSearch.zip = ""
                                 self.zEditing = false
                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                fsearch.validZ = false
+                                fSearch.validZ = false
                             }) {
                                 Image(systemName: "xmark")
                                     .foregroundColor(Color(.systemGray3))
@@ -260,20 +260,21 @@ struct FSearch: View {
     func validate() {
         let zipCodePattern = "^[0-9]{5}(?:-[0-9]{4})?$"
         let regex = try! NSRegularExpression(pattern: zipCodePattern)
-        let range = NSRange(location: 0, length: fsearch.zip.utf16.count)
-        fsearch.validZ = regex.firstMatch(in: fsearch.zip, options: [], range: range) != nil
+        let range = NSRange(location: 0, length: fSearch.zip.utf16.count)
+        fSearch.validZ = regex.firstMatch(in: fSearch.zip, options: [], range: range) != nil
         
         self.zEditing = false
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 
-        if !fsearch.validZ {
-            fsearch.zip = ""
-            fsearch.fSearch = false
+        if !fSearch.validZ {
+            fSearch.zip = ""
+            fSearch.fSearch = false
         }
     }
 }
 
 #Preview {
     FSearch()
-        .environmentObject(Cond())
+        .environmentObject(RootViewObj())
+        .environmentObject(SearchHelp())
 }

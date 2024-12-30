@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct Search: View {
-    
-    @EnvironmentObject var fsearch : Cond
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
     @State var zEditing : Bool = false
     @State var zMessage : String = "Enter Zip Code"
     var loc: String {
-        fsearch.validZ ? "location.fill" : "location"
+        fSearch.validZ ? "location.fill" : "location"
     }
     
     var body: some View {
         ZStack(alignment: .top) {
             VStack {
                 // SportDropDown
-                Picker(selection: $fsearch.sportVal, label: Text("Select a Sport")){
+                Picker(selection: $fSearch.sportVal, label: Text("Select a Sport")){
                     Text("Select a Sport").tag(0)
                     Text("Football").tag(1).foregroundColor(.black)
                     Text("Basketball").tag(2).foregroundColor(.black)
@@ -34,7 +34,7 @@ struct Search: View {
                 // ZipSearchBar
                 HStack {
                     Image(systemName: loc) .foregroundStyle(Color.black)
-                    TextField(zMessage, text: $fsearch.zip)
+                    TextField(zMessage, text: $fSearch.zip)
                         .foregroundStyle(Color.primary)
                     // check if valid zip
                         .onSubmit {
@@ -42,10 +42,10 @@ struct Search: View {
                         }
                     if zEditing {
                         Button(action: {
-                            self.fsearch.zip = ""
+                            self.fSearch.zip = ""
                             self.zEditing = false
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                            fsearch.validZ = false
+                            fSearch.validZ = false
                         }) {
                             Image(systemName: "xmark")
                                 .foregroundStyle(Color(.systemGray3))
@@ -78,15 +78,15 @@ struct Search: View {
     func validate() {
         let zipCodePattern = "^[0-9]{5}(?:-[0-9]{4})?$"
         let regex = try! NSRegularExpression(pattern: zipCodePattern)
-        let range = NSRange(location: 0, length: fsearch.zip.utf16.count)
-        fsearch.validZ = regex.firstMatch(in: fsearch.zip, options: [], range: range) != nil
+        let range = NSRange(location: 0, length: fSearch.zip.utf16.count)
+        fSearch.validZ = regex.firstMatch(in: fSearch.zip, options: [], range: range) != nil
         
         self.zEditing = false
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         
-        if !fsearch.validZ {
+        if !fSearch.validZ {
             zMessage = "Enter a Valid Zip Code"
-            self.fsearch.zip = ""
+            self.fSearch.zip = ""
         }
     }
 }
@@ -94,5 +94,6 @@ struct Search: View {
 
 #Preview {
     Search()
-        .environmentObject(Cond())
+        .environmentObject(RootViewObj())
+        .environmentObject(SearchHelp())
 }

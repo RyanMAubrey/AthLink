@@ -19,8 +19,8 @@ struct Session: Identifiable {
 }
 
 struct Sessions: View {
-    @State private var path = NavigationPath()
-    @StateObject var fsearch = Cond()
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
     @State private var navigateTomess: Bool = false
     @State private var navigateTohome: Bool = false
     @State private var navigateToaccount: Bool = false
@@ -38,165 +38,142 @@ struct Sessions: View {
     var body: some View {
         if navigateTomess{
             Messages()
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
         } else if navigateTohome{
             home()
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
         } else if navigateToaccount{
             Account()
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
         }  else {
-            NavigationStack(path: $path) {
-                VStack {
-                    Text("Sessions")
-                        .font(.largeTitle)
-                        .padding()
-                    HStack {
-                        Button(action: {
-                            selectedTab = "Upcoming"
-                        }) {
-                            Text("Upcoming")
-                                .padding()
-                                .foregroundColor(selectedTab == "Upcoming" ? .white : .blue)
-                                .background(selectedTab == "Upcoming" ? Color.blue : Color.clear)
-                                .cornerRadius(8)
-                        }
-                        
-                        Button(action: {
-                            selectedTab = "Previous"
-                        }) {
-                            Text("Previous")
-                                .padding()
-                                .foregroundColor(selectedTab == "Previous" ? .white : .blue)
-                                .background(selectedTab == "Previous" ? Color.blue : Color.clear)
-                                .cornerRadius(8)
-                        }
-                    }
+            VStack(spacing: 0) {
+                Text("Sessions")
+                    .font(.largeTitle)
                     .padding()
+                HStack {
+                    Button(action: {
+                        selectedTab = "Upcoming"
+                    }) {
+                        Text("Upcoming")
+                            .padding()
+                            .foregroundColor(selectedTab == "Upcoming" ? .white : .blue)
+                            .background(selectedTab == "Upcoming" ? Color.blue : Color.clear)
+                            .cornerRadius(8)
+                    }
                     
-                    if selectedTab == "Upcoming" {
-                        SessionListView(sessions: upcomingSessions)
-                    } else {
-                        SessionListView(sessions: previousSessions)
-                    }
-                                        
-                    // line
-                    Rectangle().frame(maxWidth: .infinity)
-                        .frame(height: 1)
-                        .padding(.bottom, 10)
-                    // bottom bar
-                    HStack (spacing: 20) {
-                        // home
-                        Button(action: {
-                            navigateTohome = true
-                        }) {
-                            VStack (spacing: -10){
-                                Image(systemName: "house.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 50)
-                                    .foregroundStyle(Color.gray)
-                                //.padding(.top, 8)
-                                Text("Home")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                //.padding([.bottom, .horizontal], 8)
-                            }
-                        }
-                        // Search
-                        Button(action: {
-                            path.append("Search")
-                        }) {
-                            VStack (spacing: -10){
-                                Image(systemName: "magnifyingglass")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 50)
-                                    .foregroundStyle(Color.gray)
-                                //.padding(.top, 8)
-                                Text("Search")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                //.padding([.bottom, .horizontal], 8)
-                            }
-                        }
-                        // Messages
-                        Button(action: {
-                            navigateTomess = true
-                        }) {
-                            VStack (spacing: -10){
-                                Image(systemName: "bell")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 50)
-                                    .foregroundStyle(Color.gray)
-                                //.padding(.top, 8)
-                                Text("Messages")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                //.padding([.bottom, .horizontal], 8)
-                            }
-                        }
-                        //Sessions
-                        Button(action: {
-                        }) {
-                            VStack (spacing: -10){
-                                Image(systemName: "doc.text")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 50)
-                                    .foregroundStyle(Color.gray)
-                                //.padding(.top, 8)
-                                Text("Sessions")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                //.padding([.bottom, .horizontal], 8)
-                            }
-                        }
-                        // Account
-                        Button(action: {
-                            navigateToaccount = true
-                        }) {
-                            VStack (spacing: -10){
-                                Image(systemName: "person")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 50)
-                                    .foregroundStyle(Color.gray)
-                                //.padding(.top, 8)
-                                Text("Account")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                //.padding([.bottom, .horizontal], 8)
-                            }
-                        }
+                    Button(action: {
+                        selectedTab = "Previous"
+                    }) {
+                        Text("Previous")
+                            .padding()
+                            .foregroundColor(selectedTab == "Previous" ? .white : .blue)
+                            .background(selectedTab == "Previous" ? Color.blue : Color.clear)
+                            .cornerRadius(8)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.white)
-                .navigationDestination(for: String.self) { destination in
-                    if destination == "Search" {
-                        Search()
-                            .environmentObject(fsearch)
-                    } else if destination == "FSearch" {
-                        FSearch()
-                            .environmentObject(fsearch)
-                    }
+                .padding()
+                
+                if selectedTab == "Upcoming" {
+                    SessionListView(sessions: upcomingSessions)
+                } else {
+                    SessionListView(sessions: previousSessions)
                 }
-                .onChange(of: fsearch.fSearch) {
-                    if fsearch.fSearch {
-                        path.removeLast()
-                        path.append("FSearch")
-                    } else {
-                        path.removeLast()
-                        path.append("Search")
+                                    
+                // line
+                Rectangle().frame(maxWidth: .infinity)
+                    .frame(height: 1)
+                    .padding(.bottom, 10)
+                // bottom bar
+                HStack (spacing: 20) {
+                    // home
+                    Button(action: {
+                        navigateTohome = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "house.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Home")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
                     }
-                }
-                .onAppear() {
-                    fsearch.validZ = false
-                    fsearch.zip = ""
-                    fsearch.sportVal = 0
-                    fsearch.fSearch = false
+                    // Search
+                    Button(action: {
+                        rootView.path.append("Search")
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Search")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    // Messages
+                    Button(action: {
+                        navigateTomess = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "bell")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Messages")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
+                    //Sessions
+                    Button(action: {
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "doc.text")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.black)
+                                .bold()
+                            Text("Sessions")
+                                .font(.caption)
+                                .foregroundStyle(Color.black)
+                                .bold()
+                        }
+                    }
+                    // Account
+                    Button(action: {
+                        navigateToaccount = true
+                    }) {
+                        VStack (spacing: -10){
+                            Image(systemName: "person")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 50)
+                                .foregroundStyle(Color.gray)
+                            Text("Account")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                        }
+                    }
                 }
             }
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            .onAppear() {
+                fSearch.validZ = false
+                fSearch.zip = ""
+                fSearch.sportVal = 0
+                fSearch.fSearch = false
+            }
         }
         
     }
@@ -230,4 +207,6 @@ struct SessionListView: View {
 
 #Preview {
     Sessions()
+        .environmentObject(RootViewObj())
+        .environmentObject(SearchHelp())
 }
