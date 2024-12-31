@@ -29,6 +29,7 @@
 		FF99E4DD2C97AE2100B97AF7 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF99E4DC2C97AE2100B97AF7 /* Question.swift */; };
 		FF99E4DF2C97AE3F00B97AF7 /* Receive.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF99E4DE2C97AE3F00B97AF7 /* Receive.swift */; };
 		FF99E4E12C97AE4F00B97AF7 /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF99E4E02C97AE4F00B97AF7 /* Support.swift */; };
+		FFA0849E2D21E76300327882 /* Jobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0849D2D21E76300327882 /* Jobs.swift */; };
 		FFAFCE2D2C9F289200FF9F91 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAFCE2C2C9F289200FF9F91 /* AccountView.swift */; };
 		FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD532A72C1F71C600EE0185 /* TermsOfServiceView.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		FF99E4DC2C97AE2100B97AF7 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		FF99E4DE2C97AE3F00B97AF7 /* Receive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receive.swift; sourceTree = "<group>"; };
 		FF99E4E02C97AE4F00B97AF7 /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
+		FFA0849D2D21E76300327882 /* Jobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jobs.swift; sourceTree = "<group>"; };
 		FFAFCE2C2C9F289200FF9F91 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		FFD532A72C1F71C600EE0185 /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
 		FFD6FA7D2C6BEFDD00E2067E /* AthLink.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AthLink.entitlements; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				FFAFCE2C2C9F289200FF9F91 /* AccountView.swift */,
 				FF29F85A2C3B03570015F643 /* Account.swift */,
 				FF29F8582C3B03300015F643 /* Sessions.swift */,
+				FFA0849D2D21E76300327882 /* Jobs.swift */,
 				FF99E4DA2C97ADBD00B97AF7 /* Satisfaction.swift */,
 				FF99E4DC2C97AE2100B97AF7 /* Question.swift */,
 				FF99E4E02C97AE4F00B97AF7 /* Support.swift */,
@@ -338,6 +341,7 @@
 				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
 				94FC7FB62C29360B006EF266 /* home.swift in Sources */,
 				94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */,
+				FFA0849E2D21E76300327882 /* Jobs.swift in Sources */,
 				94FC7FBC2C2B7DAF006EF266 /* Cond.swift in Sources */,
 				FFAFCE2D2C9F289200FF9F91 /* AccountView.swift in Sources */,
 				FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */,
