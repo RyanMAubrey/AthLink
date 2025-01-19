@@ -172,13 +172,13 @@ struct LoginScreen: View {
             .padding(.bottom, 20)
         }
         .onAppear(){
-            rootView.profile.who = nil
-            rootView.profile.firstName = nil
-            rootView.profile.lastName = nil
+            rootView.profile.who = ""
+            rootView.profile.firstName = ""
+            rootView.profile.lastName = ""
             rootView.profile.postalCode = nil
-            rootView.profile.email = nil
+            rootView.profile.email = ""
             rootView.profile.phoneNumber = nil
-            rootView.profile.password = nil
+            rootView.profile.password = ""
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)

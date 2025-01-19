@@ -10,30 +10,13 @@ import SwiftUI
 struct home: View {
     @EnvironmentObject var rootView: RootViewObj
     @EnvironmentObject var fSearch: SearchHelp
-    @State private var isHomeHovered = false
-    @State private var isSearchHovered = false
-    @State private var isMessagesHovered = false
-    @State private var isSessionsHovered = false
-    @State private var isAccountHovered = false
-    
-    @State private var navigateTomess: Bool = false
-    @State private var navigateTosess: Bool = false
-    @State private var navigateToaccount: Bool = false
+    @State var isCoach: Bool = false
+    @State var isSaved: Bool = true
+    @State private var selectedTag: Int = 0
     
     var body: some View {
-        if navigateTomess{
-            Messages()
-                .environmentObject(rootView)
-                .environmentObject(fSearch)
-        } else if navigateTosess{
-            Sessions()
-                .environmentObject(rootView)
-                .environmentObject(fSearch)
-        } else if navigateToaccount{
-            Account()
-                .environmentObject(rootView)
-                .environmentObject(fSearch)
-        } else {
+        TabView(selection: $selectedTag) {
+            // bottom bar
             VStack{
                 // AthLink Logo
                 Image("athlinklogo")
@@ -45,17 +28,17 @@ struct home: View {
                 ScrollView(.vertical) {
                     VStack {
                         Button(action: {
-                            rootView.path.append("Search")
+                            selectedTag = 1
                         }) {                     ZStack {
-                                HStack(alignment: .center) {
-                                    Image(systemName: "magnifyingglass")
-                                 .foregroundStyle(Color(.systemGray3))
-                                    Text("Get started with any sport")   .foregroundStyle(Color(.systemGray3))}
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(8)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10.0)
-                            }
+                            HStack(alignment: .center) {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundStyle(Color(.systemGray3))
+                                Text("Get started with any sport")   .foregroundStyle(Color(.systemGray3))}
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(8)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10.0)
+                        }
                         }
                         // line
                         Rectangle().frame(maxWidth: .infinity)
@@ -91,62 +74,62 @@ struct home: View {
                                 // Receive $80
                                 Button(action: {
                                     rootView.path.append("Receive")}) {
-                                    VStack {
-                                        Image(systemName: "dollarsign.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 50, height: 50)
-                                            .foregroundStyle(Color.black)
-                                            .padding(.top, 8)
-                                        Text("Receive $80")
-                                            .font(.caption)
-                                            .foregroundStyle(Color.black)
-                                            .padding([.bottom, .horizontal], 8)
+                                        VStack {
+                                            Image(systemName: "dollarsign.circle")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 50, height: 50)
+                                                .foregroundStyle(Color.black)
+                                                .padding(.top, 8)
+                                            Text("Receive $80")
+                                                .font(.caption)
+                                                .foregroundStyle(Color.black)
+                                                .padding([.bottom, .horizontal], 8)
+                                        }
                                     }
-                                }
-                                .frame(width: 110, height: 110)
-                                .background(Color(.systemGray4))
-                                .cornerRadius(25)
+                                    .frame(width: 110, height: 110)
+                                    .background(Color(.systemGray4))
+                                    .cornerRadius(25)
                                 
                                 // Frequently Asked Questions
                                 Button(action: {
                                     rootView.path.append("Question")}) {
-                                    VStack {
-                                        Image(systemName: "questionmark.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 50, height: 50)
-                                            .foregroundStyle(Color.black)
-                                            .padding(.top, 8)
-                                        Text("FAQ")
-                                            .font(.caption)
-                                            .foregroundStyle(Color.black)
-                                            .padding([.bottom, .horizontal], 8)
+                                        VStack {
+                                            Image(systemName: "questionmark.circle")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 50, height: 50)
+                                                .foregroundStyle(Color.black)
+                                                .padding(.top, 8)
+                                            Text("FAQ")
+                                                .font(.caption)
+                                                .foregroundStyle(Color.black)
+                                                .padding([.bottom, .horizontal], 8)
+                                        }
                                     }
-                                }
-                                .frame(width: 110, height: 110)
-                                .background(Color(.systemGray4))
-                                .cornerRadius(25)
+                                    .frame(width: 110, height: 110)
+                                    .background(Color(.systemGray4))
+                                    .cornerRadius(25)
                                 
                                 // Customer Support
                                 Button(action: {
                                     rootView.path.append("Support")}) {
-                                    VStack {
-                                        Image(systemName: "phone.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 50, height: 50)
-                                            .foregroundStyle(Color.black)
-                                            .padding(.top, 8)
-                                        Text("Support")
-                                            .font(.caption)
-                                            .foregroundStyle(Color.black)
-                                            .padding([.bottom, .horizontal], 8)
+                                        VStack {
+                                            Image(systemName: "phone.circle")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 50, height: 50)
+                                                .foregroundStyle(Color.black)
+                                                .padding(.top, 8)
+                                            Text("Support")
+                                                .font(.caption)
+                                                .foregroundStyle(Color.black)
+                                                .padding([.bottom, .horizontal], 8)
+                                        }
                                     }
-                                }
-                                .frame(width: 110, height: 110)
-                                .background(Color(.systemGray4))
-                                .cornerRadius(25)
+                                    .frame(width: 110, height: 110)
+                                    .background(Color(.systemGray4))
+                                    .cornerRadius(25)
                             }
                             .padding(8)
                         }
@@ -208,98 +191,52 @@ struct home: View {
                         }
                     }
                 }
-                // line
-                Rectangle().frame(maxWidth: .infinity)
-                    .frame(height: 1)
-                    .padding(10)
-                // bottom bar
-                HStack (spacing: 20) {
-                    // home
-                    Button(action: {
-                    }) {
-                        VStack (spacing: -10){
-                            Image(systemName: "house.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 50)
-                                .foregroundStyle(Color.black)
-                                .bold()
-                            Text("Home")
-                                .font(.caption)
-                                .foregroundStyle(Color.black)
-                                .bold()
-                        }
-                    }
-                    // Search
-                    Button(action: {
-                        rootView.path.append("Search")
-                    }) {
-                        VStack (spacing: -10){
-                            Image(systemName: "magnifyingglass")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 50)
-                                .foregroundStyle(Color.gray)
-                            Text("Search")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                        }
-                    }
-                    // Messages
-                    Button(action: {
-                        navigateTomess = true
-                    }) {
-                        VStack (spacing: -10){
-                            Image(systemName: "bell")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 50)
-                                .foregroundStyle(Color.gray)
-                            Text("Messages")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                        }
-                    }
-                    //Sessions
-                    Button(action: {
-                        navigateTosess = true
-                    }) {
-                        VStack (spacing: -10){
-                            Image(systemName: "doc.text")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 50)
-                                .foregroundStyle(Color.gray)
-                            Text("Sessions")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                        }
-                    }
-                    // Account
-                    Button(action: {
-                        navigateToaccount = true
-                    }) {
-                        VStack (spacing: -10){
-                            Image(systemName: "person")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 50)
-                                .foregroundStyle(Color.gray)
-                            Text("Account")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                        }
-                    }
-                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity)
             .background(Color.white)
+            // Reset search
             .onAppear() {
                 fSearch.validZ = false
                 fSearch.zip = ""
                 fSearch.sportVal = 0
                 fSearch.fSearch = false
             }
+                .tabItem { Label("Home", systemImage: "house") }
+                .tag(0)
+            // Search
+            Group {
+                if fSearch.fSearch {
+                    FSearch()
+                        .environmentObject(rootView)
+                        .environmentObject(fSearch)
+                } else {
+                    Search()
+                        .environmentObject(rootView)
+                        .environmentObject(fSearch)
+                }
+            }
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
+                .tabItem { Label("Search", systemImage: "magnifyingglass") }
+                .tag(1)
+            // Messages
+            Messages(isCoach: $isCoach)
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
+                .tabItem { Label("Messages", systemImage: "bell") }
+                .tag(2)
+            // Sessions
+            Sessions()
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
+                .tabItem { Label("Sessions", systemImage: "doc.text") }
+                .tag(3)
+            // Account
+            Account(isSaved: $isSaved)
+                .environmentObject(rootView)
+                .environmentObject(fSearch)
+                .tabItem { Label("Account", systemImage: "person") }
+                .tag(4)
         }
     }
 }

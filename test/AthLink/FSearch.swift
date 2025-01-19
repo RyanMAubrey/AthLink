@@ -12,7 +12,6 @@ struct FSearch: View {
     @EnvironmentObject var rootView: RootViewObj
     @EnvironmentObject var fSearch: SearchHelp
     @State var sett : Bool = false
-    @State var zEditing : Bool = false
     @State var nEditing : Bool = false
     @State var zMessage : String = "Enter Zip Code"
     @State var name : String = ""
@@ -54,24 +53,20 @@ struct FSearch: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10.0)
                     .frame(maxWidth: .infinity)
-                    .onChange(of: fSearch.sportVal) {
-                        fSearch.fSearch = false
-                    }
                     // ZipSearchBar
                     HStack {
                         Image(systemName: loc)
                             .foregroundColor(.black)
                         TextField(zMessage, text: $fSearch.zip)
                             .foregroundColor(Color.primary)
-                        // check if valid zip
+                            // check if valid zip
                             .onSubmit {
-                                self.validate()
+                                fSearch.validate()
                             }
-                        if zEditing {
+                        if fSearch.zEditing {
                             Button(action: {
-                                self.fSearch.zip = ""
-                                self.zEditing = false
-                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                fSearch.zip = ""
+                                fSearch.zEditing = false
                                 fSearch.validZ = false
                             }) {
                                 Image(systemName: "xmark")
@@ -84,7 +79,7 @@ struct FSearch: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(10.0)
                 .onTapGesture {
-                    self.zEditing = true
+                    fSearch.zEditing = true
                 }
                 .frame(maxWidth: .infinity)
                 .padding(8)
@@ -98,9 +93,8 @@ struct FSearch: View {
                         .foregroundColor(Color.primary)
                     if nEditing {
                         Button(action: {
-                            self.name = ""
-                            self.nEditing = false
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            name = ""
+                            nEditing = false
                         }) {
                             Image(systemName: "xmark")
                                 .foregroundColor(Color(.systemGray3))
@@ -111,7 +105,7 @@ struct FSearch: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(10.0)
                 .onTapGesture {
-                    self.nEditing = true
+                    nEditing = true
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -253,22 +247,6 @@ struct FSearch: View {
             }
             .height(.fixed(400))
             .ignoresSafeArea()
-        }
-    }
-    
-    // validates zip code
-    func validate() {
-        let zipCodePattern = "^[0-9]{5}(?:-[0-9]{4})?$"
-        let regex = try! NSRegularExpression(pattern: zipCodePattern)
-        let range = NSRange(location: 0, length: fSearch.zip.utf16.count)
-        fSearch.validZ = regex.firstMatch(in: fSearch.zip, options: [], range: range) != nil
-        
-        self.zEditing = false
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                
-        if !fSearch.validZ {
-            fSearch.zip = ""
-            fSearch.fSearch = false
         }
     }
 }

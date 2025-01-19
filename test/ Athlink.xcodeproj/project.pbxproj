@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9413CC532D16439400A8AFD6 /* CouchAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413CC522D16439400A8AFD6 /* CouchAccount.swift */; };
-		9413CC552D16476800A8AFD6 /* CoachID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413CC542D16476800A8AFD6 /* CoachID.swift */; };
+		9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9462DAB82D39F9BB0078D86F /* Chat.swift */; };
 		9469D76F2D18E9C600DFBB9D /* CoachLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */; };
 		949FC82C2C30C5E600C5FF71 /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = 949FC82B2C30C5E600C5FF71 /* HalfASheet */; };
 		94AA6CA62D1E2621009E5FEC /* CoachHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA6CA52D1E2621009E5FEC /* CoachHome.swift */; };
@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		9413CC522D16439400A8AFD6 /* CouchAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouchAccount.swift; sourceTree = "<group>"; };
-		9413CC542D16476800A8AFD6 /* CoachID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachID.swift; sourceTree = "<group>"; };
+		9462DAB82D39F9BB0078D86F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachLogin.swift; sourceTree = "<group>"; };
 		94AA6CA52D1E2621009E5FEC /* CoachHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachHome.swift; sourceTree = "<group>"; };
 		94FC7FB52C29360B006EF266 /* home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
@@ -164,9 +164,9 @@
 				FF063DBB2C12DFA800EF79FB /* Preview Content */,
 				94FC7FB92C2A73BE006EF266 /* FSearch.swift */,
 				9413CC522D16439400A8AFD6 /* CouchAccount.swift */,
-				9413CC542D16476800A8AFD6 /* CoachID.swift */,
 				9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */,
 				94AA6CA52D1E2621009E5FEC /* CoachHome.swift */,
+				9462DAB82D39F9BB0078D86F /* Chat.swift */,
 			);
 			path = AthLink;
 			sourceTree = "<group>";
@@ -349,11 +349,11 @@
 				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
 				94FC7FB62C29360B006EF266 /* home.swift in Sources */,
 				94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */,
+				9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */,
 				FFAFCE2D2C9F289200FF9F91 /* AccountView.swift in Sources */,
 				FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */,
 				9413CC532D16439400A8AFD6 /* CouchAccount.swift in Sources */,
 				FF063DE42C13ECD000EF79FB /* LoginScreen.swift in Sources */,
-				9413CC552D16476800A8AFD6 /* CoachID.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
