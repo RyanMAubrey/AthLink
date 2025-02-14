@@ -1,0 +1,15 @@
+{
+  "originHash" : "73352bf94feddff2182aebd92e788eca8ff54b653ad84e11b0738e6e9224cb84",
+  "pins" : [
+    {
+      "identity" : "halfasheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/franklynw/HalfASheet",
+      "state" : {
+        "revision" : "4f43296b3722082dd5735521ee0fbf25e61cd21c",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

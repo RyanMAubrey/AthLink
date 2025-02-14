@@ -9,25 +9,21 @@ import SwiftUI
 
 
 struct ExistingLoginView: View {
+    @EnvironmentObject var rootView: RootViewObj
     @State private var userEmail: String = ""
     @State private var password: String = ""
     @State private var showAlert: Bool = false
-    @State private var navigateTohome: Bool = false
    
     let validEmail = "Admin"
     let validPassword = "test"
-    
+
     var body: some View {
-        
-        NavigationView {
-            
-            VStack {
-                
-                Image("athlinklogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                
+        VStack {
+            Image("athlinklogo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100)
+            ScrollView(.vertical) {
                 VStack {
                     VStack (alignment: .leading) {
                         Text("Email")
@@ -50,11 +46,9 @@ struct ExistingLoginView: View {
                     .padding(.horizontal, 5)
                     .padding(.top, 11)
                     
-                    //Spacer()
-                    
                     Button(action: {
-                        if validateLogin(email: userEmail, password: password) {
-                            navigateTohome = true
+                        if validateLogin() {
+                            rootView.rootView = .Home
                         } else {
                             showAlert = true
                         }
@@ -71,25 +65,34 @@ struct ExistingLoginView: View {
                     .alert(isPresented: $showAlert){
                         Alert(title: Text("Invalid Credentials"), message: Text("Email and/or password invalid"))
                     }
+                    Button(action: {
+                        userEmail = ""
+                        password = ""
+                        rootView.path.append("Sign")
+                    }) {
+                        Text("Sign Up")
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.black)
+                            .cornerRadius(20)
+                            .padding(.horizontal, 100)
+                            .padding(.top, 10)
+                    }
                     Spacer()
                 }
-                .background(
-                    NavigationLink(destination: home(), isActive: $navigateTohome, label: { EmptyView() }
-                    )
-                )
             }
-            
-            
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
-            
         }
     }
-    func validateLogin(email: String, password: String) -> Bool {
-            return email == validEmail && password == validPassword
-        }
+    func validateLogin() -> Bool {
+        return self.userEmail == validEmail && self.password == validPassword
+    }
 }
+
 
 #Preview {
     ExistingLoginView()
+        .environmentObject(RootViewObj())
 }

@@ -8,205 +8,288 @@
 import SwiftUI
 
 struct Account: View {
-    @State private var username = "Athlete123"
-    @State private var password = "1234"
-    @State private var email = "athlete123@gmail.com"
-    @State private var bio = "Bio here"
-    @State private var postalCode = "91711"
-    @State private var editingProfile = false
-    var profilePic = "athlinklogo"
-    @State private var firstName = "First name"
-    @State private var lastName = "Last name"
-    @State private var phone = "000-000-0000"
-    @State private var user = "Athlete"
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
+    @Binding var isSaved: Bool
+    @State private var intendedTag: Int? = nil
+    
+    @State private var profilePic = "athlinklogo"
+    @State private var firstName: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var lastName: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var email: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var password: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var phone: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var user: String = "" {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var whosUsingOptions = ["Athlete", "Parent"]
     @State private var card = "Visa"
     @State private var cardEnding = "0000"
-    @State private var notifications = true
-    @State private var coachMessaging = true
-    @State private var whosUsingOptions = ["Athlete", "Parent"]
+    @State private var notifications: Bool = false {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var coachMessaging: Bool = true {
+        didSet {
+            isSaved = false
+        }
+    }
+    @State private var editingProfile = false
+    @State private var showingLogAlert = false
     @State private var showingDeleteAlert = false
 
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading) {
-    
-                Text("Account Information")
-                    .font(.largeTitle)
-                    .font(.headline)
-                    .padding(.bottom, 5)
-                    .padding(.leading, 20)
-
-                VStack(alignment: .leading) {
-                    // profile pic
-                    HStack {
-                        Image(profilePic)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            .shadow(radius: 10)
-                        
-                        VStack(alignment: .leading) {
-                            // users username
-                            Text(username)
-                                .font(.title)
-                                .fontWeight(.bold)
-                            
-                        }
-                        .padding(.leading, 10)
-                    }
-                    .padding(.bottom, 10)
+        VStack {
+            ScrollView(.vertical) {
+                VStack(alignment: .center) {
+                    Text("Account")
+                        .font(.largeTitle)
+                        .padding()
                     
-                    Group {
+                    VStack(alignment: .leading) {
+                        // Profile Picture
                         HStack {
-                            Text("First:")
-                                .font(.headline)
-                            Spacer()
-                            TextField("First", text: $firstName)
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
-                                //.multilineTextAlignment(.trailing)
-                        }
-                        .padding(.bottom, 10)
-
-                        HStack {
-                            Text("Last:")
-                                .font(.headline)
-                            Spacer()
-                            TextField("Last", text: $lastName)
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
-                        }
-                        .padding(.bottom, 10)
-
-                        HStack {
-                            Text("Email:")
-                                .font(.headline)
-                            Spacer()
-                            TextField("Email", text: $email)
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
-                        }
-                        .padding(.bottom, 10)
+                            Image(profilePic)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                .shadow(radius: 10)
                             
-                        HStack {
-                            Text("Password:")
-                                .font(.headline)
-                            Spacer()
-                            SecureField("Password", text: $password)
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
+                            VStack(alignment: .leading) {
+                                Text(rootView.profile.fullName)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
+                            .padding(.leading, 10)
                         }
                         .padding(.bottom, 10)
                         
+                        FieldRow(title: "First:", text: $firstName)
+                        FieldRow(title: "Last:", text: $lastName)
+                        FieldRow(title: "Email:", text: $email, keyboardType: .emailAddress)
+                        FieldRow(title: "Password:", text: $password, secure: true)
+                        FieldRow(title: "Phone:", text: $phone, keyboardType: .phonePad)
                         
-                        HStack {
-                            Text("Phone:")
-                                .font(.headline)
-                            Spacer()
-                            TextField("Phone", text: $phone)
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
-                        }
-                        .padding(.bottom, 10)
-
                         HStack {
                             Text("User:")
                                 .font(.headline)
                             Spacer()
                             Picker("Select user", selection: $user) {
-                                ForEach(whosUsingOptions, id: \.self) { whosUsingOptions in
-                                    Text(whosUsingOptions).tag(whosUsingOptions)
+                                ForEach(whosUsingOptions, id: \.self) { userOption in
+                                    Text(userOption).tag(userOption)
                                 }
+                            }
+                            .pickerStyle(MenuPickerStyle())
                             .padding(5)
                             .background(Color.white)
                             .cornerRadius(5)
-                            }
-                                .padding(5)
-                                .background(Color.white)
-                                .cornerRadius(5)
                         }
                         .padding(.bottom, 10)
-
-                        HStack {
-                            Text("Card:")
+                        
+                        // Payment Section
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Payment:")
                                 .font(.headline)
-                            Spacer()
-                            TextField("Card", text: $card)
-                                .multilineTextAlignment(.trailing)
-                            Text("Ending in \(cardEnding)")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                            HStack {
+                                Text("Credit Card")
+                                Spacer()
+                                TextField("Card", text: $card)
+                                    .multilineTextAlignment(.trailing)
+                                Text("Ending in (...\(cardEnding))")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.vertical, 5)
                         }
                         .padding(.bottom, 20)
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 10) {
-                        Toggle(isOn: $notifications) {
-                            Text("Turn notifications on or off")
-                        }
-                        .padding(.horizontal, 5)
                         
-                        Toggle(isOn: $coachMessaging) {
-                            Text("Turn coach messaging on or off")
+                        // Toggles
+                        VStack(alignment: .leading, spacing: 10) {
+                            Toggle("Turn notifications on or off", isOn: $notifications)
+                            Toggle("Turn coach messaging on or off", isOn: $coachMessaging)
                         }
-                        .padding(.horizontal, 5)
+                        .padding(.bottom, 20)
+                        
+                        // Save Changes Button
+                        Button(action: {
+                            isSaved = false
+                            rootView.profile.firstName = firstName
+                            rootView.profile.lastName = lastName
+                            rootView.profile.email = email
+                            rootView.profile.password = password
+                            rootView.profile.phoneNumber = phone
+                            rootView.profile.who = user
+                            rootView.profile.notifications = notifications
+                            rootView.profile.coachMessaging = coachMessaging
+                        }) {
+                            Text("Save Changes")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+                        .padding(.bottom, 10)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .padding([.leading, .trailing], 20)
+                    
+                    // logout, Delete Account, terms
+                    VStack(alignment: .center) {
+                        // Logout Button
+                        Button(action: {
+                            showingLogAlert = true
+                        }) {
+                            Text("Log Out")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity)
+                                .padding([.top,.bottom], 10)
+                        }
+                        .alert(isPresented: $showingLogAlert) {
+                            Alert(
+                                title: Text("Are you sure you want to log out of your account?"),
+                                primaryButton: .destructive(Text("Yes, I am sure")) {
+                                    rootView.rootView = .Login
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                        // delete account
+                        Button(action: {
+                            showingDeleteAlert = true
+                        }) {
+                            Text("Delete my Account")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity)
+                                .padding(.bottom)
+                        }
+                        .alert(isPresented: $showingDeleteAlert) {
+                            Alert(
+                                title: Text("Are you sure you want to delete your account?"),
+                                message: Text("This action cannot be undone."),
+                                primaryButton: .destructive(Text("Yes I am sure")) {
+                                    rootView.rootView = .Login
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                        Text("@2024-2024 AthLink Inc. All Rights Reserved")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .padding(.leading)
                     }
                     .padding(.bottom, 20)
-
-                    Button(action: {
-                        // update account information once database set up
-                    }) {
-                        Text("Save Changes")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(10)
-                    }
-
-                    Button(action: {
-                        showingDeleteAlert = true
-                    }) {
-                        Text("Delete my Account")
-                            .font(.headline)
-                            .foregroundColor(.red)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                    }
-                    .alert(isPresented: $showingDeleteAlert) {
-                        Alert(
-                            title: Text("Are you sure you want to delete your account?"),
-                            message: Text("This action cannot be undone."),
-                            primaryButton: .destructive(Text("Yes I am sure")) {
-                                // delete account from database
-                            },
-                            secondaryButton: .cancel()
-                        )
-                    }
                 }
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding([.leading, .trailing], 20)
-                
-                Text("@2024-2024 AthLink Inc. All Rights Reserved")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    //.padding(.left, 20)
             }
         }
-        .padding(.top, 20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .onAppear() {
+            fSearch.validZ = false
+            fSearch.zip = ""
+            fSearch.sportVal = 0
+            fSearch.fSearch = false
+            firstName = rootView.profile.firstName
+            lastName = rootView.profile.lastName
+            email = rootView.profile.email
+            password = rootView.profile.password 
+            phone = rootView.profile.phoneNumber ?? ""
+            user = rootView.profile.who
+            notifications = rootView.profile.notifications
+            coachMessaging = rootView.profile.coachMessaging
+        }
+    }
+}
+
+struct FieldRow: View {
+    let title: String
+    @Binding var text: String
+    var secure: Bool = false
+    var keyboardType: UIKeyboardType = .default
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.headline)
+            Spacer()
+            if secure {
+                SecureField("Enter Text", text: $text)
+                    .keyboardType(keyboardType)
+                    .padding(5)
+                    .background(Color.white)
+                    .cornerRadius(5)
+            } else {
+                TextField("Enter Text", text: $text)
+                    .keyboardType(keyboardType)
+                    .padding(5)
+                    .background(Color.white)
+                    .cornerRadius(5)
+            }
+        }
+        .padding(.bottom, 10)
+    }
+}
+
+struct NavigationButton: View {
+    let icon: String
+    let label: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: -10) {
+                Image(systemName: icon)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 50)
+                    .foregroundColor(.gray)
+                Text(label)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+        }
     }
 }
 
 #Preview {
-    Account()
+    struct Preview: View {
+        @State var isSaved = false
+        var body: some View {
+            Account(isSaved: $isSaved)
+                .environmentObject(RootViewObj())
+                .environmentObject(SearchHelp())
+        }
+    }
+
+    return Preview()
 }

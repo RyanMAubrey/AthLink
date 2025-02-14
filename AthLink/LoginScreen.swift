@@ -8,42 +8,42 @@
 import SwiftUI
 
 struct LoginScreen: View {
+    @EnvironmentObject var rootView: RootViewObj
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var whosUsing: String = "Athlete"
-    @State private var whosUsingOptions = ["Athlete", "Parent"]
+    @State private var whosUsingOptions = ["Athlete", "Parent", "Coach"]
     @State private var postalCode: String = ""
     @State private var userEmail: String = ""
+    @State private var userPhone: String  = ""
     @State private var password: String = ""
-    
+    @State private var showAlert: Bool = false
     
     var body: some View {
-        
-        NavigationView {
-            
-            VStack {
-                
-                Image("athlinklogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                
+        VStack {
+            Image("athlinklogo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100)
+            ScrollView(.vertical){
                 VStack {
                     VStack (alignment: .leading) {
-                        
                         Text("Who's Using?")
                             .font(.headline)
                             .padding(.horizontal, 20)
                             .padding(.bottom, -10)
-                        Picker("Select user", selection: $whosUsing) {
-                            ForEach(whosUsingOptions, id: \.self) { whosUsingOptions in
-                                Text(whosUsingOptions).tag(whosUsingOptions)
+                        ZStack {
+                            Picker("Select user", selection: $whosUsing) {
+                                ForEach(whosUsingOptions, id: \.self) { whosUsingOptions in
+                                    Text(whosUsingOptions).tag(whosUsingOptions)
+                                }
                             }
+                            .pickerStyle(MenuPickerStyle())
                         }
-                        .pickerStyle(MenuPickerStyle())
+                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                        .cornerRadius(8)
                         .padding(.horizontal, 20)
                         .padding(.bottom, -15)
-                        
                         Text("First Name")
                             .font(.headline)
                             .padding(.top, 10)
@@ -73,6 +73,13 @@ struct LoginScreen: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(.horizontal, 20)
                         
+                        Text("Phone (optional)")
+                            .font(.headline)
+                            .padding(.horizontal, 20)
+                        TextField("Enter text", text: $userPhone)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal, 20)
+                        
                         Text("Password")
                             .font(.headline)
                             .padding(.horizontal, 20)
@@ -89,7 +96,34 @@ struct LoginScreen: View {
                     Spacer()
                     
                     Button(action: {
-                        // #TODO# add sign up action
+                        if filledForm() {
+                            if whosUsing == "Coach" {
+                                rootView.profile.who = whosUsing
+                                rootView.profile.firstName = firstName
+                                rootView.profile.lastName = lastName
+                                rootView.profile.postalCode = postalCode
+                                rootView.profile.email = userEmail
+                                rootView.profile.phoneNumber = userPhone
+                                rootView.profile.password = password
+                                rootView.path.append("Coach")
+                            } else {
+                                rootView.profile.who = whosUsing
+                                rootView.profile.firstName = firstName
+                                rootView.profile.lastName = lastName
+                                rootView.profile.postalCode = postalCode
+                                rootView.profile.email = userEmail
+                                rootView.profile.phoneNumber = userPhone
+                                rootView.profile.password = password
+                                rootView.rootView = .Home
+                            }
+                        } else {
+                            showAlert = true
+                            firstName = ""
+                            lastName = ""
+                            postalCode = ""
+                            userEmail = ""
+                            password = ""
+                        }
                     }) {
                         Text("Sign Up")
                             .foregroundColor(.white)
@@ -98,7 +132,9 @@ struct LoginScreen: View {
                             .background(Color.black)
                             .cornerRadius(20)
                             .padding(.horizontal, 100)
-                            //.padding(.bottom, 60)
+                    }
+                    .alert(isPresented:$showAlert) {
+                        Alert(title: Text("Missing Info"), message: Text("Please  fill in every field"))
                     }
                     
                 }
@@ -111,7 +147,9 @@ struct LoginScreen: View {
                 
                 
                 HStack(spacing: 4) {
-                    NavigationLink(destination: TermsOfServiceView()) {
+                    Button(action: {
+                        rootView.path.append("Terms")
+                    }) {
                         Text("Terms of Service")
                             .underline()
                             .foregroundColor(.blue)
@@ -119,35 +157,38 @@ struct LoginScreen: View {
                     
                     Text("and")
                     
-                    NavigationLink(destination: PrivacyPolicyView()) {
+                    Button(action: {
+                        rootView.path.append("Privacy")
+                    }) {
                         Text("Privacy Policy")
                             .underline()
                             .foregroundColor(.blue)
                     }
                 }
-                .font(.system(size: 10))
-                .padding(.horizontal, 40)
-                .padding(.bottom, 20)
-            
-                VStack {
-                    NavigationLink(destination: ExistingLoginView()) {
-                        Text("Log In")
-                        //.padding(.top,)
-                            .foregroundColor(.black)
-                            .padding(.top, 20)
-                    }
-                    //.padding(.top, 50)
-                }
+                
             }
-            
-            
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
-            
+            .font(.system(size: 10))
+            .padding(.horizontal, 40)
+            .padding(.bottom, 20)
         }
+        .onAppear(){
+            rootView.profile.who = ""
+            rootView.profile.firstName = ""
+            rootView.profile.lastName = ""
+            rootView.profile.postalCode = nil
+            rootView.profile.email = ""
+            rootView.profile.phoneNumber = nil
+            rootView.profile.password = ""
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+    }
+    func filledForm() -> Bool {
+        return self.firstName != "" && self.lastName != "" && self.postalCode != "" && self.userEmail != "" && self.password != ""
     }
 }
 
 #Preview {
     LoginScreen()
+        .environmentObject(RootViewObj())
 }
