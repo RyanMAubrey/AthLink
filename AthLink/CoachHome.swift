@@ -143,9 +143,9 @@ struct CoachHome: View {
             .tabItem { Label("Home", systemImage: "house") }
             .tag(0)
             // Jobs
-            EmptyView()
+            Jobs()
                 //.environmentObject(rootView)
-                .tabItem {Label("Jobs", systemImage: "breifcase.fill") }
+                .tabItem {Label("Jobs", systemImage: "briefcase") }
                 .tag(1)
             // Messages
             Messages(isCoach: $isCoach)

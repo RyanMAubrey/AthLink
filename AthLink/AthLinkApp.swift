@@ -9,8 +9,15 @@ import SwiftUI
 import SwiftData
 import CoreLocation
 
-enum Sports: Hashable {
+enum Sports: Hashable, CustomStringConvertible {
     case Football
+    
+    var description: String {
+        switch self {
+        case .Football:
+            return "Football"
+        }
+    }
 }
 
 enum Positions: Hashable, CustomStringConvertible {
@@ -121,13 +128,14 @@ func createTestProfiles() -> RootViewObj {
     coach.acheivments.append("Rocky Mountain College NAIA D1:2010-2012 \nFull Ride Scholarship \nAll Conference Team MVP")
     coach.experience.append("Personal Soccer Trainer. Men & Women. Ages 10-55. 15 Years Experience")
     coach.quote = "Hello I am blah blah blah..."
-    //coach reviews
+    
+    // Coach reviews
     let review1 = Review(
-            reviewer: testProfile1,
-            date: Date(),
-            star: 5.0,
-            quote: "Excellent coaching! Really enjoyed the session."
-        )
+        reviewer: testProfile1,
+        date: Date(),
+        star: 5.0,
+        quote: "Excellent coaching! Really enjoyed the session."
+    )
     let review2 = Review(
         reviewer: testProfile2,
         date: Date(),
@@ -136,21 +144,37 @@ func createTestProfiles() -> RootViewObj {
     )
     coach.reviews.append(review1)
     coach.reviews.append(review2)
+    
+    // Add a session to csubmitedSessions (for historical data)
     coach.csubmitedSessions.append(
-        Session(other: testProfile2, sport: "Basketball", type: "Individual", cost: "$110", date: Date(), finished: 2 * 3660)
+        Session(other: testProfile2, sport: .Football, type: "Individual", cost: 110, date: Date(), finished: 2 * 3660, rate:20)
     )
     
-    testProfile1.aupcomingSessions.append(
-        Session(other: coach, sport: "Basketball", type: "Individual", cost: "$110", date: Date(), finished: 2 * 3600)
-    )
+    // Add a session to upcomingSessions (for requests)
+    let requestSession = Session(other: coach, sport: .Football, type: "Individual", cost: 110, date: Date(), finished: 2 * 3600, rate:20, description: "Hello there")
+    testProfile1.aupcomingSessions.append(requestSession)
+    
+    // Also add a job request (for Tab 0 in Jobs)
+    testProfile1.jobRequests.append(requestSession)
+    
+    // Add a posting (for Tab 1) – if you prefer to store it in jobPostings,
+    // you might decide to include it in your test data here.
+    // For example, you could add it to a custom property on the profile or just let the Jobs view’s state handle it.
+    
+    // For current athletes (Tab 2), add an entry to the dictionary.
+    // Here we map the athlete (e.g. coach) to a tuple, for example (sessionCount, total)
+    testProfile1.currentAthletes[coach] = (3, 330)
+    
     testProfile1.myCoaches.append(coach)
-    testProfile1.aupcomingSessions.append(Session(other: coach, sport: "Basketball", type: "Individual", cost: "$110", date: Date(), finished: 2 * 3660)
+    testProfile1.aupcomingSessions.append(
+        Session(other: coach, sport: .Football, type: "Individual", cost: 110, date: Date(), finished: 2 * 3660, rate:20)
     )
     testProfile1.messages[coach.id] = []
     let testProfile3 = ProfileID()
-        testProfile2.firstName = "Jane"
-        testProfile2.lastName = "Smith"
-        testProfile2.email = "jane.smith@example.com"
+    // (Re)using testProfile2’s values for Jane in this example:
+    testProfile2.firstName = "Jane"
+    testProfile2.lastName = "Smith"
+    testProfile2.email = "jane.smith@example.com"
     testProfile1.interestedAthletes.append(testProfile3)
     testProfile1.messages[testProfile3.id] = []
 
@@ -158,15 +182,23 @@ func createTestProfiles() -> RootViewObj {
     rootView.profile = testProfile1
     return rootView
 }
-
 struct Session: Identifiable, Equatable {
     let id: UUID = UUID()
     let other: ProfileID
-    var sport: String
+    var sport: Sports
     var type: String
-    var cost: String
+    var cost: Double
     var date: Date
     var finished: TimeInterval
+    //implement with algorithm
+    var rate: Double
+    var description: String?
+    var sf: String {
+        switch sport {
+        case .Football:
+            return "football"
+        }
+    }
 
     static func == (lhs: Session, rhs: Session) -> Bool {
         return lhs.id == rhs.id
@@ -197,7 +229,7 @@ struct Review: Identifiable, Equatable {
     }
 }
 
-class ProfileID: Identifiable, ObservableObject, Equatable {
+class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
     // ID
     let id: UUID = UUID()
     @Published var coachAccount: Bool = false
@@ -226,13 +258,16 @@ class ProfileID: Identifiable, ObservableObject, Equatable {
     
     // Optional
     @Published var phoneNumber: String? = nil
+    @Published var hasCardOnFile: Bool = false
     
     // sessions
+    @Published var jobRequests: [Session] = []
     @Published var aupcomingSessions: [Session] = []
     @Published var apastSessions: [Session] = []
     
     // Coach
     // sessions
+    @Published var currentAthletes: [ProfileID:(Int,Int)] = [:]
     @Published var cupcomingSessions: [Session] = []
     @Published var cunsubmittedSessions: [Session] = []
     @Published var csubmitedSessions: [Session] = []
@@ -281,6 +316,11 @@ class ProfileID: Identifiable, ObservableObject, Equatable {
     
     static func == (lhs: ProfileID, rhs: ProfileID) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 

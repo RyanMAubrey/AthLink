@@ -80,9 +80,9 @@ struct SessionListView: View {
                     VStack(alignment: .leading) {
                         Text(session.other.fullName)
                             .font(.headline)
-                        Text(session.sport)
+                        Text(session.sport.description)
                             .font(.subheadline)
-                        Text(session.type + ": " + session.cost)
+                        Text(session.type + ": " + "$\(session.cost)")
                         Text(session.date.formatted())
                     }
                     .padding()
@@ -106,7 +106,7 @@ struct SessionListView: View {
 
     let rootView = RootViewObj()
     rootView.profile.aupcomingSessions.append(
-        Session(other: coach, sport: "Basketball", type: "Individual", cost: "$110", date: Date(), finished: 2 * 3600)
+        Session(other: coach, sport: .Football, type: "Individual", cost: 110, date: Date(), finished: 2 * 3600, rate: 20)
     )
     
     return Sessions()
