@@ -10,7 +10,6 @@ import SwiftUI
 struct Chat: View {
     @EnvironmentObject var rootView: RootViewObj
     @Environment(\.dismiss) var dismiss
-    @Binding var prevMess: String
     // pushses session request of  start up if true
     @Binding var pushReq: Bool
     // edit button helpers
@@ -56,7 +55,7 @@ struct Chat: View {
                 if let session = rootView.selectedSession {
                     Button(action: {
                         if session.coachAccount {
-                            prevMess = prevMess.isEmpty ? "Chat" : "Remove"
+                            rootView.lastPage = rootView.lastPage.isEmpty ? "Chat" : "Remove"
                         }
                     }) {
                         VStack(spacing: 2) {
@@ -293,8 +292,8 @@ struct Chat: View {
         .id(reloadToggle)
         .navigationBarHidden(true)
         .onAppear() {
-            if prevMess == "Chat" {
-                prevMess = ""
+            if rootView.lastPage == "Chat" {
+                rootView.lastPage = ""
             }
             // sets shows message 0 to off and puts into chat
             if pushReq {
@@ -326,6 +325,6 @@ struct Chat: View {
 }
 
 #Preview {
-    Chat(prevMess: .constant("CoachAccount1"), pushReq: .constant(false), editMess: .constant(nil))
+    Chat(pushReq: .constant(false), editMess: .constant(nil))
         .environmentObject(RootViewObj())
 }

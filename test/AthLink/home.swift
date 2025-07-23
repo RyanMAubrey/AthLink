@@ -242,7 +242,8 @@ struct home: View {
                 .tabItem { Label("Sessions", systemImage: "doc.text") }
                 .tag(3)
             // Account
-            Account(isUnSaved: $isUnSaved)     .environmentObject(rootView)
+            Account(isUnSaved: $isUnSaved)
+                .environmentObject(rootView)
                 .environmentObject(fSearch)
                 .tabItem { Label("Account", systemImage: "person") }
                 .tag(4)

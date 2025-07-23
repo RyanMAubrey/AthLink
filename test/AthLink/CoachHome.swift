@@ -10,6 +10,7 @@ import SwiftUI
 struct CoachHome: View {
     @EnvironmentObject var rootView: RootViewObj
     @State private var selectedTag = 0
+    @State var isUnSaved: Bool = false
     
     var body: some View {
         TabView(selection: $selectedTag) {
@@ -143,7 +144,7 @@ struct CoachHome: View {
             .tag(0)
             // Jobs
             Jobs()
-                //.environmentObject(rootView)
+                .environmentObject(rootView)
                 .tabItem {Label("Jobs", systemImage: "briefcase") }
                 .tag(1)
             // Messages
@@ -152,13 +153,13 @@ struct CoachHome: View {
                 .environmentObject(SearchHelp())
                 .tabItem {Label("Messages", systemImage: "bell") }
                 .tag(2)
-            // Sessions
-            EmptyView()
-                //.environmentObject(rootView)
-                .tabItem {Label("Sessions", systemImage: "doc.text") }
+            //Calander
+            CoachCalendar()
+                .environmentObject(rootView)
+                .tabItem {Label("Calendar", systemImage: "star")}
                 .tag(3)
             // Account
-            AccountView()
+            AccountView(isUnSaved: $isUnSaved)
                 .environmentObject(rootView)
                 .tabItem {Label("Account", systemImage: "person") }
                 .tag(4)

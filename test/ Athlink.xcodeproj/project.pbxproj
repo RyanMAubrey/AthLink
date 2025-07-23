@@ -10,10 +10,13 @@
 		9413CC532D16439400A8AFD6 /* CouchAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413CC522D16439400A8AFD6 /* CouchAccount.swift */; };
 		9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9462DAB82D39F9BB0078D86F /* Chat.swift */; };
 		9469D76F2D18E9C600DFBB9D /* CoachLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */; };
+		947E80662E1B5E42002DA5BC /* SessionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E80652E1B5E41002DA5BC /* SessionInfo.swift */; };
 		948490842DA5D9C700D4413A /* CoachRequestSess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948490832DA5D9BB00D4413A /* CoachRequestSess.swift */; };
 		9491E31B2D5EFEEC003522A1 /* Jobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491E31A2D5EFEEC003522A1 /* Jobs.swift */; };
 		94A24C402D5D4F2A00D1A467 /* RequestSess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */; };
 		94AA6CA62D1E2621009E5FEC /* CoachHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA6CA52D1E2621009E5FEC /* CoachHome.swift */; };
+		94C0D4192E1F2AEF000C5D98 /* CoachSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */; };
+		94D51E792E205E3E00BE8BBD /* CoachCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */; };
 		94FC7FB62C29360B006EF266 /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB52C29360B006EF266 /* home.swift */; };
 		94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB72C2A41AC006EF266 /* Search.swift */; };
 		94FC7FBA2C2A73BE006EF266 /* FSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB92C2A73BE006EF266 /* FSearch.swift */; };
@@ -59,11 +62,14 @@
 		9413CC522D16439400A8AFD6 /* CouchAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouchAccount.swift; sourceTree = "<group>"; };
 		9462DAB82D39F9BB0078D86F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachLogin.swift; sourceTree = "<group>"; };
+		947E80652E1B5E41002DA5BC /* SessionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfo.swift; sourceTree = "<group>"; };
 		948490832DA5D9BB00D4413A /* CoachRequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachRequestSess.swift; sourceTree = "<group>"; };
 		9491E31A2D5EFEEC003522A1 /* Jobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jobs.swift; sourceTree = "<group>"; };
 		94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSess.swift; sourceTree = "<group>"; };
 		94A2B2A22D3F629D008669B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		94AA6CA52D1E2621009E5FEC /* CoachHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachHome.swift; sourceTree = "<group>"; };
+		94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachSession.swift; sourceTree = "<group>"; };
+		94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachCalendar.swift; sourceTree = "<group>"; };
 		94FC7FB52C29360B006EF266 /* home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
 		94FC7FB72C2A41AC006EF266 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		94FC7FB92C2A73BE006EF266 /* FSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSearch.swift; sourceTree = "<group>"; };
@@ -176,6 +182,9 @@
 				94AA6CA52D1E2621009E5FEC /* CoachHome.swift */,
 				9462DAB82D39F9BB0078D86F /* Chat.swift */,
 				94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */,
+				947E80652E1B5E41002DA5BC /* SessionInfo.swift */,
+				94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */,
+				94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */,
 			);
 			path = AthLink;
 			sourceTree = "<group>";
@@ -350,6 +359,8 @@
 				9491E31B2D5EFEEC003522A1 /* Jobs.swift in Sources */,
 				FF063DB82C12DFA300EF79FB /* Item.swift in Sources */,
 				9469D76F2D18E9C600DFBB9D /* CoachLogin.swift in Sources */,
+				94D51E792E205E3E00BE8BBD /* CoachCalendar.swift in Sources */,
+				94C0D4192E1F2AEF000C5D98 /* CoachSession.swift in Sources */,
 				FF29F85B2C3B03570015F643 /* Account.swift in Sources */,
 				FF99E4DB2C97ADBD00B97AF7 /* Satisfaction.swift in Sources */,
 				FF99E4DF2C97AE3F00B97AF7 /* Receive.swift in Sources */,
@@ -357,6 +368,7 @@
 				FF29F8572C3B03090015F643 /* Messages.swift in Sources */,
 				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
 				94FC7FB62C29360B006EF266 /* home.swift in Sources */,
+				947E80662E1B5E42002DA5BC /* SessionInfo.swift in Sources */,
 				94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */,
 				9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */,
 				FFAFCE2D2C9F289200FF9F91 /* AccountView.swift in Sources */,
@@ -528,7 +540,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
-				DEVELOPMENT_TEAM = XNWGN7Z3TC;
+				DEVELOPMENT_TEAM = HRCK3B432R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AthLink/Info.plist;
@@ -562,7 +574,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
-				DEVELOPMENT_TEAM = XNWGN7Z3TC;
+				DEVELOPMENT_TEAM = HRCK3B432R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AthLink/Info.plist;

@@ -42,10 +42,10 @@ struct Sessions: View {
             .padding()
             
             if selectedTab == "Upcoming" {
-                SessionListView(sessions: rootView.profile.aupcomingSessions)
+                SessionListView(sessions: rootView.profile.aupcomingSessions, type: true)
                     .environmentObject(rootView)
             } else {
-                SessionListView(sessions: rootView.profile.apastSessions)
+                SessionListView(sessions: rootView.profile.apastSessions, type: false)
                     .environmentObject(rootView)
             }
         }
@@ -63,14 +63,20 @@ struct Sessions: View {
 struct SessionListView: View {
     @EnvironmentObject var rootView: RootViewObj
     let sessions: [Session]
-    @State var showSheet: Bool = false
+    let type: Bool
     
     var body: some View {
         List(sessions) { session in
             Button(action: {
                 rootView.selectedSession = session.other
+                // set info for what screen to show
+                if type {
+                    rootView.sessType = true
+                } else {
+                    rootView.sessType = false
+                }
                 // shows modal
-                showSheet = true
+                rootView.path.append("SessionInfo")
             }) {
                 HStack {
                     Image(session.other.profilePic)
@@ -92,11 +98,6 @@ struct SessionListView: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
-        .sheet(isPresented: $showSheet) {
-            Form {
-                
-            }
-        }
     }
 }
 
@@ -112,7 +113,7 @@ struct SessionListView: View {
 
     let rootView = RootViewObj()
     rootView.profile.aupcomingSessions.append(
-        Session(req_date: Date(), other: coach, sport: .Football, type: .Individual, cost: 110, date: Date(), finished: Date(), rate: 20, description: "Hello")
+        Session(req_date: Date(), other: coach, sport: .Football, type: .Individual, typeRate: 110, date: Date(), finished: Date(), rate: 20, description: "Hello")
     )
     
     return Sessions()

@@ -15,8 +15,7 @@ struct CouchAccount: View {
     
     @EnvironmentObject var rootView: RootViewObj
     @State private var sessionReq: Bool = false
-    @Binding var prevMess: String
-    
+
     var body: some View {
         //top bar
         if let selectedSession = rootView.selectedSession {
@@ -104,19 +103,21 @@ struct CouchAccount: View {
                             .bold()
                     }
                     .buttonStyle(.borderedProminent)
+                    .disabled(rootView.lastPage=="Account")
                     .padding(.bottom, 5)
                     //Message
                     Button(action: {
-                        if prevMess == "Chat" {
-                            prevMess = "Remove"
+                        if rootView.lastPage == "Chat" {
+                            rootView.lastPage = "Remove"
                         } else {
-                            prevMess = "Sess"
+                            rootView.lastPage = "Sess"
                         }
                     }) {
                         Text("Message Coach")
                             .bold()
                     }
                     .buttonStyle(.bordered)
+                    .disabled(rootView.lastPage=="Account")
                 }
                 .padding()
                 //info
@@ -154,12 +155,14 @@ struct CouchAccount: View {
                         Spacer()
                         Text("\(selectedSession.responseTime)hr")
                     }
-                    HStack {
-                        Image(systemName: "calendar.badge.exclamationmark")
-                            .padding(.bottom, 5)
-                        Text("Cancellation Notice")
-                        Spacer()
-                        Text("\(selectedSession.cancellationNotice)hr")
+                    if let cancel = selectedSession.cancellationNotice {
+                        HStack {
+                            Image(systemName: "calendar.badge.exclamationmark")
+                                .padding(.bottom, 5)
+                            Text("Cancellation Notice")
+                            Spacer()
+                            Text("\(cancel)hr")
+                        }
                     }
                 }
                 .padding([.leading,.trailing], 15)
@@ -242,21 +245,19 @@ struct CouchAccount: View {
                         Text("No reveiws yet")
                     }
                 }
-                //line
-                Rectangle().frame(maxWidth: .infinity)
-                    .frame(height: 1)
-                    .padding(8)
-                //Training Location
-                Text("Training Locations")
-                    .bold()
                 if !selectedSession.trainingLocations.isEmpty {
+                    //line
+                    Rectangle().frame(maxWidth: .infinity)
+                        .frame(height: 1)
+                        .padding(8)
+                    //Training Location
+                    Text("Training Locations")
+                        .bold()
                     VStack(alignment: .leading) {
                         ForEach(selectedSession.trainingLocations, id:\.self ) { loc in
                             Text(loc.name)
                         }
                     }
-                } else {
-                    Text("No Locations Yet")
                 }
                 //Sports/Position
                 if !selectedSession.sport.isEmpty {
@@ -285,10 +286,11 @@ struct CouchAccount: View {
                 Text("Avaliability")
                     .bold()
                 AvailabilityGrid(selectedA: $selectedAvailability)
+                    .disabled(true)
             }
             .onAppear() {
-                if prevMess == "Sess" {
-                    prevMess = ""
+                if rootView.lastPage == "Sess" {
+                    rootView.lastPage = ""
                 }
             }
         }

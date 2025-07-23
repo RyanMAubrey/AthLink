@@ -72,10 +72,11 @@ struct Account: View {
         VStack {
             ScrollView(.vertical) {
                 VStack(alignment: .center) {
+                    // Profile Header
                     Text("Account")
                         .font(.largeTitle)
                         .padding()
-                    
+                    // Profile Picture
                     VStack(alignment: .leading) {
                         // Profile Picture
                         HStack {
@@ -118,20 +119,33 @@ struct Account: View {
                         }
                         .padding(.bottom, 10)
                         
-                        // Payment Section
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Payment:")
-                                .font(.headline)
-                            HStack {
-                                Text("Credit Card")
-                                Spacer()
-                                TextField("Card", text: $card)
-                                    .multilineTextAlignment(.trailing)
-                                Text("Ending in (...\(cardEnding))")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+                        // Payment sectiton
+                        HStack {
+                            VStack (alignment: .leading){
+                                Text("Payment:")
+                                    .font(.headline)
+                                HStack (alignment: .center){
+                                    Text("Direct Deposit")
+                                        .frame(width: 70, height: 50)
+                                        .lineLimit(2)
+                                    Image(systemName: "building.columns")
+                                        .resizable()
+                                        .frame(width:35, height: 35)
+                                        .scaledToFit()
+                                        .padding(.trailing, 5)
+                                    Button(action: {
+                                        //TODO add button functionality
+                                    }) {
+                                        Image(systemName: "plus")
+                                    }
+                                    Spacer()
+                                    TextField("Card", text: $card)
+                                        .multilineTextAlignment(.trailing)
+                                    Text("Ending in (...\(cardEnding))")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
                             }
-                            .padding(.vertical, 5)
                         }
                         .padding(.bottom, 20)
                         
@@ -235,7 +249,7 @@ struct Account: View {
             notifications = rootView.profile.notifications
             coachMessaging = rootView.profile.coachMessaging
             
-            whosUsingOptions =  rootView.profile.coachAccount ? ["Athlete", "Parent", "Coach"] : ["Athlete", "Parent"]
+            whosUsingOptions = ["Athlete", "Parent"] 
             isInitialLoad = false
         }
     }

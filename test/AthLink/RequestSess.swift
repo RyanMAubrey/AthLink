@@ -38,7 +38,7 @@ struct RequestSess: View {
         other: ProfileID(),
         sport: .Football,
         type: .Individual,
-        cost: 0.00,
+        typeRate: 0.00,
         date: Date(),
         finished: Date(),
         rate: 0.0,
@@ -197,20 +197,23 @@ struct RequestSess: View {
                         Button(action: {
                             // checks if the last page was the chat and sets push request to true
                             clickCheck = true
+                            // date stuff
                             madeSess.req_date = Date()
+                            madeSess.date = selectedStart
+                            madeSess.finished = selectedEnd
+                            // Append to coach JobRequests
+                            session.jobRequests.append(madeSess)
+                            // Selected type
                             madeSess.type = selectedType
+                            // Calulates cost
                             if selectedType == .Individual {
-                                madeSess.cost = session.individualCost!
+                                madeSess.typeRate = session.individualCost!
                             }
                             if selectedType == .Group {
-                                madeSess.cost = session.groupCost!
+                                madeSess.typeRate = session.groupCost!
                             }
                             madeSess.sport = selectedSport
                             madeSess.location = selectedLocation
-                            // date stuff
-                            madeSess.date = selectedStart
-                            madeSess.finished = selectedEnd
-                            session.jobRequests.append(madeSess)
                             // if theres an edit message and replaces the old session
                             if editMess != nil {
                                 editMess!.0.sess! = madeSess
