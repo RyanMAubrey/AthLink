@@ -568,12 +568,12 @@ struct AthLinkApp: App {
         }
     }()
     
-    @StateObject var rootViewObj: RootViewObj =
-    {
-      let rv = createTestProfiles()
-      rv.rootView = .Coach    // ← start in Coach
-      return rv
-    }()
+    @StateObject var rootViewObj: RootViewObj = createTestProfiles()
+//    {
+//      let rv = createTestProfiles()
+//      rv.rootView = .Coach    // ← start in Coach
+//      return rv
+//    }()
     @StateObject var fSearch = SearchHelp()
     // check for adding session request to messages
     @State var pushReq = false

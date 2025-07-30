@@ -153,78 +153,83 @@ struct CoachCalendar: View {
             return weekDays
         }
         
-//        // Adds the sections to the calendar as an overlay
-//        func CreatesSession(range: [Date]) -> some View {
-//            // Claculates the session in the week
-//            let curentSession: [Session] = Array(rootView.profile.cupcomingSessions.filter({
-//                    let first: Date = range.first ?? Date()
-//                    let last: Date = Calendar.current.date(byAdding: Calendar.Component.day, value: 7, to: first)!
-//                    return $0.date >= first && $0.date <= last
-//                })
-//            )
-//            return GeometryReader { geometry in
-//            }
-//        }
-        
         // creates calander for specific range
         func CreateCalendar(range: [Date]) -> some View {
             let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            let timeSlots = (6...22).map { "\($0 % 12 == 0 ? 12 : $0 % 12) \($0 < 12 || $0 == 24 ? "AM" : "PM")" }
-            let columns: [GridItem] = [GridItem(.fixed(60))] + Array(repeating: GridItem(.flexible()), count: 7)
+            let timeSlots = (6...22).map {
+                "\($0 % 12 == 0 ? 12 : $0 % 12) \($0 < 12 ? "AM" : "PM")"
+            }
+            let columns: [GridItem] = [GridItem(.fixed(60), spacing: 0)] + Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
+            // Get the calendar dimensions
+            let hourHeight: CGFloat = 60
+            let headerHeight: CGFloat = 80
+            // Claculates the session in the week
+            let currentSession: [Session] = rootView.profile.cupcomingSessions.filter({
+                    let first: Date = range.first ?? Date()
+                    let last: Date = Calendar.current.date(byAdding: .day, value: 7, to: first)!
+                    return $0.date >= first && $0.date <= last
+                })
             
-            return ScrollView([.horizontal, .vertical], showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 0) {
-                    // Top Column
-                    // Empty Cell Corner
-                    Color.clear
-                        .frame(height: 80)
-                    // Top Row
-                    ForEach(0..<7, id: \.self) { index in
-                        let dayDate = range[index]
-                        let isToday = Calendar.current.isDateInToday(dayDate)
-                        
-                        VStack(spacing: 8) {
-                            Text(daysOfWeek[index].uppercased())
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.secondary)
+            return GeometryReader { geometry in
+                ScrollView([.horizontal, .vertical], showsIndicators: false) {
+                    ZStack(alignment: .topLeading) {
+                        LazyVGrid(columns: columns, spacing: 0) {
+                            // Top Column
+                            // Empty Cell Corner
+                            Color.clear
+                                .frame(height: headerHeight)
+                            // Top Row
+                            ForEach(0..<7, id: \.self) { index in
+                                let dayDate = range[index]
+                                let isToday = Calendar.current.isDateInToday(dayDate)
+                                
+                                VStack(spacing: 4) {
+                                    Text(daysOfWeek[index].uppercased())
+                                        .font(.caption2).bold()
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text("\(Calendar.current.component(.day, from: dayDate))")
+                                        .font(.headline)
+                                        .foregroundColor(isToday ? .white : .primary)
+                                        .frame(height: 40)
+                                        .background(
+                                            ZStack {
+                                                if isToday {
+                                                    Circle().fill(Color.blue)
+                                                        .shadow(color: .blue.opacity(0.4), radius: 5, y: 3)
+                                                }
+                                            }
+                                        )
+                                }
+                                .frame(maxWidth: .infinity, minHeight: headerHeight)
+                                .frame(maxWidth: .infinity)
+                                .background(Color(.systemGray6))
+                            }
                             
-                            Text("\(Calendar.current.component(.day, from: dayDate))")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(isToday ? .white : .primary)
-                                .frame(width: 40, height: 40)
-                                .background(
-                                    ZStack {
-                                        if isToday {
-                                            Circle().fill(Color.blue)
-                                                .shadow(color: .blue.opacity(0.4), radius: 5, y: 3)
-                                        }
-                                    }
-                                )
+                            // Time Slots
+                            ForEach(timeSlots, id: \.self) { time in
+                                // Time label
+                                Text(time)
+                                    .font(.caption2)
+                                    .frame(maxWidth: .infinity, maxHeight: hourHeight, alignment: .topTrailing)
+                                    .padding(.trailing, 4)
+                                    .background(Color(.systemGray6))
+                                // Empty cells
+                                ForEach(0..<7, id: \.self) { dayIndex in
+                                    Rectangle()
+                                        .fill(Color.green)
+                                        .frame(maxWidth: .infinity, maxHeight: hourHeight)
+                                }
+                            }
                         }
-                        .frame(minHeight: 80)
-                        .frame(maxWidth: .infinity)
-                        .background(Color(.systemGray6))
-                    }
-
-                    // Time Slots
-                    ForEach(timeSlots, id: \.self) { time in
-                        // Time label
-                        Text(time)
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                            .padding(.top, 5)
-                            .padding(.trailing, 8)
-                            .background(Color(.systemGray6))
-                        // Empty cells
-                        ForEach(0..<7, id: \.self) { dayIndex in
-                            Rectangle()
-                                .fill(Color(.systemBackground))
-                                .frame(height: 60)
+                        //.background(Color(.systemGray4))
+                        // Adds in session overlay
+                        ForEach(currentSession, id: \.id) { session in
+                            
                         }
                     }
+                    .frame(width: geometry.size.width)
                 }
-                .background(Color(.systemGray4))
             }
         }
         
@@ -262,12 +267,6 @@ struct CoachCalendar: View {
                 .padding()
                 CreateCalendar(range: WeekGet(day: currentDate))
             }
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(Color(.systemGray4), lineWidth: 1)
-            )
-            .padding(.horizontal)
         }
     }
 }
