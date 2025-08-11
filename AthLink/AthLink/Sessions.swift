@@ -8,30 +8,13 @@
 
 import SwiftUI
 
-struct Session: Identifiable {
-    let id = UUID()
-    let name: String
-    let sport: String
-    let type: String
-    let cost: String
-    let date: String
-    var profilePic = "athlinklogo"
-}
-
 struct Sessions: View {
-    @State private var selectedTab = "Upcoming"
-
-    let upcomingSessions: [Session] = [
-        Session(name: "Larry Smith", sport: "Basketball", type: "Individual", cost: "$110", date: "May 30, 2024 - 10:00 AM")
-    ]
-
-    let previousSessions: [Session] = [
-        Session(name: "Larry Smith", sport: "Basketball", type: "Individual", cost: "$110", date: "May 26, 2024 - 10:00 AM"),
-        Session(name: "Gary Jones", sport: "Soccer", type: "Group", cost: "$70", date: "May 20, 2024 - 11:30 AM")
-    ]
-
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
+    @State private var selectedTab : String = "Upcoming"
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("Sessions")
                 .font(.largeTitle)
                 .padding()
@@ -45,7 +28,7 @@ struct Sessions: View {
                         .background(selectedTab == "Upcoming" ? Color.blue : Color.clear)
                         .cornerRadius(8)
                 }
-
+                
                 Button(action: {
                     selectedTab = "Previous"
                 }) {
@@ -57,45 +40,83 @@ struct Sessions: View {
                 }
             }
             .padding()
-
+            
             if selectedTab == "Upcoming" {
-                SessionListView(sessions: upcomingSessions)
+                SessionListView(sessions: rootView.profile.aupcomingSessions, type: true)
+                    .environmentObject(rootView)
             } else {
-                SessionListView(sessions: previousSessions)
+                SessionListView(sessions: rootView.profile.apastSessions, type: false)
+                    .environmentObject(rootView)
             }
-
-            Spacer()
         }
-        .navigationBarTitle("Sessions")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .onAppear() {
+            fSearch.validZ = false
+            fSearch.zip = ""
+            fSearch.sportVal = 0
+            fSearch.fSearch = false
+        }
     }
 }
 
 struct SessionListView: View {
+    @EnvironmentObject var rootView: RootViewObj
     let sessions: [Session]
-
+    let type: Bool
+    
     var body: some View {
         List(sessions) { session in
-            HStack {
-                Image(session.profilePic)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                    .shadow(radius: 3)
-                VStack(alignment: .leading) {
-                    Text(session.name)
-                        .font(.headline)
-                    Text(session.sport)
-                        .font(.subheadline)
-                    Text(session.type + ": " + session.cost)
-                    Text(session.date)
+            Button(action: {
+                rootView.selectedSession = session.other
+                // set info for what screen to show
+                if type {
+                    rootView.sessType = true
+                } else {
+                    rootView.sessType = false
                 }
-                .padding()
+                // shows modal
+                rootView.path.append("SessionInfo")
+            }) {
+                HStack {
+                    Image(session.other.imageURL)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                        .shadow(radius: 3)
+                    VStack(alignment: .leading) {
+                        Text(session.other.fullName)
+                            .font(.headline)
+                        Text(session.sport.description)
+                            .font(.subheadline)
+                        Text(session.type.description + ": " + "$\(session.cost)")
+                        Text(session.date.formatted())
+                    }
+                    .padding()
+                }
             }
+            .buttonStyle(PlainButtonStyle())
         }
     }
 }
 
-#Preview {
-    Sessions()
-}
+//#Preview {
+//    let coach = ProfileID()
+//    coach.coachAccount = true
+//    coach.firstName = "Larry"
+//    coach.lastName = "Smith"
+//    coach.email = "larry.smith@example.com"
+//    coach.sport = [Sports.Football]
+//    coach.individualCost = 100
+//    coach.groupCost = 70
+//
+//    let rootView = RootViewObj()
+//    rootView.profile.aupcomingSessions.append(
+//        Session(req_date: Date(), other: coach, sport: .Football, type: .Individual, typeRate: 110, date: Date(), finished: Date(), rate: 20, description: "Hello")
+//    )
+//    
+//    return Sessions()
+//        .environmentObject(rootView)
+//        .environmentObject(SearchHelp())
+//}

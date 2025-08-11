@@ -3,68 +3,112 @@
 //  AthLink
 //
 //  Created by Kellen O'Rourke on 7/7/24.
-// #TODO#: click on name to go to profile
+//
 
 import SwiftUI
 
-struct Coach: Identifiable {
-    let id = UUID()
-    let name: String
-    let message: String
-    let date: String
-    let imageName: String
-}
 
 struct Messages: View {
+    @EnvironmentObject var rootView: RootViewObj
+    @EnvironmentObject var fSearch: SearchHelp
     @State private var searchText = ""
-
-    let interestedCoaches: [Coach] = [
-        Coach(name: "Larry Smith", message: "Hi I'm...", date: "May 26, 2024", imageName: "athlinklogo"),
-        Coach(name: "Jenny Lang", message: "hello", date: "May 26, 2024", imageName: "athlinklogo")
-    ]
-
-    let myCoaches: [Coach] = [
-        Coach(name: "Larry Smith", message: "How is it going", date: "May 26, 2024", imageName: "athlinklogo")
-    ]
+    
+    private var interestedFiltered: [(String, Message, ProfileID)] {
+        if rootView.rootView == .Coach {
+               return rootView.profile.potentialAthletes.compactMap { athlete in
+                   if let mess = rootView.profile.messages[athlete.id] {
+                       return (athlete.fullName, mess.last!, athlete)
+                   }
+                   return nil
+               }
+           } else {
+               return rootView.profile.interestedCoaches.compactMap { coach in
+                   if let mess = rootView.profile.messages[coach.id] {
+                       return (coach.fullName, mess.last!, coach)
+                   }
+                   return nil
+               }
+           }
+        }
+    
+    private var myFiltered: [(String, Message, ProfileID)] {
+        if rootView.rootView == .Coach {
+            rootView.profile.interestedAthletes.compactMap { athlete in
+                if let mess = rootView.profile.messages[athlete.id] {
+                    if !mess.isEmpty {
+                        return (athlete.fullName, mess.last!, athlete)
+                    } else {
+                        let placeholder = Message(receiver:athlete,date: Date(),mess:"")
+                        return (athlete.fullName, placeholder, athlete)
+                    }
+                }
+                return nil
+            }
+        } else {
+            rootView.profile.myCoaches.compactMap { coach in
+                if let mess = rootView.profile.messages[coach.id] {
+                    if !mess.isEmpty {
+                        return (coach.fullName, mess.last!, coach)
+                    } else {
+                        let placeholder = Message(receiver:coach,date: Date(),mess:"")
+                        return (coach.fullName, placeholder, coach)
+                    }
+                }
+                return nil
+            }
+        }
+    }
 
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Messages")
-                    .font(.largeTitle)
-                    .padding()
-
-                SearchBar(text: $searchText)
-
-                VStack(alignment: .leading) {
-                    Text("Interested Coaches:")
-                        .font(.headline)
-                        .padding(.leading)
-
-                    ScrollView(.horizontal, showsIndicators: true) {
-                        HStack {
-                            ForEach(interestedCoaches.filter { searchText.isEmpty || $0.name.contains(searchText) }) { coach in
-                                CoachView(coach: coach)
-                            }
+        VStack(alignment: .leading) {
+            Text("Messages")
+                .font(.largeTitle)
+                .padding()
+            
+            SearchBar(text: $searchText)
+            
+            Text(rootView.rootView == .Coach ? "Messaged Athletes:":"Interested Coaches:")
+                .font(.headline)
+                .padding([.leading, .top])
+            
+            ScrollView(.horizontal, showsIndicators: true) {
+                HStack {
+                    if (!interestedFiltered.isEmpty) {
+                        ForEach(interestedFiltered.filter {
+                            searchText.isEmpty || $0.0.lowercased().contains(searchText.lowercased().trimmingCharacters(in: .whitespaces))
+                        }, id: \.1.id) { coach in
+                            CoachView(coach: coach.1, name: coach.0, id: coach.2)
+                                .environmentObject(rootView)
                         }
-                        .padding()
                     }
-
-                    Text("My Coaches:")
-                        .font(.headline)
-                        .padding([.leading, .top])
-
-                    List(myCoaches.filter { searchText.isEmpty || $0.name.contains(searchText) }) { coach in
-                        MyCoachView(coach: coach)
-                    }
-                    .listStyle(PlainListStyle())
                 }
-                Spacer()
+                .padding()
             }
-            .padding(.top, -10)
+            
+            Text(rootView.rootView == .Coach ? "My Athletes:":"My Coaches:")
+                .font(.headline)
+                .padding([.leading, .top])
+            if(!myFiltered.isEmpty) {
+                List(myFiltered.filter {
+                    searchText.isEmpty || $0.0.lowercased().contains(searchText.lowercased().trimmingCharacters(in: .whitespaces))
+                }, id: \.1.id) { coach in
+                    MyCoachView(coach: coach.1, name: coach.0, id: coach.2)
+                }
+                .listStyle(PlainListStyle())
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .onAppear() {
+            fSearch.validZ = false
+            fSearch.zip = ""
+            fSearch.sportVal = 0
+            fSearch.fSearch = false
         }
     }
 }
+
 
 struct SearchBar: View {
     @Binding var text: String
@@ -90,22 +134,29 @@ struct SearchBar: View {
 }
 
 struct CoachView: View {
-    let coach: Coach
+    @EnvironmentObject var rootView: RootViewObj
+    let coach: Message
+    let name: String
+    let id: ProfileID
 
     var body: some View {
-        NavigationLink(destination: ChatView(coach: coach)) {
+        Button(action: {
+            rootView.selectedSession = id
+            print("Selected Session: \(String(describing: rootView.selectedSession))")
+            rootView.path.append("MessageAccount")
+        }) {
             VStack {
-                Image(coach.imageName)
+                Image(coach.receiver.imageURL)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
-                Text(coach.date)
+                Text(coach.date.formatted())
                     .font(.caption)
                     .foregroundColor(.gray)
-                Text(coach.name)
+                Text(name)
                     .font(.headline)
                     .foregroundColor(.black)
-                Text(coach.message)
+                Text(coach.mess)
                     .font(.subheadline)
                     .foregroundColor(.black)
                     .lineLimit(1)
@@ -118,77 +169,61 @@ struct CoachView: View {
 }
 
 struct MyCoachView: View {
-    let coach: Coach
-
+    @EnvironmentObject var rootView: RootViewObj
+    let coach: Message
+    let name: String
+    let id: ProfileID
+    
     var body: some View {
-        NavigationLink(destination: ChatView(coach: coach)) {
-            HStack {
-                Image(coach.imageName)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                VStack(alignment: .leading) {
-                    Text(coach.name)
-                        .font(.headline)
-                    Text(coach.message)
-                        .font(.subheadline)
-                        .lineLimit(1)
-                }
-                Spacer()
-                Text(coach.date)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-            .padding(.vertical, 5)
-        }
-    }
-}
-
-struct ChatView: View {
-    let coach: Coach
-    @State private var newMessage = ""
-    @State private var messages: [String] = []
-
-    var body: some View {
-        VStack {
-            ScrollView {
-                ForEach(messages, id: \.self) { message in
-                    HStack {
-                        Text(message)
-                            .padding()
-                            .background(Color(.systemGray5))
-                            .cornerRadius(8)
-                            .padding(.horizontal)
+        Button(action: {
+            rootView.selectedSession = id
+            print("Selected Session: \(String(describing: rootView.selectedSession))")
+            rootView.path.append("MessageAccount")
+        }) {
+            if !coach.mess.isEmpty {
+                HStack {
+                    Image(coach.receiver.imageURL)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                    VStack(alignment: .leading) {
+                        Text(name)
+                            .font(.headline)
+                        Text(coach.mess)
+                            .font(.subheadline)
+                            .lineLimit(1)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
-
-            HStack {
-                TextField("Enter your message", text: $newMessage)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-
-                Button(action: {
-                    if !newMessage.isEmpty {
-                        messages.append(newMessage)
-                        newMessage = ""
-                    }
-                }) {
-                    Image(systemName: "paperplane.fill")
+                    Spacer()
+                    Text(coach.date.formatted())
+                        .font(.caption)
                         .foregroundColor(.gray)
-                        .padding()
                 }
+                .padding(.vertical, 5)
+            } else {
+                HStack {
+                    Image(coach.receiver.imageURL)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                    Text(name)
+                        .font(.headline)
+                }
+                .padding(.vertical, 5)
             }
-            .padding()
         }
-        .navigationTitle(coach.name)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-
-#Preview {
-    Messages()
-}
+//#Preview {
+//    struct Preview: View {
+//        @State var isCoach = false
+//        var body: some View {
+//            return Messages(isCoach: $isCoach)
+//                .environmentObject(RootViewObj())
+//                .environmentObject(SearchHelp())
+//        }
+//    }
+//
+//    return Preview()
+//}
+   

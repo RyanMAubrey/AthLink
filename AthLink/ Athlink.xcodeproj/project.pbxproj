@@ -7,20 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		949FC82C2C30C5E600C5FF71 /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = 949FC82B2C30C5E600C5FF71 /* HalfASheet */; };
+		9413CC532D16439400A8AFD6 /* CouchAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413CC522D16439400A8AFD6 /* CouchAccount.swift */; };
+		9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9462DAB82D39F9BB0078D86F /* Chat.swift */; };
+		9469D76F2D18E9C600DFBB9D /* CoachLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */; };
+		947E80662E1B5E42002DA5BC /* SessionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947E80652E1B5E41002DA5BC /* SessionInfo.swift */; };
+		948490842DA5D9C700D4413A /* CoachRequestSess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948490832DA5D9BB00D4413A /* CoachRequestSess.swift */; };
+		948870902E3B13A1000304F5 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 9488708F2E3B13A1000304F5 /* Auth */; };
+		948870922E3B13A1000304F5 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 948870912E3B13A1000304F5 /* Functions */; };
+		948870942E3B13A1000304F5 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 948870932E3B13A1000304F5 /* PostgREST */; };
+		948870962E3B13A1000304F5 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 948870952E3B13A1000304F5 /* Realtime */; };
+		948870982E3B13A2000304F5 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 948870972E3B13A2000304F5 /* Storage */; };
+		9488709A2E3B13A2000304F5 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 948870992E3B13A2000304F5 /* Supabase */; };
+		9491E31B2D5EFEEC003522A1 /* Jobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491E31A2D5EFEEC003522A1 /* Jobs.swift */; };
+		94A24C402D5D4F2A00D1A467 /* RequestSess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */; };
+		94AA6CA62D1E2621009E5FEC /* CoachHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA6CA52D1E2621009E5FEC /* CoachHome.swift */; };
+		94C0D4192E1F2AEF000C5D98 /* CoachSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */; };
+		94D51E792E205E3E00BE8BBD /* CoachCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */; };
 		94FC7FB62C29360B006EF266 /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB52C29360B006EF266 /* home.swift */; };
 		94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB72C2A41AC006EF266 /* Search.swift */; };
 		94FC7FBA2C2A73BE006EF266 /* FSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FB92C2A73BE006EF266 /* FSearch.swift */; };
-		94FC7FBC2C2B7DAF006EF266 /* Cond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FC7FBB2C2B7DAF006EF266 /* Cond.swift */; };
 		FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */; };
-		FF063DB62C12DFA300EF79FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB52C12DFA300EF79FB /* ContentView.swift */; };
 		FF063DB82C12DFA300EF79FB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DB72C12DFA300EF79FB /* Item.swift */; };
 		FF063DBA2C12DFA800EF79FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF063DB92C12DFA800EF79FB /* Assets.xcassets */; };
 		FF063DBD2C12DFA800EF79FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF063DBC2C12DFA800EF79FB /* Preview Assets.xcassets */; };
 		FF063DC72C12DFA900EF79FB /* AthLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DC62C12DFA900EF79FB /* AthLinkTests.swift */; };
 		FF063DD12C12DFAA00EF79FB /* AthLinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DD02C12DFAA00EF79FB /* AthLinkUITests.swift */; };
 		FF063DD32C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DD22C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift */; };
-		FF063DE02C13EA1700EF79FB /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DDF2C13EA1700EF79FB /* Logo.swift */; };
 		FF063DE42C13ECD000EF79FB /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF063DE32C13ECD000EF79FB /* LoginScreen.swift */; };
 		FF29F8572C3B03090015F643 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29F8562C3B03090015F643 /* Messages.swift */; };
 		FF29F8592C3B03300015F643 /* Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF29F8582C3B03300015F643 /* Sessions.swift */; };
@@ -53,13 +65,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9413CC522D16439400A8AFD6 /* CouchAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouchAccount.swift; sourceTree = "<group>"; };
+		9462DAB82D39F9BB0078D86F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachLogin.swift; sourceTree = "<group>"; };
+		947E80652E1B5E41002DA5BC /* SessionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfo.swift; sourceTree = "<group>"; };
+		948490832DA5D9BB00D4413A /* CoachRequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachRequestSess.swift; sourceTree = "<group>"; };
+		9491E31A2D5EFEEC003522A1 /* Jobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jobs.swift; sourceTree = "<group>"; };
+		94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSess.swift; sourceTree = "<group>"; };
+		94A2B2A22D3F629D008669B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		94AA6CA52D1E2621009E5FEC /* CoachHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachHome.swift; sourceTree = "<group>"; };
+		94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachSession.swift; sourceTree = "<group>"; };
+		94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachCalendar.swift; sourceTree = "<group>"; };
 		94FC7FB52C29360B006EF266 /* home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
 		94FC7FB72C2A41AC006EF266 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		94FC7FB92C2A73BE006EF266 /* FSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSearch.swift; sourceTree = "<group>"; };
-		94FC7FBB2C2B7DAF006EF266 /* Cond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cond.swift; sourceTree = "<group>"; };
 		FF063DB02C12DFA300EF79FB /* AthLink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AthLink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkApp.swift; sourceTree = "<group>"; };
-		FF063DB52C12DFA300EF79FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FF063DB72C12DFA300EF79FB /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FF063DB92C12DFA800EF79FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF063DBC2C12DFA800EF79FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -68,7 +89,6 @@
 		FF063DCC2C12DFAA00EF79FB /* AthLinkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AthLinkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF063DD02C12DFAA00EF79FB /* AthLinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkUITests.swift; sourceTree = "<group>"; };
 		FF063DD22C12DFAA00EF79FB /* AthLinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthLinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		FF063DDF2C13EA1700EF79FB /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		FF063DE32C13ECD000EF79FB /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		FF29F8562C3B03090015F643 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		FF29F8582C3B03300015F643 /* Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessions.swift; sourceTree = "<group>"; };
@@ -89,7 +109,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				949FC82C2C30C5E600C5FF71 /* HalfASheet in Frameworks */,
+				948870942E3B13A1000304F5 /* PostgREST in Frameworks */,
+				948870922E3B13A1000304F5 /* Functions in Frameworks */,
+				9488709A2E3B13A2000304F5 /* Supabase in Frameworks */,
+				948870902E3B13A1000304F5 /* Auth in Frameworks */,
+				948870982E3B13A2000304F5 /* Storage in Frameworks */,
+				948870962E3B13A1000304F5 /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,12 +166,12 @@
 		FF063DB22C12DFA300EF79FB /* AthLink */ = {
 			isa = PBXGroup;
 			children = (
+				948490832DA5D9BB00D4413A /* CoachRequestSess.swift */,
+				94A2B2A22D3F629D008669B2 /* Info.plist */,
 				FFD6FA7D2C6BEFDD00E2067E /* AthLink.entitlements */,
 				FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */,
-				94FC7FBB2C2B7DAF006EF266 /* Cond.swift */,
-				FF063DB52C12DFA300EF79FB /* ContentView.swift */,
+				FF063DB72C12DFA300EF79FB /* Item.swift */,
 				94FC7FB72C2A41AC006EF266 /* Search.swift */,
-				FF063DDF2C13EA1700EF79FB /* Logo.swift */,
 				FF063DE32C13ECD000EF79FB /* LoginScreen.swift */,
 				FF6ACFFE2C20C3E100E37053 /* ExistingLoginView.swift */,
 				FF92E4D72C1F5D6A00476045 /* PrivacyPolicyView.swift */,
@@ -160,10 +185,18 @@
 				FF99E4E02C97AE4F00B97AF7 /* Support.swift */,
 				FF99E4DE2C97AE3F00B97AF7 /* Receive.swift */,
 				FF29F8562C3B03090015F643 /* Messages.swift */,
-				FF063DB72C12DFA300EF79FB /* Item.swift */,
 				FF063DB92C12DFA800EF79FB /* Assets.xcassets */,
 				FF063DBB2C12DFA800EF79FB /* Preview Content */,
 				94FC7FB92C2A73BE006EF266 /* FSearch.swift */,
+				9413CC522D16439400A8AFD6 /* CouchAccount.swift */,
+				9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */,
+				9491E31A2D5EFEEC003522A1 /* Jobs.swift */,
+				94AA6CA52D1E2621009E5FEC /* CoachHome.swift */,
+				9462DAB82D39F9BB0078D86F /* Chat.swift */,
+				94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */,
+				947E80652E1B5E41002DA5BC /* SessionInfo.swift */,
+				94C0D4182E1F2AEF000C5D98 /* CoachSession.swift */,
+				94D51E782E205E3E00BE8BBD /* CoachCalendar.swift */,
 			);
 			path = AthLink;
 			sourceTree = "<group>";
@@ -207,11 +240,21 @@
 			buildRules = (
 			);
 			dependencies = (
-				949FC82E2C30C6C900C5FF71 /* PBXTargetDependency */,
+				944B7C212E3AF568005610F3 /* PBXTargetDependency */,
+				944B7C232E3AF568005610F3 /* PBXTargetDependency */,
+				944B7C252E3AF568005610F3 /* PBXTargetDependency */,
+				944B7C272E3AF568005610F3 /* PBXTargetDependency */,
+				944B7C292E3AF568005610F3 /* PBXTargetDependency */,
+				944B7C2B2E3AF568005610F3 /* PBXTargetDependency */,
 			);
 			name = AthLink;
 			packageProductDependencies = (
-				949FC82B2C30C5E600C5FF71 /* HalfASheet */,
+				9488708F2E3B13A1000304F5 /* Auth */,
+				948870912E3B13A1000304F5 /* Functions */,
+				948870932E3B13A1000304F5 /* PostgREST */,
+				948870952E3B13A1000304F5 /* Realtime */,
+				948870972E3B13A2000304F5 /* Storage */,
+				948870992E3B13A2000304F5 /* Supabase */,
 			);
 			productName = AthLink;
 			productReference = FF063DB02C12DFA300EF79FB /* AthLink.app */;
@@ -228,6 +271,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				948870782E3B133D000304F5 /* PBXTargetDependency */,
+				9488707A2E3B133D000304F5 /* PBXTargetDependency */,
+				9488707C2E3B133D000304F5 /* PBXTargetDependency */,
+				9488707E2E3B133D000304F5 /* PBXTargetDependency */,
+				948870802E3B133D000304F5 /* PBXTargetDependency */,
+				948870822E3B133D000304F5 /* PBXTargetDependency */,
 				FF063DC42C12DFA900EF79FB /* PBXTargetDependency */,
 			);
 			name = AthLinkTests;
@@ -246,6 +295,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				948870842E3B1344000304F5 /* PBXTargetDependency */,
+				948870862E3B1344000304F5 /* PBXTargetDependency */,
+				948870882E3B1344000304F5 /* PBXTargetDependency */,
+				9488708A2E3B1344000304F5 /* PBXTargetDependency */,
+				9488708C2E3B1344000304F5 /* PBXTargetDependency */,
+				9488708E2E3B1344000304F5 /* PBXTargetDependency */,
 				FF063DCE2C12DFAA00EF79FB /* PBXTargetDependency */,
 			);
 			name = AthLinkUITests;
@@ -261,7 +316,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					FF063DAF2C12DFA300EF79FB = {
 						CreatedOnToolsVersion = 15.4;
@@ -286,7 +341,7 @@
 			);
 			mainGroup = FF063DA72C12DFA300EF79FB;
 			packageReferences = (
-				949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */,
+				944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			productRefGroup = FF063DB12C12DFA300EF79FB /* Products */;
 			projectDirPath = "";
@@ -330,25 +385,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF063DB62C12DFA300EF79FB /* ContentView.swift in Sources */,
 				FF6ACFFF2C20C3E100E37053 /* ExistingLoginView.swift in Sources */,
+				94A24C402D5D4F2A00D1A467 /* RequestSess.swift in Sources */,
 				FF29F8592C3B03300015F643 /* Sessions.swift in Sources */,
 				FF99E4DD2C97AE2100B97AF7 /* Question.swift in Sources */,
+				94AA6CA62D1E2621009E5FEC /* CoachHome.swift in Sources */,
 				FF99E4E12C97AE4F00B97AF7 /* Support.swift in Sources */,
+				948490842DA5D9C700D4413A /* CoachRequestSess.swift in Sources */,
 				FF92E4D82C1F5D6A00476045 /* PrivacyPolicyView.swift in Sources */,
+				9491E31B2D5EFEEC003522A1 /* Jobs.swift in Sources */,
 				FF063DB82C12DFA300EF79FB /* Item.swift in Sources */,
+				9469D76F2D18E9C600DFBB9D /* CoachLogin.swift in Sources */,
+				94D51E792E205E3E00BE8BBD /* CoachCalendar.swift in Sources */,
+				94C0D4192E1F2AEF000C5D98 /* CoachSession.swift in Sources */,
 				FF29F85B2C3B03570015F643 /* Account.swift in Sources */,
 				FF99E4DB2C97ADBD00B97AF7 /* Satisfaction.swift in Sources */,
-				FF063DE02C13EA1700EF79FB /* Logo.swift in Sources */,
 				FF99E4DF2C97AE3F00B97AF7 /* Receive.swift in Sources */,
 				94FC7FBA2C2A73BE006EF266 /* FSearch.swift in Sources */,
 				FF29F8572C3B03090015F643 /* Messages.swift in Sources */,
 				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
 				94FC7FB62C29360B006EF266 /* home.swift in Sources */,
+				947E80662E1B5E42002DA5BC /* SessionInfo.swift in Sources */,
 				94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */,
-				94FC7FBC2C2B7DAF006EF266 /* Cond.swift in Sources */,
+				9462DAB92D39F9BB0078D86F /* Chat.swift in Sources */,
 				FFAFCE2D2C9F289200FF9F91 /* AccountView.swift in Sources */,
 				FFD532A82C1F71C600EE0185 /* TermsOfServiceView.swift in Sources */,
+				9413CC532D16439400A8AFD6 /* CouchAccount.swift in Sources */,
 				FF063DE42C13ECD000EF79FB /* LoginScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,9 +435,77 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		949FC82E2C30C6C900C5FF71 /* PBXTargetDependency */ = {
+		944B7C212E3AF568005610F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 949FC82D2C30C6C900C5FF71 /* HalfASheet */;
+			productRef = 944B7C202E3AF568005610F3 /* Auth */;
+		};
+		944B7C232E3AF568005610F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 944B7C222E3AF568005610F3 /* Functions */;
+		};
+		944B7C252E3AF568005610F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 944B7C242E3AF568005610F3 /* PostgREST */;
+		};
+		944B7C272E3AF568005610F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 944B7C262E3AF568005610F3 /* Realtime */;
+		};
+		944B7C292E3AF568005610F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 944B7C282E3AF568005610F3 /* Storage */;
+		};
+		944B7C2B2E3AF568005610F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 944B7C2A2E3AF568005610F3 /* Supabase */;
+		};
+		948870782E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870772E3B133D000304F5 /* Auth */;
+		};
+		9488707A2E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870792E3B133D000304F5 /* Functions */;
+		};
+		9488707C2E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9488707B2E3B133D000304F5 /* PostgREST */;
+		};
+		9488707E2E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9488707D2E3B133D000304F5 /* Realtime */;
+		};
+		948870802E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9488707F2E3B133D000304F5 /* Storage */;
+		};
+		948870822E3B133D000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870812E3B133D000304F5 /* Supabase */;
+		};
+		948870842E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870832E3B1344000304F5 /* Auth */;
+		};
+		948870862E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870852E3B1344000304F5 /* Functions */;
+		};
+		948870882E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870872E3B1344000304F5 /* PostgREST */;
+		};
+		9488708A2E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 948870892E3B1344000304F5 /* Realtime */;
+		};
+		9488708C2E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9488708B2E3B1344000304F5 /* Storage */;
+		};
+		9488708E2E3B1344000304F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9488708D2E3B1344000304F5 /* Supabase */;
 		};
 		FF063DC42C12DFA900EF79FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -425,6 +555,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HRCK3B432R;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -488,6 +619,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HRCK3B432R;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -514,13 +646,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = AthLink/AthLink.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
-				DEVELOPMENT_TEAM = ZPL63822Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AthLink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -533,7 +666,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AthLink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Athlinktest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -546,13 +679,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = AthLink/AthLink.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthLink/Preview Content\"";
-				DEVELOPMENT_TEAM = ZPL63822Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AthLink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -565,7 +699,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AthLink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Athlinktest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -576,7 +710,6 @@
 		FF063DDA2C12DFAA00EF79FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -595,7 +728,6 @@
 		FF063DDB2C12DFAA00EF79FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -614,7 +746,6 @@
 		FF063DDD2C12DFAA00EF79FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -631,7 +762,6 @@
 		FF063DDE2C12DFAA00EF79FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -687,26 +817,136 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */ = {
+		944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/franklynw/HalfASheet";
+			repositoryURL = "https://github.com/supabase/supabase-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.2;
+				minimumVersion = 2.5.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		949FC82B2C30C5E600C5FF71 /* HalfASheet */ = {
+		944B7C202E3AF568005610F3 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */;
-			productName = HalfASheet;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
 		};
-		949FC82D2C30C6C900C5FF71 /* HalfASheet */ = {
+		944B7C222E3AF568005610F3 /* Functions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 949FC8292C30BF1800C5FF71 /* XCRemoteSwiftPackageReference "HalfASheet" */;
-			productName = HalfASheet;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		944B7C242E3AF568005610F3 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		944B7C262E3AF568005610F3 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		944B7C282E3AF568005610F3 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		944B7C2A2E3AF568005610F3 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		948870772E3B133D000304F5 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		948870792E3B133D000304F5 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		9488707B2E3B133D000304F5 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		9488707D2E3B133D000304F5 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		9488707F2E3B133D000304F5 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		948870812E3B133D000304F5 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		948870832E3B1344000304F5 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		948870852E3B1344000304F5 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		948870872E3B1344000304F5 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		948870892E3B1344000304F5 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		9488708B2E3B1344000304F5 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		9488708D2E3B1344000304F5 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		9488708F2E3B13A1000304F5 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		948870912E3B13A1000304F5 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		948870932E3B13A1000304F5 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		948870952E3B13A1000304F5 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		948870972E3B13A2000304F5 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		948870992E3B13A2000304F5 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 944B7C1F2E39DAC4005610F3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

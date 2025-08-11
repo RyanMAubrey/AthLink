@@ -13,8 +13,8 @@ struct Receive: View {
             Rectangle()
                 .frame(maxWidth: .infinity, maxHeight: 100)
                 .padding(8)
-               .foregroundColor(Color(red: 0.4627, green: 0.8392, blue: 1.0))
-               .background(Color(red: 0.4627, green: 0.8392, blue: 1.0))
+                .foregroundColor(Color(red: 0.4627, green: 0.8392, blue: 1.0))
+                .background(Color(red: 0.4627, green: 0.8392, blue: 1.0))
             Text("Receive $80")
                 .font(.system(size: 20, weight: .light, design: .serif))
         }

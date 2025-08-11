@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct Satisfaction: View {
-    @Binding var path: NavigationPath
-    
     var body: some View {
         ZStack {
             Rectangle()
@@ -26,10 +24,7 @@ struct Satisfaction: View {
                     .font(.system(size: 50, weight: .light, design: .serif))
                     .multilineTextAlignment(.center)
                     .padding(8)
-                Button(action: {
-                    path.removeLast()
-                    path.append("Support")
-                }) {
+                Button(action: {}) {
                     Text("Contact us")
                         .font(.system(size: 40, weight: .light, design: .serif))
                         .multilineTextAlignment(.center)
@@ -43,5 +38,5 @@ struct Satisfaction: View {
 }
 
 #Preview {
-    Satisfaction(path: .constant(NavigationPath()))
+    Satisfaction()
 }
