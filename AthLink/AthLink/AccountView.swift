@@ -15,6 +15,7 @@
 import SwiftUI
 import Supabase
 import PhotosUI
+import MapKit
 
 struct AccountView: View {
     @EnvironmentObject var rootView: RootViewObj
@@ -46,9 +47,9 @@ struct AccountView: View {
                 isUnSaved = true
             }        }
     }
-    @State private var phone: String = "" {
+    @State private var postalCode: String = "" {
         didSet {
-            if !isInitialLoad && phone != oldValue {
+            if !isInitialLoad && postalCode != oldValue {
                 isUnSaved = true
             }        }
     }
@@ -95,21 +96,21 @@ struct AccountView: View {
             }
         }
     }
-    @State private var trainingLoc: [CoachLocation]?  {
+    @State private var trainingLoc: [CoachLocation] = [] {
         didSet {
             if !isInitialLoad && trainingLoc != oldValue {
                 isUnSaved = true
             }
         }
     }
-    @State private var sport: [Sports] = [] {
+    @State private var sport: [String] = [] {
         didSet {
             if !isInitialLoad && sport != oldValue {
                 isUnSaved = true
             }
         }
     }
-    @State private var position: [Sports:[Positions]] = [:] {
+    @State private var position: [String:[String]] = [:] {
         didSet {
             if !isInitialLoad && position != oldValue {
                 isUnSaved = true
@@ -146,10 +147,13 @@ struct AccountView: View {
     @State private var gdollars: Int = 0
     @State private var gcents:  Int = 0
     @State private var gtotal: Double?
-    @State private var whosUsingOptions = ["Athlete", "Parent"]
     @State private var newExperience = ""
     @State private var newAchievement = ""
     @State private var showingLogAlert = false
+    // Location info
+    @State private var showMap:Bool = false
+    @State private var selectedLoc: CoachLocation?
+    @State private var showAddLocationSheet : Bool = false
 
     private func updateTotal(type: Bool) {
         // build a Decimal total first
@@ -233,7 +237,7 @@ struct AccountView: View {
                         FieldRow(title: "Last:", text: $lastName)
                         FieldRow(title: "Email:", text: $email, keyboardType: .emailAddress)
                         FieldRow(title: "Password:", text: $password, secure: true)
-                        FieldRow(title: "Phone:", text: $phone, keyboardType: .phonePad)
+                        FieldRow(title: "Postal Code:", text: $postalCode)
                         
                         // Payment sectiton
                         HStack {
@@ -402,6 +406,42 @@ struct AccountView: View {
                         .clipped()
                         .onChange(of: gcents) { updateTotal(type: false) }
                     }
+                    // Location Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Locations (Optional):")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 10)
+                        ForEach(trainingLoc, id: \.self) { loc in
+                            Button(action: {
+                                selectedLoc = loc
+                                showMap = true
+                            }) {
+                                Text("\(loc.name)")
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                        // Add‑new row
+                        HStack {
+                            Button {
+                                showAddLocationSheet = true
+                            } label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title2)
+                            }
+                        }
+                    }
+                    .sheet(isPresented: $showAddLocationSheet) {
+                        EmptyView()
+                    }
+                    .sheet(isPresented: $showMap) {
+                        if let loc = selectedLoc {
+                            MapViewing(specifiedLocation: loc) {
+                                trainingLoc.removeAll { $0.id == loc.id }
+                                isUnSaved = true
+                                showMap = false
+                            }                        }
+                    }
                     // cancelation picker
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Cancellation Notice:")
@@ -470,34 +510,47 @@ struct AccountView: View {
                     // Save Changes Button
                     Button(action: {
                         isUnSaved = false
-                        rootView.profile.firstName = firstName
-                        rootView.profile.lastName = lastName
-                        rootView.profile.phoneNumber = phone
-                        rootView.profile.availability = selectedAvailability
-                        rootView.profile.notifications = notifications
-                        rootView.profile.athleteMessaging = athleteMessaging
-                        rootView.profile.quote = about
-                        rootView.profile.achievements = achievements
-                        rootView.profile.experience = experience
-                        rootView.profile.trainingLocations = trainingLoc ?? []
-                        rootView.profile.sport = sport
-                        rootView.profile.position = position
-                        rootView.profile.individualCost = itotal
-                        rootView.profile.groupCost = gtotal
-                        rootView.profile.cancellationNotice = cancel
                         // Update backend
                         Task {
                             do {
                                 guard let user = rootView.client.auth.currentUser else{return}
-//                                try await rootView.client
-//                                    .from("profiles")
-//                                    .update([
-//                                        "first_name": firstName,
-//                                        "last_name":  lastName,
-//                                        "image_url": avatarURL?.absoluteString ?? rootView.profile.profilePic
-//                                    ])
-//                                    .eq("id", value:user.id)
+                                // Athlete table info
+                                let patch = ProfilePatchSecond(
+                                    first_name: firstName.isEmpty ? nil : firstName,
+                                    last_name:  lastName.isEmpty ? nil : lastName,
+                                    postal_code: postalCode.isEmpty ? nil : postalCode,
+                                    notifications: notifications
+                                )
+                                try await rootView.client
+                                  .from("profiles")
+                                  .update(patch)
+                                  .eq("id", value: user.id)
+                                  .execute()
+                                // Coach table info
+                                let cpatch = CoachProfilePatch(
+                                    personal_quote: about.isEmpty ? nil : about,
+                                    coaching_achievements: achievements.isEmpty ? nil : achievements,
+                                    coaching_experience:  experience.isEmpty  ? nil : experience,
+                                    time_availability: selectedAvailability.isEmpty ? nil : selectedAvailability,
+                                    athlete_messaging: athleteMessaging,
+                                    individual_cost: itotal,
+                                    group_cost: gtotal,
+                                    sports: sport.isEmpty ? nil : sport,
+                                    sport_positions: position.isEmpty ? nil : position,
+                                    cancellation_notice: cancel
+                                )
+                                try await rootView.client
+                                    .from("coach_profile")
+                                    .update(cpatch)
+                                    .eq("id", value: user.id)
+                                    .execute()
+//                                // Location table info
+//                                let locrow: CoachLocation = try await rootView.client
+//                                    .from("locaiton")
+//                                    .select("id, name, lat, lng")
+//                                    .eq("coach_id", value: user.id)
 //                                    .execute()
+//                                    .value
                                 // User email
                                 if !email.trimmingCharacters(in: .whitespaces).isEmpty {
                                   try await rootView.client.auth.update(user: UserAttributes(email: email))
@@ -506,6 +559,23 @@ struct AccountView: View {
                                 if !password.isEmpty {
                                   try await rootView.client.auth.update(user: UserAttributes(password: password))
                                 }
+                                // Update frontend
+                                let mainRow: Profile = try await rootView.client
+                                  .from("profiles")
+                                  .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging")
+                                  .eq("id", value: user.id)
+                                  .single()
+                                  .execute()
+                                  .value
+                                rootView.profile.apply(row: mainRow)
+                                let coachRow: CoachProfile = try await rootView.client
+                                    .from("coach_profile")
+                                    .select("id, personal_quote, coaching_achievements, coaching_experience, time_availability, athlete_messaging, individual_cost, group_cost, sports, sport_positions")
+                                    .eq("id", value: user.id)
+                                    .single()
+                                    .execute()
+                                    .value
+                                rootView.profile.coachApply(row: coachRow)
                             } catch {
                                 print("Update failed:", error)
                             }
@@ -526,7 +596,7 @@ struct AccountView: View {
                 .cornerRadius(10)
                 .padding([.leading, .trailing], 20)
 
-                // logout, Delete Account, terms
+                // logout Account, terms
                 VStack(alignment: .center) {
                     // Logout Button
                     Button(action: {
@@ -561,16 +631,16 @@ struct AccountView: View {
             // Setting Variables
             firstName = rootView.profile.firstName
             lastName = rootView.profile.lastName
-            phone = rootView.profile.phoneNumber ?? ""
-            selectedAvailability = rootView.profile.availability
+            postalCode = rootView.profile.postalCode
             notifications = rootView.profile.notifications
+            selectedAvailability = rootView.profile.timeAvailability
             athleteMessaging = rootView.profile.athleteMessaging
-            about = rootView.profile.quote ?? ""
-            achievements = rootView.profile.achievements
-            experience = rootView.profile.experience
+            about = rootView.profile.personalQuote 
+            achievements = rootView.profile.coachingAchievements
+            experience = rootView.profile.coachingExperience
             trainingLoc = rootView.profile.trainingLocations
-            sport = rootView.profile.sport
-            position = rootView.profile.position
+            sport = rootView.profile.sports
+            position = rootView.profile.sportPositions
             iCost = rootView.profile.individualCost
             gCost = rootView.profile.groupCost
             // Image
@@ -584,4 +654,41 @@ struct AccountView: View {
             isInitialLoad = false
         }
     }
+    // Map Structure
+    struct MapViewing: View {
+        let specifiedLocation: CoachLocation
+        let onDelete: () -> Void
+        @State private var camera: MapCameraPosition
+
+        init(specifiedLocation: CoachLocation, onDelete: @escaping () -> Void) {
+            self.specifiedLocation = specifiedLocation
+            self.onDelete = onDelete
+            let region = MKCoordinateRegion(
+                center: specifiedLocation.coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            )
+            _camera = State(initialValue: .region(region))
+        }
+
+        var body: some View {
+            Map(position: $camera) {
+                Marker(specifiedLocation.name, coordinate: specifiedLocation.coordinate)
+            }
+            .ignoresSafeArea(edges: .top)
+            .safeAreaInset(edge: .bottom) {
+                Button(action: onDelete) {
+                    Text("Delete \(specifiedLocation.name)?")
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .background(.thinMaterial)
+            }
+        }
+    }
+
 }
+
+
+

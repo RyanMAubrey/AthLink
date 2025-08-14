@@ -9,7 +9,6 @@ struct LoginScreen: View {
     @State private var whosUsingOptions = ["Athlete", "Parent", "Coach"]
     @State private var postalCode: String = ""
     @State private var userEmail: String = ""
-    @State private var userPhone: String?
     @State private var password: String = ""
     @State private var showAlert: Bool = false
 
@@ -106,18 +105,6 @@ struct LoginScreen: View {
                                     .stroke(invalidFields.contains(.email) ? .red : .clear, lineWidth: 2)
                             )
                             .modifier(ShakeEffect(shakes: invalidFields.contains(.email) ? CGFloat(shakeToken) : 0))
-                        // Phone Field
-                        Text("Phone (optional)")
-                            .font(.headline)
-                            .padding(.horizontal, 20)
-                        TextField("Enter text", text: Binding(
-                            get: { userPhone ?? "" },
-                            set: { userPhone = $0.isEmpty ? nil : $0 }
-                        ))
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal, 20)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
                         // Password Field
                         Text("Password")
                             .font(.headline)
@@ -150,7 +137,6 @@ struct LoginScreen: View {
                                 signupDraft.lastName = lastName
                                 signupDraft.userType = whosUsing
                                 signupDraft.postalCode = postalCode
-                                signupDraft.phoneNumber = userPhone
                                 signupDraft.email = userEmail
                                 signupDraft.password = password
                                 rootView.path.append("Coach")
@@ -160,7 +146,7 @@ struct LoginScreen: View {
                                         // Signup new user
                                         let res = try await rootView.client.auth.signUp(
                                                email: userEmail,
-                                               password: password
+                                               password: password,
                                              )
                                         // Ensure authenticated session
                                           guard res.session != nil else {
@@ -173,7 +159,6 @@ struct LoginScreen: View {
                                             firstName: firstName,
                                             lastName: lastName,
                                             coachAccount: false,
-                                            phoneNumber: userPhone,
                                             userType: whosUsing,
                                             postalCode: postalCode
                                         )

@@ -10,52 +10,6 @@ import SwiftData
 import CoreLocation
 import Supabase
 
-// UI Component
-struct FieldRow: View {
-    let title: String
-    @Binding var text: String
-    var secure: Bool = false
-    var keyboardType: UIKeyboardType = .default
-
-    var body: some View {
-        HStack {
-            Text(title)
-                .font(.headline)
-            Spacer()
-            if secure {
-                SecureField("Enter Text", text: $text)
-                    .keyboardType(keyboardType)
-                    .padding(5)
-                    .background(Color.white)
-                    .cornerRadius(5)
-            } else {
-                TextField("Enter Text", text: $text)
-                    .keyboardType(keyboardType)
-                    .padding(5)
-                    .background(Color.white)
-                    .cornerRadius(5)
-            }
-        }
-        .padding(.bottom, 10)
-    }
-}
-
-// Array Extension
-extension Array {
-    func chunked(into size: Int, dropLastPartialChunk: Bool = false) -> [[Element]] {
-        var chunks: [[Element]] = []
-        
-        for i in stride(from:0,to:self.count,by:size) {
-            let chunk = Array(self[i..<(Swift.min(i+size,self.count))])
-            if dropLastPartialChunk && chunk.count<size {
-                continue
-            }
-            chunks.append(chunk)
-        }
-        return chunks
-    }
-}
-
 // Retreive Info.plist info
 func infoValue(key: String) -> String {
     guard let val = Bundle.main.object(forInfoDictionaryKey: key) as? String,
@@ -66,305 +20,12 @@ func infoValue(key: String) -> String {
     return val
 }
 
-// Coach Login Helper
-final class SignupDraft: ObservableObject {
-    @Published var userType: String = "Athlete"
-    @Published var firstName = ""
-    @Published var lastName  = ""
-    @Published var postalCode = ""
-    @Published var phoneNumber: String? = nil
-    @Published var email = ""
-    @Published var password = ""
-}
-
-// Athlete Side Search Helper
-class SearchHelp: ObservableObject {
-    @Published var zEditing : Bool = false
-    @Published var zip : String = ""
-    @Published var validZ : Bool = false {
-        didSet {
-            filled()
-        }
-    }
-    @Published var sportVal : Int = 0 {
-        didSet {
-            filled()
-        }
-    }
-    @Published var fSearch : Bool = false
-    func filled() {
-        if (sportVal != 0 && validZ) {
-            fSearch = true
-        } else {
-            fSearch = false
-        }
-    }
-    // validates zip code
-    func validate() {
-        let zipCodePattern = "^[0-9]{5}(?:-[0-9]{4})?$"
-        let regex = try! NSRegularExpression(pattern: zipCodePattern)
-        let range = NSRange(location: 0, length: zip.utf16.count)
-        validZ = regex.firstMatch(in: zip, options: [], range: range) != nil
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        
-        if !validZ {
-            zip = ""
-        }
-    }
-}
-
-// Time Selector
-struct AvailabilityGrid: View {
-    @Binding var selectedA: [String: [String]]
-    
-    let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    let times = Array(6..<12).map { "\($0) AM" } + Array(12..<18).map { "\($0 - 12) PM" }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Draws day columns
-            HStack(spacing: 2) {
-                Text("")
-                    .frame(width: 40)
-                ForEach(days, id: \.self) { day in
-                    Text(day)
-                        .font(.caption)
-                        .frame(maxWidth: .infinity)
-                        .padding(3)
-                }
-            }
-            // Draws time rowns
-            ForEach(times.indices, id: \.self) { index in
-                HStack(spacing: 2) {
-                    Text(times[index])
-                        .font(.caption)
-                        .frame(width: 40, alignment: .leading)
-                    ForEach(0..<7) { dayIndex in
-                        Button(action: {
-                            toggleAvailability(day: days[dayIndex], timeSlot: times[index])
-                        }) {
-                            Rectangle()
-                                .fill(isSelected(day: days[dayIndex], timeSlot: times[index]) ? Color.blue : Color.gray.opacity(0.2))
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        }
-                        .frame(height: 25)
-                    }
-                }
-                .frame(height: 30)
-            }
-        }
-        .padding(5)
-    }
-    
-    func toggleAvailability(day: String, timeSlot: String) {
-        if selectedA[day]?.contains(timeSlot) ?? false {
-            selectedA[day]?.removeAll(where: { $0 == timeSlot })
-        } else {
-            selectedA[day, default: []].append(timeSlot)
-        }
-    }
-    
-    func isSelected(day: String, timeSlot: String) -> Bool {
-        return selectedA[day]?.contains(timeSlot) ?? false
-    }
-}
-
-// Sports types
-enum Sports: Hashable, CustomStringConvertible {
-    case Football
-    
-    var description: String {
-        switch self {
-        case .Football:
-            return "Football"
-        }
-    }
-}
-
-// Sports Positions
-enum Positions: Hashable, CustomStringConvertible {
-    enum FootballPositions: Hashable, CustomStringConvertible {
-        case defensive_Tackle
-        case nose_Tackle
-        case defensive_End
-        case middle_Linebacker
-        case outside_Linebacker
-        case strongSide_Linebacker
-        case weakSide_Linebacker
-        case cornerback
-        case free_Safety
-        case strong_Safety
-        case kicker
-        case punter
-        case long_Snapper
-        case holder
-        case kick_Returner
-        case punt_Returner
-        case gunner
-        
-        var description: String {
-            switch self {
-            case .defensive_Tackle:
-                return "Defensive Tackle"
-            case .nose_Tackle:
-                return "Nose Tackle"
-            case .defensive_End:
-                return "Defensive End"
-            case .middle_Linebacker:
-                return "Middle Linebacker"
-            case .outside_Linebacker:
-                return "Outside Linebacker"
-            case .strongSide_Linebacker:
-                return "Strong Side Linebacker"
-            case .weakSide_Linebacker:
-                return "Weak Side Linebacker"
-            case .cornerback:
-                return "Cornerback"
-            case .free_Safety:
-                return "Free Safety"
-            case .strong_Safety:
-                return "Strong Safety"
-            case .kicker:
-                return "Kicker"
-            case .punter:
-                return "Punter"
-            case .long_Snapper:
-                return "Long Snapper"
-            case .holder:
-                return "Holder"
-            case .kick_Returner:
-                return "Kick Returner"
-            case .punt_Returner:
-                return "Punt Returner"
-            case .gunner:
-                return "Gunner"
-            }
-        }
-    }
-    case football(Positions.FootballPositions)
-    
-    var description: String {
-        switch self {
-        case .football(let pos):
-            return pos.description
-        }
-    }
-}
-
-// Session Types
-enum GroupType {
-    case Individual, Group
-    var description: String {
-        switch self {
-        case .Individual:
-            return "Individual"
-        case .Group:
-            return "Group"
-        }
-    }
-}
-
-// Location Struct
-struct CoachLocation: Identifiable, Hashable, Equatable {
-    let id = UUID()
-    let coordinate: CLLocationCoordinate2D
-    let name: String
-    
-    // Hashable conformance
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    // Equatable conformance
-    static func == (lhs: CoachLocation, rhs: CoachLocation) -> Bool {
-        return (lhs.coordinate.latitude == rhs.coordinate.latitude) && (lhs.coordinate.longitude == rhs.coordinate.longitude)
-    }
-}
-
-// Session Struct
-struct Session: Identifiable, Equatable {
-    let id: UUID = UUID()
-    var req_date: Date
-    let other: ProfileID
-    var sport: Sports
-    var type: GroupType
-    // Coach hourly rate for type
-    var typeRate: Double
-    // Computed total cost
-    var cost: Double {
-          // Get the duration of the session in seconds
-          let durationInSeconds = finished.timeIntervalSince(date)
-          // Ensure duration is positive to prevent negative costs
-          guard durationInSeconds > 0 else { return 0.0 }
-          // Convert duration to hours
-          let durationInHours = durationInSeconds / 3600.0
-          // Calculate and return the total cost
-          return durationInHours * typeRate
-      }
-    var date: Date
-    var finished: Date
-    var location: CoachLocation?
-    //implement with algorithm
-    var rate: Double
-    
-    // Find the time between sessions
-    var totalTime: (Int,Int) {
-        // Get the duration of the session in seconds
-        let durationInSeconds = Int(finished.timeIntervalSince(date))
-        // Ensure duration is positive to prevent negative costs
-        guard durationInSeconds > 0 else { return (0,0) }
-        return (durationInSeconds / 3600, (durationInSeconds % 3600) / 60)
-    }
-    // Optional message
-    var description: String?
-    var sf: String {
-        switch sport {
-        case .Football:
-            return "football"
-        }
-    }
-
-    static func == (lhs: Session, rhs: Session) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-// Message Struct
-struct Message: Identifiable, Equatable {
-    let id: UUID = UUID()
-    var receiver: ProfileID
-    var date: Date
-    var mess: String
-    var seen: Bool = false
-    
-    // for session posting
-    var sess: Session?
-    
-    static func == (lhs: Message, rhs: Message) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-// Review Struct
-struct Review: Identifiable, Equatable {
-    let id : UUID = UUID()
-    var reviewer: ProfileID
-    var date: Date
-    var star: Float
-    var quote: String
-    
-    static func == (lhs: Review, rhs: Review) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-// Backend data collection
+// Backend main data collection
 struct Profile: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var firstName: String
     var lastName: String
     var coachAccount: Bool
-    var phoneNumber: String?
     var userType: String
     var postalCode: String
     var imageURL: String?
@@ -376,7 +37,6 @@ struct Profile: Codable, Identifiable, Equatable, Hashable {
         case firstName = "first_name"
         case lastName = "last_name"
         case coachAccount = "coach_account"
-        case phoneNumber = "phone_number"
         case userType = "user_type"
         case postalCode = "postal_code"
         case imageURL = "image_url"
@@ -386,6 +46,60 @@ struct Profile: Codable, Identifiable, Equatable, Hashable {
     
     // Equatable Conformance
     static func == (lhs: Profile, rhs: Profile) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    // Hashable Conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// Backend coach data collection
+struct CoachProfile: Codable, Identifiable, Equatable, Hashable {
+    var id: UUID
+    var personalQuote: String
+    var coachingAchievements: [String]
+    var coachingExperience: [String]
+    var timeAvailability: [String: [String]]
+    var athleteMessaging: Bool
+    var individualCost: Double?
+    var groupCost: Double?
+    var sports: [String]
+    var sportPositions: [String:[String]]
+    var cancellationNotice: Int?
+    
+    // Codable Conformance
+    enum CodingKeys: String, CodingKey {
+        case id
+        case personalQuote = "personal_quote"
+        case coachingAchievements = "coaching_achievements"
+        case coachingExperience = "coaching_experience"
+        case timeAvailability = "time_availability"
+        case athleteMessaging = "athlete_messaging"
+        case individualCost = "individual_cost"
+        case groupCost = "group_cost"
+        case sports
+        case sportPositions = "sport_positions"
+        case cancellationNotice = "cancellation_notice"
+    }
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        personalQuote = try c.decodeIfPresent(String.self, forKey: .personalQuote) ?? ""
+        coachingAchievements = try c.decodeIfPresent([String].self, forKey: .coachingAchievements) ?? []
+        coachingExperience = try c.decodeIfPresent([String].self, forKey: .coachingExperience) ?? []
+        timeAvailability = try c.decodeIfPresent([String:[String]].self, forKey: .timeAvailability) ?? [:]
+        athleteMessaging = try c.decodeIfPresent(Bool.self, forKey: .athleteMessaging) ?? true
+        individualCost = try c.decodeIfPresent(Double.self, forKey: .individualCost) ?? nil
+        groupCost = try c.decodeIfPresent(Double.self, forKey: .groupCost) ?? nil
+        sports = try c.decodeIfPresent([String].self, forKey: .sports) ?? []
+        sportPositions = try c.decodeIfPresent([String:[String]].self, forKey: .sportPositions) ?? [:]
+        cancellationNotice = try c.decodeIfPresent(Int.self, forKey: .cancellationNotice) ?? nil
+    }
+    
+    // Equatable Conformance
+    static func == (lhs: CoachProfile, rhs: CoachProfile) -> Bool {
         return lhs.id == rhs.id
     }
     
@@ -407,13 +121,23 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
     }
     @Published var coachAccount: Bool = false
     @Published var imageURL = "athlinklogo"
-    @Published var phoneNumber: String?
     @Published var postalCode: String = ""
     @Published var notifications: Bool = false
     // Athlete
     @Published var userType: String = ""
     @Published var coachMessaging: Bool = true
     // Coach
+    @Published var personalQuote: String = ""
+    @Published var coachingAchievements: [String] = []
+    @Published var coachingExperience: [String] = []
+    @Published var timeAvailability: [String: [String]] = [:]
+    @Published var athleteMessaging: Bool = true
+    @Published var trainingLocations: [CoachLocation] = []
+    @Published var individualCost: Double? = nil
+    @Published var groupCost: Double? = nil
+    @Published var sports: [String] = []
+    @Published var sportPositions: [String:[String]] = [:]
+    @Published var cancellationNotice: Int?
     var rating: Float {
         guard !reviews.isEmpty else { return 0.0 }
         let sum = reviews.reduce(0) { $0 + $1.star }
@@ -438,7 +162,7 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
         let hours = seconds / 3600
         return "\(hours)hr"
     }
-    
+
     // Other
     @Published var interestedCoaches: [ProfileID] = []
     @Published var myCoaches: [ProfileID] = []
@@ -458,20 +182,9 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
     @Published var cunsubmittedSessions: [Session] = []
     @Published var csubmitedSessions: [Session] = []
     
-    @Published var athleteMessaging: Bool = true
-    @Published var quote: String? = nil
-    @Published var achievements: [String] = []
-    @Published var experience: [String] = []
-    @Published var trainingLocations: [CoachLocation] = []
     @Published var ratings: Int = 0
     @Published var reviews: [Review] = []
     var responseTime: Int = 0
-    @Published var availability: [String: [String]] = [:]
-    @Published var cancellationNotice: Int?
-    @Published var sport: [Sports] = []
-    @Published var position: [Sports:[Positions]] = [:]
-    @Published var individualCost: Double? = nil
-    @Published var groupCost: Double? = nil
     @Published var offenderWatch: Bool? = nil
     @Published var directDeposit: [String]? = nil
     
@@ -481,7 +194,6 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
         firstName = row.firstName
         lastName = row.lastName
         coachAccount = row.coachAccount
-        phoneNumber = (row.phoneNumber?.isEmpty == false) ? row.phoneNumber : nil
         userType = row.userType
         postalCode = row.postalCode
         if let pp = row.imageURL, !pp.isEmpty {
@@ -492,20 +204,19 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
         notifications = row.notifications
         coachMessaging = row.coachMessaging
     }
-    // Build a DB payload from the UI object
-    func toRow() -> Profile {
-        Profile(
-            id: id,
-            firstName: firstName,
-            lastName: lastName,
-            coachAccount: coachAccount,
-            phoneNumber: phoneNumber,
-            userType: userType,
-            postalCode: postalCode,
-            imageURL: imageURL.hasPrefix("http") ? imageURL : nil,
-            notifications: notifications,
-            coachMessaging: coachMessaging
-        )
+    
+    // Map a DB coachRow -> UI object
+    func coachApply(row: CoachProfile) {
+        personalQuote = row.personalQuote
+        coachingAchievements = row.coachingAchievements
+        coachingExperience = row.coachingExperience
+        timeAvailability = row.timeAvailability
+        athleteMessaging = row.athleteMessaging
+        individualCost = row.individualCost
+        groupCost = row.groupCost
+        sports = row.sports
+        sportPositions = row.sportPositions
+        cancellationNotice = row.cancellationNotice
     }
     
     // Equatable Conformance
@@ -520,7 +231,8 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
 }
 
 // Important App Wide Features
-class RootViewObj: ObservableObject {
+@MainActor
+class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate {
     init(client: SupabaseClient) {
         self.client = client
     }
@@ -541,6 +253,51 @@ class RootViewObj: ObservableObject {
     @Published var sessType = false
     @Published var lastPage = ""
     
+    // Location Managment
+    @Published var locationManager: CLLocationManager?
+    @Published var userCoordinate: CLLocationCoordinate2D?
+    func checkLocationEnabled() {
+        guard CLLocationManager.locationServicesEnabled() else { return }
+        if locationManager == nil {
+            let manager = CLLocationManager()
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager = manager
+        }
+        checkLocationAuthorization()
+    }
+    private func checkLocationAuthorization() {
+        guard let locationManager = locationManager else { return }
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            print("You're location is restricted.")
+        case .denied:
+            print("You have denied this app locations permision. Go into settings to change this.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            break
+        }
+    }
+    // Delegate Overide
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        Task { @MainActor in
+            checkLocationAuthorization()
+        }
+    }
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let coord = locations.last?.coordinate
+        Task { @MainActor in
+            self.userCoordinate = coord
+        }
+    }
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location error:", error.localizedDescription)
+    }
+    
     // Backend server
     @Published var client: SupabaseClient
     @Published var selectedSession: ProfileID? = nil
@@ -551,15 +308,34 @@ class RootViewObj: ObservableObject {
               let user = client.auth.currentUser else {
             throw NSError(domain: "Auth", code: -1, userInfo: [NSLocalizedDescriptionKey: "No signed-in user"])
         }
-        // Fetch Table Data
-        let row: Profile = try await client
+        // Fetch Main Data
+        let athleteRow: Profile = try await client
           .from("profiles")
-          .select("id, first_name, last_name, coach_account, image_url, phone_number, postal_code, user_type, notifications, coach_messaging")
+          .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging")
           .eq("id", value: user.id)
           .single()
           .execute()
           .value
-        profile.apply(row: row)
+        profile.apply(row: athleteRow)
+        // If Coach Fetch Other Data
+        if athleteRow.coachAccount {
+            let coachRow: CoachProfile = try await client
+                .from("coach_profile")
+                .select("id, personal_quote, coaching_achievements, coaching_experience, time_availability, athlete_messaging, individual_cost, group_cost, sports, sport_positions, cancellation_notice")
+                .eq("id", value: user.id)
+                .single()
+                .execute()
+                .value
+            profile.coachApply(row: coachRow)
+            // Grabs training locations and adds if not empty
+            let rows: [CoachLocation] = try await client
+                .from("location")
+                .select("id,name,lat,lng")
+                .eq("coach_id", value: user.id)
+                .execute()
+                .value
+            profile.trainingLocations = rows
+        }
     }
     // Profile image
     func uploadImage(image: UIImage) async throws {

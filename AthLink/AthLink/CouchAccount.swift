@@ -57,8 +57,8 @@ struct CouchAccount: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
-                        if let quote = selectedSession.quote {
-                            Text("\"\(quote)\"")
+                        if !selectedSession.personalQuote.isEmpty {
+                            Text("\"\(selectedSession.personalQuote)\"")
                         }
                     }
                     .padding(.trailing)
@@ -166,7 +166,7 @@ struct CouchAccount: View {
                     }
                 }
                 .padding([.leading,.trailing], 15)
-                if let quote = selectedSession.quote {
+                if !selectedSession.personalQuote.isEmpty {
                     //line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
@@ -174,9 +174,9 @@ struct CouchAccount: View {
                     Text("About")
                         .bold()
                     //About
-                    Text(quote)
+                    Text(selectedSession.personalQuote)
                 }
-                if !selectedSession.experience.isEmpty {
+                if !selectedSession.coachingExperience.isEmpty {
                     //line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
@@ -184,12 +184,12 @@ struct CouchAccount: View {
                     Text("Coaching Experience")
                         .bold()
                     //Experience
-                    ForEach(selectedSession.experience, id: \.self) { ach in
+                    ForEach(selectedSession.coachingExperience, id: \.self) { ach in
                         Text(ach)
                             .padding([.leading,.trailing], 5)
                     }
                 }
-                if !selectedSession.achievements.isEmpty {
+                if !selectedSession.coachingAchievements.isEmpty {
                     //line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
@@ -198,7 +198,7 @@ struct CouchAccount: View {
                         .bold()
                     // Achievements
                     VStack(alignment: .leading) {
-                        ForEach(selectedSession.achievements, id: \.self) { ach in
+                        ForEach(selectedSession.coachingAchievements, id: \.self) { ach in
                             Text(ach)
                         }
                     }
@@ -260,7 +260,7 @@ struct CouchAccount: View {
                     }
                 }
                 //Sports/Position
-                if !selectedSession.sport.isEmpty {
+                if !selectedSession.sports.isEmpty {
                     //line
                     Rectangle().frame(maxWidth: .infinity)
                         .frame(height: 1)
@@ -268,10 +268,10 @@ struct CouchAccount: View {
                     Text("Sports/Positions")
                         .bold()
                     VStack(alignment: .leading) {
-                        ForEach(selectedSession.sport,  id: \.self) { sp in
+                        ForEach(selectedSession.sports,  id: \.self) { sp in
                             VStack(alignment: .leading) {
                                 Text("\(sp):")
-                                ForEach(selectedSession.position[sp] ?? [],  id: \.self) { p in
+                                ForEach(selectedSession.sportPositions[sp] ?? [],  id: \.self) { p in
                                     Text("\(p)")
                                 }
                             }

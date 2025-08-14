@@ -60,8 +60,8 @@ struct CoachLogin: View {
                                     // Signup new user
                                     let res = try await rootView.client.auth.signUp(
                                         email: signupDraft.email,
-                                           password: signupDraft.password
-                                         )
+                                        password: signupDraft.password,
+                                    )
                                     // Ensure authenticated session
                                       guard res.session != nil else {
                                         throw NSError(domain: "Auth", code: 0,
@@ -73,7 +73,6 @@ struct CoachLogin: View {
                                         firstName: signupDraft.firstName,
                                         lastName: signupDraft.lastName,
                                         coachAccount: true,
-                                        phoneNumber: signupDraft.phoneNumber,
                                         userType: signupDraft.userType,
                                         postalCode: signupDraft.postalCode
                                     )

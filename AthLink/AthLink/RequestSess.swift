@@ -19,6 +19,7 @@ struct RequestSess: View {
     @State private var selectedSport: Sports = .Football
     @State private var selectedDescription: String = ""
     @State private var selectedLocation: CoachLocation = CoachLocation(
+        id: UUID(),
         coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0),
         name: "nan"
     )
@@ -168,7 +169,7 @@ struct RequestSess: View {
                         HStack {
                             Text("Sport:")
                             Picker("Session Type", selection: $selectedSport) {
-                                ForEach(session.sport, id: \.self) { sport in
+                                ForEach(session.sports, id: \.self) { sport in
                                     Text(sport.description).tag(sport)
                                 }
                             }

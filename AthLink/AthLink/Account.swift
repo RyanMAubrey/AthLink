@@ -40,12 +40,6 @@ struct Account: View {
                 isUnSaved = true
             }        }
     }
-    @State private var phone: String = "" {
-        didSet {
-            if !isInitialLoad && phone != oldValue {
-                isUnSaved = true
-            }        }
-    }
     @State private var postalCode: String = "" {
         didSet {
             if !isInitialLoad && postalCode != oldValue {
@@ -141,8 +135,7 @@ struct Account: View {
                         FieldRow(title: "Email:", text: $email, keyboardType: .emailAddress)
                         FieldRow(title: "Password:", text: $password, secure: true)
                         FieldRow(title: "Postal Code:", text: $postalCode)
-                        FieldRow(title: "Phone:", text: $phone, keyboardType: .phonePad)
-                        
+
                         HStack {
                             Text("User:")
                                 .font(.headline)
@@ -204,10 +197,9 @@ struct Account: View {
                                 do {
                                     guard let user = rootView.client.auth.currentUser else{return}
                                     // Table info
-                                    let patch = ProfilePatch(
+                                    let patch = ProfilePatchFirst(
                                         first_name: firstName.isEmpty ? nil : firstName,
                                         last_name:  lastName.isEmpty ? nil : lastName,
-                                        phone_number: phone.isEmpty ? nil : phone,
                                         user_type: userType.isEmpty ? nil : userType,
                                         postal_code: postalCode.isEmpty ? nil : postalCode,
                                         notifications: notifications,
@@ -229,7 +221,7 @@ struct Account: View {
                                     // Update frontend
                                     let row: Profile = try await rootView.client
                                       .from("profiles")
-                                      .select("id, first_name, last_name, coach_account, image_url, phone_number, postal_code, user_type, notifications, coach_messaging")
+                                      .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging")
                                       .eq("id", value: user.id)
                                       .single()
                                       .execute()
@@ -299,7 +291,6 @@ struct Account: View {
             // Setting Variables
             firstName = rootView.profile.firstName
             lastName = rootView.profile.lastName
-            phone = rootView.profile.phoneNumber ?? ""
             postalCode = rootView.profile.postalCode
             userType = rootView.profile.userType
             notifications = rootView.profile.notifications
@@ -314,15 +305,5 @@ struct Account: View {
             // Other
             isInitialLoad = false
         }
-    }
-    
-    private struct ProfilePatch: Encodable {
-        let first_name: String?
-        let last_name: String?
-        let phone_number: String?
-        let user_type: String?
-        let postal_code: String?
-        let notifications: Bool?
-        let coach_messaging: Bool?
     }
 }

@@ -33,6 +33,8 @@ struct ExistingLoginView: View {
                             .padding(.horizontal, 20)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
+                            .keyboardType(.emailAddress)
                             .textContentType(.password)
                         // Password Field
                         Text("Password")
@@ -43,8 +45,7 @@ struct ExistingLoginView: View {
                             .padding(.horizontal, 20)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
-                            .textContentType(.emailAddress)
-                            .keyboardType(.emailAddress)
+                            .textContentType(.password)
                     }
                     .padding()
                     .background(Color.gray.opacity(0.2))
@@ -109,6 +110,9 @@ struct ExistingLoginView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
+        }
+        .onAppear() {
+            rootView.checkLocationEnabled()
         }
     }
 }

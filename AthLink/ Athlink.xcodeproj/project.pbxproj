@@ -18,6 +18,7 @@
 		948870962E3B13A1000304F5 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 948870952E3B13A1000304F5 /* Realtime */; };
 		948870982E3B13A2000304F5 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 948870972E3B13A2000304F5 /* Storage */; };
 		9488709A2E3B13A2000304F5 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 948870992E3B13A2000304F5 /* Supabase */; };
+		94909F272E4C471700581A5A /* HelperFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94909F262E4C471700581A5A /* HelperFunc.swift */; };
 		9491E31B2D5EFEEC003522A1 /* Jobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491E31A2D5EFEEC003522A1 /* Jobs.swift */; };
 		94A24C402D5D4F2A00D1A467 /* RequestSess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */; };
 		94AA6CA62D1E2621009E5FEC /* CoachHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA6CA52D1E2621009E5FEC /* CoachHome.swift */; };
@@ -70,6 +71,7 @@
 		9469D76E2D18E9C600DFBB9D /* CoachLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachLogin.swift; sourceTree = "<group>"; };
 		947E80652E1B5E41002DA5BC /* SessionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfo.swift; sourceTree = "<group>"; };
 		948490832DA5D9BB00D4413A /* CoachRequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachRequestSess.swift; sourceTree = "<group>"; };
+		94909F262E4C471700581A5A /* HelperFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunc.swift; sourceTree = "<group>"; };
 		9491E31A2D5EFEEC003522A1 /* Jobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jobs.swift; sourceTree = "<group>"; };
 		94A24C3F2D5D4F2A00D1A467 /* RequestSess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSess.swift; sourceTree = "<group>"; };
 		94A2B2A22D3F629D008669B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				94A2B2A22D3F629D008669B2 /* Info.plist */,
 				FFD6FA7D2C6BEFDD00E2067E /* AthLink.entitlements */,
 				FF063DB32C12DFA300EF79FB /* AthLinkApp.swift */,
+				94909F262E4C471700581A5A /* HelperFunc.swift */,
 				FF063DB72C12DFA300EF79FB /* Item.swift */,
 				94FC7FB72C2A41AC006EF266 /* Search.swift */,
 				FF063DE32C13ECD000EF79FB /* LoginScreen.swift */,
@@ -404,6 +407,7 @@
 				94FC7FBA2C2A73BE006EF266 /* FSearch.swift in Sources */,
 				FF29F8572C3B03090015F643 /* Messages.swift in Sources */,
 				FF063DB42C12DFA300EF79FB /* AthLinkApp.swift in Sources */,
+				94909F272E4C471700581A5A /* HelperFunc.swift in Sources */,
 				94FC7FB62C29360B006EF266 /* home.swift in Sources */,
 				947E80662E1B5E42002DA5BC /* SessionInfo.swift in Sources */,
 				94FC7FB82C2A41AC006EF266 /* Search.swift in Sources */,
@@ -656,6 +660,7 @@
 				INFOPLIST_FILE = AthLink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to view coach locations";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -689,6 +694,7 @@
 				INFOPLIST_FILE = AthLink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AthLink;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to view coach locations";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
