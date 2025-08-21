@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import CoreLocation
 import Supabase
+import MapKit
 
 // Retreive Info.plist info
 func infoValue(key: String) -> String {
@@ -232,10 +233,12 @@ class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
 
 // Important App Wide Features
 @MainActor
-class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate {
+class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate{
     init(client: SupabaseClient) {
         self.client = client
+        super.init()
     }
+    
     // Root View Options
     enum RootView {
         case Login
@@ -257,7 +260,6 @@ class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var locationManager: CLLocationManager?
     @Published var userCoordinate: CLLocationCoordinate2D?
     func checkLocationEnabled() {
-        guard CLLocationManager.locationServicesEnabled() else { return }
         if locationManager == nil {
             let manager = CLLocationManager()
             manager.delegate = self
@@ -294,8 +296,48 @@ class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate {
             self.userCoordinate = coord
         }
     }
-    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location error:", error.localizedDescription)
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print("Location error:", error.localizedDescription) }
+    
+    // Local area search
+    @MainActor
+    final class LocalSearch: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
+        let completer = MKLocalSearchCompleter()
+        @Published var query: String = "" {
+            didSet{ completer.queryFragment = query }
+        }
+        @Published var suggestions: [MKLocalSearchCompletion] = []
+        @Published var errorMessage: String?
+        
+        override init() {
+            super.init()
+            completer.delegate = self
+            completer.resultTypes = [.address, .pointOfInterest]
+        }
+        func setRegion(center: CLLocationCoordinate2D, span: MKCoordinateSpan = .init(latitudeDelta: 0.1, longitudeDelta: 0.1)) {
+            completer.region = MKCoordinateRegion(center:center, span: span)
+        }
+        nonisolated func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+            Task { @MainActor in
+                self.suggestions = completer.results
+                self.errorMessage = nil
+            }
+        }
+        nonisolated func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+            Task { @MainActor in
+                errorMessage = error.localizedDescription
+                suggestions = []
+            }
+        }
+        func lookup(_ completion: MKLocalSearchCompletion) async throws -> MKMapItem {
+            let request = MKLocalSearch.Request(completion: completion)
+            let search = MKLocalSearch(request: request)
+            let resp = try await search.start()
+            guard let item = resp.mapItems.first else {
+                throw NSError(domain: "LocalSearch", code: 404,
+                              userInfo: [NSLocalizedDescriptionKey: "No matching place found"])
+            }
+            return item
+        }
     }
     
     // Backend server

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import MapKit
 
 struct CouchAccount: View {
     //test:
@@ -15,6 +16,7 @@ struct CouchAccount: View {
     
     @EnvironmentObject var rootView: RootViewObj
     @State private var sessionReq: Bool = false
+    @State private var mapShow: CoachLocation?
 
     var body: some View {
         //top bar
@@ -88,6 +90,13 @@ struct CouchAccount: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: 100)
+            }
+            .sheet(item: $mapShow) { loc in
+                if let u = rootView.userCoordinate {
+                    MapShow(specifiedLocation: loc, userCoordinate: u)
+                } else {
+                    MapShow(specifiedLocation: loc)
+                }
             }
             Spacer()
             
@@ -255,7 +264,11 @@ struct CouchAccount: View {
                         .bold()
                     VStack(alignment: .leading) {
                         ForEach(selectedSession.trainingLocations, id:\.self ) { loc in
-                            Text(loc.name)
+                            Button(action: {
+                                mapShow = loc
+                            }) {
+                                Text(loc.name)
+                            }
                         }
                     }
                 }
@@ -289,28 +302,55 @@ struct CouchAccount: View {
                     .disabled(true)
             }
             .onAppear() {
+                rootView.checkLocationEnabled()
+                if let mgr = rootView.locationManager {
+                    print("Auth:", mgr.authorizationStatus.rawValue)
+                }
                 if rootView.lastPage == "Sess" {
                     rootView.lastPage = ""
                 }
             }
         }
     }
-}
+    
+    // Map Structure
+    struct MapShow: View {
+        let specifiedLocation: CoachLocation
+        @State private var camera: MapCameraPosition
+        @State private var userCoordinate: CLLocationCoordinate2D?
 
-//#Preview {
-//    let mockSession = ProfileID()
-//    mockSession.coachAccount = true
-//    mockSession.firstName = "John"
-//    mockSession.lastName = "Doe"
-//    mockSession.ratings = 10
-//    mockSession.individualCost = 100
-//    mockSession.groupCost = 80
-//    mockSession.quote = "Never give up!"
-//    mockSession.sport = [Sports.Football]
-//    let pm: Bool = false
-//    let rootView = RootViewObj()
-//    rootView.selectedSession = mockSession
-//    
-//    return CouchAccount(prevMess: $pm)
-//        .environmentObject(rootView)
-//}
+        init(specifiedLocation: CoachLocation, userCoordinate: CLLocationCoordinate2D? = nil) {
+            self.specifiedLocation = specifiedLocation
+            let region: MKCoordinateRegion
+            if let u = userCoordinate {
+                   let a = specifiedLocation.coordinate
+                   let minLat = min(a.latitude,  u.latitude)
+                   let maxLat = max(a.latitude,  u.latitude)
+                   let minLon = min(a.longitude, u.longitude)
+                   let maxLon = max(a.longitude, u.longitude)
+
+                   let center = CLLocationCoordinate2D(
+                       latitude:  (minLat + maxLat) / 2,
+                       longitude: (minLon + maxLon) / 2
+                   )
+                   let latDelta = max((maxLat - minLat) * 1.3, 0.02)
+                   let lonDelta = max((maxLon - minLon) * 1.3, 0.02)
+
+                   region = MKCoordinateRegion(center: center,
+                                               span: .init(latitudeDelta: latDelta, longitudeDelta: lonDelta))
+               } else {
+                   region = MKCoordinateRegion(center: specifiedLocation.coordinate,
+                                               span: .init(latitudeDelta: 0.02, longitudeDelta: 0.02))
+               }
+
+            _camera = State(initialValue: .region(region))
+        }
+
+        var body: some View {
+            Map(position: $camera) {
+                Marker(specifiedLocation.name, coordinate: specifiedLocation.coordinate)
+            }
+            .ignoresSafeArea(edges: .top)
+        }
+    }
+}

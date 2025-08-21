@@ -111,8 +111,5 @@ struct ExistingLoginView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
         }
-        .onAppear() {
-            rootView.checkLocationEnabled()
-        }
     }
 }

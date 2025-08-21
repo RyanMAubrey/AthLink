@@ -35,18 +35,6 @@ struct AccountView: View {
                 isUnSaved = true
             }        }
     }
-    @State private var email: String = "" {
-        didSet {
-            if !isInitialLoad && email != oldValue {
-                isUnSaved = true
-            }        }
-    }
-    @State private var password: String = "" {
-        didSet {
-            if !isInitialLoad && password != oldValue {
-                isUnSaved = true
-            }        }
-    }
     @State private var postalCode: String = "" {
         didSet {
             if !isInitialLoad && postalCode != oldValue {
@@ -151,9 +139,8 @@ struct AccountView: View {
     @State private var newAchievement = ""
     @State private var showingLogAlert = false
     // Location info
-    @State private var showMap:Bool = false
     @State private var selectedLoc: CoachLocation?
-    @State private var showAddLocationSheet : Bool = false
+    @State private var showAddLocationSheet: Bool = false
 
     private func updateTotal(type: Bool) {
         // build a Decimal total first
@@ -235,8 +222,6 @@ struct AccountView: View {
                         
                         FieldRow(title: "First:", text: $firstName)
                         FieldRow(title: "Last:", text: $lastName)
-                        FieldRow(title: "Email:", text: $email, keyboardType: .emailAddress)
-                        FieldRow(title: "Password:", text: $password, secure: true)
                         FieldRow(title: "Postal Code:", text: $postalCode)
                         
                         // Payment sectiton
@@ -412,10 +397,9 @@ struct AccountView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.top, 10)
-                        ForEach(trainingLoc, id: \.self) { loc in
+                        ForEach(trainingLoc, id: \.id) { loc in
                             Button(action: {
                                 selectedLoc = loc
-                                showMap = true
                             }) {
                                 Text("\(loc.name)")
                                     .fixedSize(horizontal: false, vertical: true)
@@ -432,21 +416,29 @@ struct AccountView: View {
                         }
                     }
                     .sheet(isPresented: $showAddLocationSheet) {
-                        EmptyView()
+                        LocationAddition(selectedArea: $selectedLoc) {
+                            if let loc = selectedLoc, !trainingLoc.contains(loc) {
+                                trainingLoc.append(loc)
+                            }
+                            isUnSaved = true
+                            selectedLoc = nil
+                            showAddLocationSheet = false
+                        }
+                        .environmentObject(rootView)
                     }
-                    .sheet(isPresented: $showMap) {
-                        if let loc = selectedLoc {
-                            MapViewing(specifiedLocation: loc) {
-                                trainingLoc.removeAll { $0.id == loc.id }
-                                isUnSaved = true
-                                showMap = false
-                            }                        }
+                    .sheet(item: $selectedLoc) { loc in
+                        MapViewing(specifiedLocation: loc) {
+                            trainingLoc.removeAll { $0.id == loc.id }
+                            isUnSaved = true
+                            selectedLoc = nil
+                        }
                     }
                     // cancelation picker
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Cancellation Notice:")
-                            .font(.headline)
-
+                        Text("Cancelation Notice (Optional):")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 10)
                         HStack {
                             Text("Hours before session:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -544,38 +536,34 @@ struct AccountView: View {
                                     .update(cpatch)
                                     .eq("id", value: user.id)
                                     .execute()
-//                                // Location table info
-//                                let locrow: CoachLocation = try await rootView.client
-//                                    .from("locaiton")
-//                                    .select("id, name, lat, lng")
-//                                    .eq("coach_id", value: user.id)
-//                                    .execute()
-//                                    .value
-                                // User email
-                                if !email.trimmingCharacters(in: .whitespaces).isEmpty {
-                                  try await rootView.client.auth.update(user: UserAttributes(email: email))
+                                // Location table info
+                                // Save locations (full replace)
+                                let locRows: [LocationPatch] = trainingLoc.map { loc in
+                                    LocationPatch(
+                                        id: loc.id,
+                                        coach_id: user.id,
+                                        name: loc.name,
+                                        lat: loc.coordinate.latitude,
+                                        lng: loc.coordinate.longitude
+                                    )
                                 }
-                                // User password
-                                if !password.isEmpty {
-                                  try await rootView.client.auth.update(user: UserAttributes(password: password))
+
+                                // remove everything for this coach
+                                try await rootView.client
+                                    .from("location")
+                                    .delete()
+                                    .eq("coach_id", value: user.id)
+                                    .execute()
+
+                                // insert the current set (if any)
+                                if !locRows.isEmpty {
+                                    try await rootView.client
+                                        .from("location")
+                                        .insert(locRows)
+                                        .execute()
                                 }
                                 // Update frontend
-                                let mainRow: Profile = try await rootView.client
-                                  .from("profiles")
-                                  .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging")
-                                  .eq("id", value: user.id)
-                                  .single()
-                                  .execute()
-                                  .value
-                                rootView.profile.apply(row: mainRow)
-                                let coachRow: CoachProfile = try await rootView.client
-                                    .from("coach_profile")
-                                    .select("id, personal_quote, coaching_achievements, coaching_experience, time_availability, athlete_messaging, individual_cost, group_cost, sports, sport_positions")
-                                    .eq("id", value: user.id)
-                                    .single()
-                                    .execute()
-                                    .value
-                                rootView.profile.coachApply(row: coachRow)
+                                try await rootView.loadProfile()
                             } catch {
                                 print("Update failed:", error)
                             }
@@ -657,12 +645,12 @@ struct AccountView: View {
     // Map Structure
     struct MapViewing: View {
         let specifiedLocation: CoachLocation
-        let onDelete: () -> Void
+        let onAction: () -> Void
         @State private var camera: MapCameraPosition
 
-        init(specifiedLocation: CoachLocation, onDelete: @escaping () -> Void) {
+        init(specifiedLocation: CoachLocation, onAction: @escaping () -> Void) {
             self.specifiedLocation = specifiedLocation
-            self.onDelete = onDelete
+            self.onAction = onAction
             let region = MKCoordinateRegion(
                 center: specifiedLocation.coordinate,
                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -676,7 +664,7 @@ struct AccountView: View {
             }
             .ignoresSafeArea(edges: .top)
             .safeAreaInset(edge: .bottom) {
-                Button(action: onDelete) {
+                Button(action: onAction) {
                     Text("Delete \(specifiedLocation.name)?")
                         .fixedSize(horizontal: false, vertical: true)
                         .padding()
@@ -687,7 +675,58 @@ struct AccountView: View {
             }
         }
     }
-
+    // Adding a location
+    struct LocationAddition: View {
+        @EnvironmentObject var rootView: RootViewObj
+        @StateObject private var search = RootViewObj.LocalSearch()
+        @Binding var selectedArea: CoachLocation?
+        let onAdd: () -> Void
+        
+        var body: some View {
+            List {
+                Section {
+                    TextField("Search an area to add to locations", text: $search.query)
+                        .disableAutocorrection(true)
+                        .textInputAutocapitalization(.words)
+                }
+                if !search.query.isEmpty {
+                    Section("Suggestions") {
+                        ForEach(search.suggestions, id: \.self) { s in
+                            Button {
+                                Task { await pick(s) }
+                            } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(s.title)
+                                    if !s.subtitle.isEmpty {
+                                        Text(s.subtitle).font(.caption).foregroundStyle(.secondary)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .onAppear() {
+                rootView.checkLocationEnabled()
+                if let mgr = rootView.locationManager {
+                    print("Auth:", mgr.authorizationStatus.rawValue)
+                }
+            }
+            .onReceive(rootView.$userCoordinate.compactMap { $0 }) { coord in
+                search.setRegion(center: coord)
+            }
+        }
+        private func pick(_ s: MKLocalSearchCompletion) async {
+            do {
+                let item = try await search.lookup(s)
+                selectedArea = CoachLocation(
+                    coordinate: item.placemark.coordinate,
+                    name: item.name ?? s.title
+                )
+                onAdd()
+            } catch { print("Location error:", error.localizedDescription) }
+        }
+    }
 }
 
 

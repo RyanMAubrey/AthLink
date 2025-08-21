@@ -28,18 +28,6 @@ struct Account: View {
                 isUnSaved = true
             }        }
     }
-    @State private var email: String = "" {
-        didSet {
-            if !isInitialLoad && email != oldValue {
-                isUnSaved = true
-            }        }
-    }
-    @State private var password: String = "" {
-        didSet {
-            if !isInitialLoad && password != oldValue {
-                isUnSaved = true
-            }        }
-    }
     @State private var postalCode: String = "" {
         didSet {
             if !isInitialLoad && postalCode != oldValue {
@@ -132,8 +120,6 @@ struct Account: View {
                         
                         FieldRow(title: "First:", text: $firstName)
                         FieldRow(title: "Last:", text: $lastName)
-                        FieldRow(title: "Email:", text: $email, keyboardType: .emailAddress)
-                        FieldRow(title: "Password:", text: $password, secure: true)
                         FieldRow(title: "Postal Code:", text: $postalCode)
 
                         HStack {
@@ -210,23 +196,8 @@ struct Account: View {
                                       .update(patch)
                                       .eq("id", value: user.id)
                                       .execute()
-                                    // User email
-                                    if !email.trimmingCharacters(in: .whitespaces).isEmpty {
-                                      try await rootView.client.auth.update(user: UserAttributes(email: email))
-                                    }
-                                    // User password
-                                    if !password.isEmpty {
-                                      try await rootView.client.auth.update(user: UserAttributes(password: password))
-                                    }
                                     // Update frontend
-                                    let row: Profile = try await rootView.client
-                                      .from("profiles")
-                                      .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging")
-                                      .eq("id", value: user.id)
-                                      .single()
-                                      .execute()
-                                      .value
-                                    rootView.profile.apply(row: row)
+                                    try await rootView.loadProfile()
                                 } catch {
                                         print("Update failed:", error)
                                 }
