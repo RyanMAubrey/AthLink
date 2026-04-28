@@ -1,0 +1,546 @@
+//
+//  AthLinkApp.swift
+//  AthLink
+//
+//  Created by Kellen O'Rourke on 6/7/24.
+//
+
+import SwiftUI
+import SwiftData
+import CoreLocation
+import Supabase
+import MapKit
+
+// Retreive Info.plist info
+func infoValue(key: String) -> String {
+    guard let val = Bundle.main.object(forInfoDictionaryKey: key) as? String,
+          !val.isEmpty
+    else {
+        fatalError("⚠️ Missing \(key) in Info.plist")
+    }
+    return val
+}
+
+// Backend main data collection
+struct Profile: Codable, Identifiable, Equatable, Hashable {
+    var id: UUID
+    var firstName: String
+    var lastName: String
+    var coachAccount: Bool = false
+    var userType: String
+    var postalCode: String
+    var imageURL: String?
+    var notifications: Bool = false
+    var coachMessaging: Bool = false
+    var athleteUpcomingSessions: [Session] = []
+    var athletePastSessions: [Session] = []
+    var cardOnFile: Bool = false
+    var currentCoaches: [UUID] = []
+    var interestedCoaches: [UUID] = []
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case coachAccount = "coach_account"
+        case userType = "user_type"
+        case postalCode = "postal_code"
+        case imageURL = "image_url"
+        case notifications
+        case coachMessaging = "coach_messaging"
+        case athleteUpcomingSessions = "athlete_upcoming_sessions"
+        case athletePastSessions = "athlete_past_sessions"
+        case cardOnFile = "card_on_file"
+        case currentCoaches = "current_coaches"
+        case interestedCoaches = "interested_coaches"
+    }
+    
+    // Equatable Conformance
+    static func == (lhs: Profile, rhs: Profile) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    // Hashable Conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// Backend coach data collection
+struct CoachProfile: Codable, Identifiable, Equatable, Hashable {
+    var id: UUID
+    var personalQuote: String?
+    var coachingAchievements: [String] = []
+    var coachingExperience: [String] = []
+    var timeAvailability: [String: [String]] = [:]
+    var athleteMessaging: Bool = false
+    var individualCost: Double?
+    var groupCost: Double?
+    var sports: [String] = []
+    var sportPositions: [String:[String]] = [:]
+    var cancellationNotice: Int?
+    var coachUpcomingSessions: [Session] = []
+    var coachUnsubmittedSessions: [Session] = []
+    var coachSubmittedSessions: [Session] = []
+    var jobRequests: [Session] = []
+    var athleteRequests: [Session] = []
+    var potentialAthletes: [UUID] = []
+    var interestedAthletes: [UUID] = []
+    var currentAthletes: [UUID: Athletes] = [:]
+    var reviews: [Review] = []
+
+    // Codable Conformance
+    enum CodingKeys: String, CodingKey {
+        case id
+        case personalQuote = "personal_quote"
+        case coachingAchievements = "coaching_achievements"
+        case coachingExperience = "coaching_experience"
+        case timeAvailability = "time_availability"
+        case athleteMessaging = "athlete_messaging"
+        case individualCost = "individual_cost"
+        case groupCost = "group_cost"
+        case sports
+        case sportPositions = "sport_positions"
+        case cancellationNotice = "cancellation_notice"
+        case coachUpcomingSessions = "coach_upcoming_sessions"
+        case coachUnsubmittedSessions = "coach_unsubmitted_sessions"
+        case coachSubmittedSessions = "coach_submitted_sessions"
+        case jobRequests = "job_requests"
+        case athleteRequests = "athlete_requests"
+        case potentialAthletes = "potential_athletes"
+        case interestedAthletes = "interested_athletes"
+        case currentAthletes = "current_athletes"
+        
+        case reviews
+    }
+    
+    // Equatable Conformance
+    static func == (lhs: CoachProfile, rhs: CoachProfile) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// Front end UI Class
+class ProfileID: Identifiable, ObservableObject, Equatable, Hashable {
+    // Basic
+    var id: UUID = UUID()
+    @Published var firstName: String = ""
+    @Published var coachAccount: Bool = false
+    @Published var imageURL = "athlinklogo"
+    @Published var postalCode: String = ""
+    @Published var notifications: Bool = false
+    @Published var messages: [UUID: [Message]] = [:]
+    // Athlete
+    @Published var userType: String = ""
+    @Published var coachMessaging: Bool = true
+    @Published var athleteUpcomingSessions: [Session] = []
+    @Published var athletePastSessions: [Session] = []
+    @Published var currentCoaches: [UUID] = []
+    @Published var interestedCoaches: [UUID] = []
+    // Coach
+    @Published var personalQuote: String = ""
+    @Published var coachingAchievements: [String] = []
+    @Published var coachingExperience: [String] = []
+    @Published var timeAvailability: [String: [String]] = [:]
+    @Published var athleteMessaging: Bool = true
+    @Published var trainingLocations: [CoachLocation] = []
+    @Published var individualCost: Double? = nil
+    @Published var groupCost: Double? = nil
+    @Published var sports: [String] = []
+    @Published var sportPositions: [String:[String]] = [:]
+    @Published var cancellationNotice: Int?
+    @Published var coachUpcomingSessions: [Session] = []
+    @Published var coachUnsubmittedSessions: [Session] = []
+    @Published var coachSubmittedSessions: [Session] = []
+    @Published var jobRequests: [Session] = []
+    @Published var athleteRequests: [Session] = []
+    @Published var cardOnFile: Bool = false
+    @Published var interestedAthletes: [UUID] = []
+    @Published var potentialAthletes: [UUID] = []
+    @Published var currentAthletes: [UUID:Athletes] = [:]
+    @Published var reviews: [Review] = []
+    // Computed
+    @Published var lastName: String = ""
+    var fullName: String {
+        "\(firstName) \(lastName)"
+    }
+    var rating: Float {
+        guard !reviews.isEmpty else { return 0.0 }
+        let sum = reviews.reduce(0) { $0 + $1.star }
+        return sum / Float(reviews.count)
+    }
+    var peopleCoached: Int {
+        guard !coachSubmittedSessions.isEmpty else { return 0 }
+        var seenID = Set<UUID>()
+        for session in coachSubmittedSessions {
+            if !seenID.contains(session.other) {
+                seenID.insert(session.other)
+            }
+        }
+        return seenID.count
+    }
+    var hoursCoached: String {
+        guard !coachSubmittedSessions.isEmpty else { return "0hr 0mn" }
+        let totalSeconds = coachSubmittedSessions.reduce(0.0) { total, session in
+            total + session.finished.timeIntervalSince(session.date)
+        }
+        let seconds = Int(totalSeconds)
+        let hours = seconds / 3600
+        return "\(hours)hr"
+    }
+        
+    // Map a DB row -> UI object
+    func apply(row: Profile) {
+        id = row.id
+        firstName = row.firstName
+        lastName = row.lastName
+        coachAccount = row.coachAccount
+        userType = row.userType
+        postalCode = row.postalCode
+        if let pp = row.imageURL, !pp.isEmpty {
+            imageURL = pp
+        } else {
+            imageURL = "athlinklogo"
+        }
+        notifications = row.notifications
+        coachMessaging = row.coachMessaging
+        athleteUpcomingSessions = row.athleteUpcomingSessions
+        athletePastSessions = row.athletePastSessions
+        cardOnFile = row.cardOnFile
+        currentCoaches = row.currentCoaches
+        interestedCoaches = row.interestedCoaches
+    }
+    
+    // Map a DB coachRow -> UI object
+    func coachApply(row: CoachProfile) {
+        personalQuote = row.personalQuote ?? ""
+        coachingAchievements = row.coachingAchievements ?? []
+        coachingExperience = row.coachingExperience ?? []
+        timeAvailability = row.timeAvailability ?? [:]
+        athleteMessaging = row.athleteMessaging
+        individualCost = row.individualCost
+        groupCost = row.groupCost
+        sports = row.sports ?? []
+        sportPositions = row.sportPositions ?? [:]
+        cancellationNotice = row.cancellationNotice
+        coachUpcomingSessions = row.coachUpcomingSessions
+        coachUnsubmittedSessions = row.coachUnsubmittedSessions
+        coachSubmittedSessions = row.coachSubmittedSessions
+        jobRequests = row.jobRequests
+        athleteRequests = row.athleteRequests
+        potentialAthletes = row.potentialAthletes
+        interestedAthletes = row.interestedAthletes
+        currentAthletes = row.currentAthletes
+        reviews = row.reviews
+    }
+    
+    // Equatable Conformance
+    static func == (lhs: ProfileID, rhs: ProfileID) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    // Hashable Conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// Important App Wide Features
+@MainActor
+class RootViewObj: NSObject, ObservableObject, CLLocationManagerDelegate{
+    init(client: SupabaseClient) {
+        self.client = client
+        self.store = UserStore(client: client)
+        super.init()
+    }
+    
+    // Root View Options
+    enum RootView {
+        case Login
+        case Home
+        case Coach
+    }
+    // If logged in resets nevagation path
+    @Published var rootView: RootView = .Login {
+        didSet {
+            path = NavigationPath()
+        }
+    }
+    // Local Storage
+    @Published var store: UserStore
+    // Navigation
+    @Published var path = NavigationPath()
+    @Published var profile = ProfileID()
+    @Published var sessType = false
+    @Published var lastPage = ""
+    
+    // Location Managment
+    @Published var locationManager: CLLocationManager?
+    @Published var userCoordinate: CLLocationCoordinate2D?
+    func checkLocationEnabled() {
+        if locationManager == nil {
+            let manager = CLLocationManager()
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager = manager
+        }
+        checkLocationAuthorization()
+    }
+    private func checkLocationAuthorization() {
+        guard let locationManager = locationManager else { return }
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            print("You're location is restricted.")
+        case .denied:
+            print("You have denied this app locations permision. Go into settings to change this.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            break
+        }
+    }
+    // Delegate Overide
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        Task { @MainActor in
+            checkLocationAuthorization()
+        }
+    }
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let coord = locations.last?.coordinate
+        Task { @MainActor in
+            self.userCoordinate = coord
+        }
+    }
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print("Location error:", error.localizedDescription) }
+    
+    // Local area search
+    @MainActor
+    final class LocalSearch: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
+        let completer = MKLocalSearchCompleter()
+        @Published var query: String = "" {
+            didSet{ completer.queryFragment = query }
+        }
+        @Published var suggestions: [MKLocalSearchCompletion] = []
+        @Published var errorMessage: String?
+        
+        override init() {
+            super.init()
+            completer.delegate = self
+            completer.resultTypes = [.address, .pointOfInterest]
+        }
+        func setRegion(center: CLLocationCoordinate2D, span: MKCoordinateSpan = .init(latitudeDelta: 0.1, longitudeDelta: 0.1)) {
+            completer.region = MKCoordinateRegion(center:center, span: span)
+        }
+        nonisolated func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+            Task { @MainActor in
+                self.suggestions = completer.results
+                self.errorMessage = nil
+            }
+        }
+        nonisolated func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+            Task { @MainActor in
+                errorMessage = error.localizedDescription
+                suggestions = []
+            }
+        }
+        func lookup(_ completion: MKLocalSearchCompletion) async throws -> MKMapItem {
+            let request = MKLocalSearch.Request(completion: completion)
+            let search = MKLocalSearch(request: request)
+            let resp = try await search.start()
+            guard let item = resp.mapItems.first else {
+                throw NSError(domain: "LocalSearch", code: 404,
+                              userInfo: [NSLocalizedDescriptionKey: "No matching place found"])
+            }
+            return item
+        }
+    }
+    
+    // Backend server
+    @Published var client: SupabaseClient
+    @Published var selectedSession: ProfileID? = nil
+    // Turns rootviewobj into the signd in profile
+    func loadProfile() async throws {
+        // Gets the current session and user
+        guard let _ = client.auth.currentSession,
+              let user = client.auth.currentUser else {
+            throw NSError(domain: "Auth", code: -1, userInfo: [NSLocalizedDescriptionKey: "No signed-in user"])
+        }
+        // Fetch Main Data
+        let athleteRow: Profile = try await client
+          .from("profiles")
+          .select("id, first_name, last_name, coach_account, image_url, postal_code, user_type, notifications, coach_messaging, athlete_upcoming_sessions, athlete_past_sessions, card_on_file, current_coaches, interested_coaches")
+          .eq("id", value: user.id)
+          .single()
+          .execute()
+          .value
+        profile.apply(row: athleteRow)
+        // If Coach Fetch Other Data
+        if athleteRow.coachAccount {
+            let coachRow: CoachProfile = try await client
+                .from("coach_profile")
+                .select("id, personal_quote, coaching_achievements, coaching_experience, time_availability, athlete_messaging, individual_cost, group_cost, sports, sport_positions, cancellation_notice, coach_upcoming_sessions, coach_unsubmitted_sessions, coach_submitted_sessions, job_requests, potential_athletes, interested_athletes, current_athletes, reviews")
+                .eq("id", value: user.id)
+                .single()
+                .execute()
+                .value
+            profile.coachApply(row: coachRow)
+            // Grabs training locations and adds if not empty
+            let rows: [CoachLocation] = try await client
+                .from("location")
+                .select("id,name, lat, lng")
+                .eq("coach_id", value: user.id)
+                .execute()
+                .value
+            profile.trainingLocations = rows
+        }
+    }
+    // Profile image
+    func uploadImage(image: UIImage) async throws {
+        // Gets the current session and user
+        guard let _ = client.auth.currentSession,
+              let user = client.auth.currentUser else {
+            throw NSError(domain: "Auth", code: -1, userInfo: [NSLocalizedDescriptionKey: "No signed-in user"])
+        }
+        // Gets Image Data
+        guard let data = image.jpegData(compressionQuality: 0.8) else {
+            throw NSError(domain: "ImageConvert", code: 0, userInfo: nil)
+        }
+        // Uploads into bucket
+        let fileName = "\(profile.id.uuidString).jpg"
+        let _ = try await client.storage
+            .from("profile-images")
+            .upload(fileName, data: data, options: FileOptions(contentType: "image/jpeg"))
+        // Gets url for image
+        let urlResponse = try client.storage
+            .from("profile-images")
+            .getPublicURL(path: fileName)
+        let urlString = urlResponse.absoluteString
+        // Upload URL to table
+        let _ = try await client
+            .from("profiles")
+            .update(["image_url": urlString])
+            .eq("id", value: user.id)
+            .execute()
+    }
+}
+
+@main
+struct AthLinkApp: App {
+    @StateObject var rootViewObj: RootViewObj
+    @StateObject var signupDraftObj: SignupDraft = SignupDraft()
+    
+    // Backend initializer
+    init() {
+        let urlString = infoValue(key: "SUPABASE_URL")
+        guard let supabaseURL = URL(string: urlString) else {
+          fatalError("⚠️ SUPABASE_URL is invalid: \(urlString)")
+        }
+        let apiKey = infoValue(key: "SUPABASE_PUBLISHABLE_API_KEY")
+        // Backend Client
+        let client = SupabaseClient(
+          supabaseURL: supabaseURL,
+          supabaseKey: apiKey
+        )
+        
+        _rootViewObj = StateObject(wrappedValue: RootViewObj(client: client))
+    }
+    
+    var sharedModelContainer: ModelContainer = {
+        let schema = Schema([
+            Item.self,
+        ])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+    
+    // Athlete home search helper
+    @StateObject var fSearch = SearchHelp()
+    // check for adding session request to messages
+    @State var pushReq = false
+    @State var sessType = false
+    @State var editMess: (Message, Int)? = nil
+    
+    var body: some Scene {
+        WindowGroup {
+            NavigationStack(path: $rootViewObj.path) {
+                Group {
+                    if rootViewObj.rootView == .Login {
+                        ExistingLoginView()
+                            .environmentObject(rootViewObj)
+                    } else if rootViewObj.rootView == .Home {
+                        home()
+                            .environmentObject(rootViewObj)
+                            .environmentObject(fSearch)
+                    } else {
+                        CoachHome()
+                            .environmentObject(rootViewObj)
+                    }
+                }
+                .navigationDestination(for: String.self) { destination in
+                    switch destination {
+                    case "Sign":
+                        LoginScreen()
+                            .environmentObject(rootViewObj)
+                            .environmentObject(signupDraftObj)
+                    case "Coach":
+                        CoachLogin()
+                            .environmentObject(rootViewObj)
+                            .environmentObject(signupDraftObj)
+                    case "Terms":
+                        TermsOfServiceView()
+                    case "Privacy":
+                        PrivacyPolicyView()
+                    case "Satisfaction":
+                        Satisfaction()
+                    case "Receive":
+                        Receive()
+                    case "Question":
+                        Question()
+                    case "Support":
+                        Support()
+                    case "CoachAccount":
+                        CouchAccount()
+                            .environmentObject(rootViewObj)
+                    case "MessageAccount":
+                        Chat(pushReq: $pushReq, editMess: $editMess)
+                            .environmentObject(rootViewObj)
+                    case "Request":
+                        RequestSess(chatTog: $pushReq, editMess: $editMess)
+                            .environmentObject(rootViewObj)
+                    case "SessionInfo":
+                        SessionInfo()
+                            .environmentObject(rootViewObj)
+                    default:
+                        EmptyView()
+                    }
+                }
+                .onChange(of: rootViewObj.lastPage) {
+                    if rootViewObj.lastPage == "Chat" {
+                        rootViewObj.path.append("CoachAccount")
+                    //Chat->CouchAccount->Chat
+                    }  else if rootViewObj.lastPage == "Remove" {
+                        rootViewObj.lastPage = ""
+                        rootViewObj.path.removeLast()
+                    //Session->CouchAccount->Chat
+                    } else if rootViewObj.lastPage == "Sess" {
+                        rootViewObj.path.append("MessageAccount")
+                    }
+                }
+            }
+        }
+        .modelContainer(sharedModelContainer)
+    }
+}
