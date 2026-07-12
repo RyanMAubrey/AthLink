@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Scan your card to quickly add payment details</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>athlink</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>AthLink uses your location to show coaches near you and match your requests with coaches within your selected radius.</string>
+	<key>STRIPE_PUBLISHABLE_API_KEY</key>
+	<string>pk_test_51Ry3MEHT6PxFanVdF1BgAqDMENF0oWDEQcycfvvN4yThpM8sFvCT1SlHEZaZ2hZmZs4UyKQSyfJsLcyUEgwZ4OvE00jo4Vopc0</string>
+	<key>SUPABASE_PUBLISHABLE_API_KEY</key>
+	<string>sb_publishable_3X0Xnyf3m5WaVSLIOBBUZg_CLhY5VA0</string>
+	<key>SUPABASE_URL</key>
+	<string>https://vrvobvievwxyzthezbir.supabase.co</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>
